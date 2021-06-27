@@ -1,22 +1,24 @@
-﻿#nullable disable
-
-namespace ComicTracker.Web.Models
+﻿namespace ComicTracker.Data.Models.Entities
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
-    public partial class Artist
+    public class Artist
     {
         public Artist()
         {
-            this.ArcArtists = new HashSet<ArcArtist>();
-            this.ArtistIssues = new HashSet<ArtistIssue>();
-            this.ArtistSeries = new HashSet<ArtistSeries>();
-            this.ArtistVolumes = new HashSet<ArtistVolume>();
+            this.Series = new HashSet<Series>();
+            this.Arcs = new HashSet<Arc>();
+            this.Volumes = new HashSet<Volume>();
+            this.Issues = new HashSet<Issue>();
         }
 
+        [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(200)]
         public string Name { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
@@ -25,16 +27,21 @@ namespace ComicTracker.Web.Models
 
         public string Bio { get; set; }
 
+        // Artists could have unknown nationality.
         public int? NationalityId { get; set; }
 
-        public virtual Nationality Nationality { get; set; }
+        public Nationality Nationality { get; set; }
 
-        public virtual ICollection<ArcArtist> ArcArtists { get; set; }
+        // Artists have usually worked on several series throughout their career.
+        public ICollection<Series> Series { get; set; }
 
-        public virtual ICollection<ArtistIssue> ArtistIssues { get; set; }
+        // Artists have usually worked on several arcs throughout their career.
+        public ICollection<Arc> Arcs { get; set; }
 
-        public virtual ICollection<ArtistSeries> ArtistSeries { get; set; }
+        // Artists have usually worked on several volumes throughout their career.
+        public ICollection<Volume> Volumes { get; set; }
 
-        public virtual ICollection<ArtistVolume> ArtistVolumes { get; set; }
+        // Artists have usually worked on several issues throughout their career.
+        public ICollection<Issue> Issues { get; set; }
     }
 }

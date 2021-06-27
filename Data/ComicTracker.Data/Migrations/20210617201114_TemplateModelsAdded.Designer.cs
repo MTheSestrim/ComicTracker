@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComicTracker.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ComicTrackerDbContext))]
     [Migration("20210617201114_TemplateModelsAdded")]
     partial class TemplateModelsAdded
     {

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
-
-namespace ComicTracker.Web.Models
+﻿namespace ComicTracker.Data.Models.Entities
 {
-    public partial class ArcVolume
+    // Entity exists to configure cascade deletion
+    public class ArcVolume
     {
         public int ArcId { get; set; }
+
+        public Arc Arc { get; set; }
+
         public int VolumeId { get; set; }
 
-        public virtual Arc Arc { get; set; }
-        public virtual Volume Volume { get; set; }
+        public Volume Volume { get; set; }
     }
 }

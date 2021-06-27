@@ -1,6 +1,5 @@
-﻿namespace ComicTracker.Core.Controllers
+﻿namespace ComicTracker.Web.Controllers
 {
-    using ComicTracker.Web.Controllers;
     using Microsoft.AspNetCore.Mvc;
 
     public class ArcController : BaseController

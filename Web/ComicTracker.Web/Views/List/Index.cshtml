@@ -1,0 +1,32 @@
+﻿@model List<ListModel>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th class="col-1 text-md-center">&#8470</th>
+            <th class="col-2 text-md-center">Cover</th>
+            <th class="col-2 text-md-center">Title</th>
+            <th class="col-2 text-md-center">Score</th>
+            <th class="col-2 text-md-center">Issues</th>
+            <th class="col-2 text-md-center">Volumes</th>
+            <th class="col-1 text-md-center">Arcs</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td class="col-1 text-md-center">@(i + 1)</td>
+                <td class="col-2 text-md-center">
+                    <img src="@Model[i].CoverPath"
+                         alt="image description">
+                </td>
+                <td class="col-2 text-md-center">@Model[i].Title</td>
+                <td class="col-2 text-md-center">@Model[i].Score</td>
+                <td class="col-2 text-md-center">@Model[i].IssueCount</td>
+                <td class="col-2 text-md-center">@Model[i].VolumeCount</td>
+                <td class="col-1 text-md-center">@Model[i].ArcCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,29 +1,35 @@
-﻿#nullable disable
-
-namespace ComicTracker.Web.Models
+﻿namespace ComicTracker.Data.Models.Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
-    public partial class Genre
+    public class Genre
     {
         public Genre()
         {
-            this.ArcGenres = new HashSet<ArcGenre>();
-            this.GenreIssues = new HashSet<GenreIssue>();
-            this.GenreSeries = new HashSet<GenreSeries>();
-            this.GenreVolumes = new HashSet<GenreVolume>();
+            this.Series = new HashSet<Series>();
+            this.Arcs = new HashSet<Arc>();
+            this.Volumes = new HashSet<Volume>();
+            this.Issues = new HashSet<Issue>();
         }
 
+        [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
 
-        public virtual ICollection<ArcGenre> ArcGenres { get; set; }
+        // There are many series that belong to one genre
+        public ICollection<Series> Series { get; set; }
 
-        public virtual ICollection<GenreIssue> GenreIssues { get; set; }
+        // There are many series that belong to one genre
+        public ICollection<Arc> Arcs { get; set; }
 
-        public virtual ICollection<GenreSeries> GenreSeries { get; set; }
+        // There are many volumes that belong to one genre
+        public ICollection<Volume> Volumes { get; set; }
 
-        public virtual ICollection<GenreVolume> GenreVolumes { get; set; }
+        // There are many issues that belong to one genre
+        public ICollection<Issue> Issues { get; set; }
     }
 }

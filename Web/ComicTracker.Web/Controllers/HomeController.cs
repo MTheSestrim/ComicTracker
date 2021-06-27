@@ -1,9 +1,9 @@
-﻿namespace ComicTracker.Core.Controllers
+﻿namespace ComicTracker.Web.Controllers
 {
     using System.Diagnostics;
 
-    using ComicTracker.Web.Controllers;
     using ComicTracker.Web.ViewModels;
+
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController

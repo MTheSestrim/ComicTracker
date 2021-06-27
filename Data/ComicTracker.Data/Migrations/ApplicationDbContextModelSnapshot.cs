@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComicTracker.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ComicTrackerDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -19,6 +19,186 @@ namespace ComicTracker.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ArcArtist", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "ArtistsId");
+
+                    b.HasIndex("ArtistsId");
+
+                    b.ToTable("ArcArtist");
+                });
+
+            modelBuilder.Entity("ArcCharacter", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "CharactersId");
+
+                    b.HasIndex("CharactersId");
+
+                    b.ToTable("ArcCharacter");
+                });
+
+            modelBuilder.Entity("ArcGenre", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "GenresId");
+
+                    b.HasIndex("GenresId");
+
+                    b.ToTable("ArcGenre");
+                });
+
+            modelBuilder.Entity("ArcPublisher", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PublishersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "PublishersId");
+
+                    b.HasIndex("PublishersId");
+
+                    b.ToTable("ArcPublisher");
+                });
+
+            modelBuilder.Entity("ArcVolume", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "VolumesId");
+
+                    b.HasIndex("VolumesId");
+
+                    b.ToTable("ArcVolume");
+                });
+
+            modelBuilder.Entity("ArcWriter", b =>
+                {
+                    b.Property<int>("ArcsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WritersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArcsId", "WritersId");
+
+                    b.HasIndex("WritersId");
+
+                    b.ToTable("ArcWriter");
+                });
+
+            modelBuilder.Entity("ArtistIssue", b =>
+                {
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IssuesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistsId", "IssuesId");
+
+                    b.HasIndex("IssuesId");
+
+                    b.ToTable("ArtistIssue");
+                });
+
+            modelBuilder.Entity("ArtistSeries", b =>
+                {
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistsId", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("ArtistSeries");
+                });
+
+            modelBuilder.Entity("ArtistVolume", b =>
+                {
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistsId", "VolumesId");
+
+                    b.HasIndex("VolumesId");
+
+                    b.ToTable("ArtistVolume");
+                });
+
+            modelBuilder.Entity("CharacterIssue", b =>
+                {
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IssuesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharactersId", "IssuesId");
+
+                    b.HasIndex("IssuesId");
+
+                    b.ToTable("CharacterIssue");
+                });
+
+            modelBuilder.Entity("CharacterSeries", b =>
+                {
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharactersId", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("CharacterSeries");
+                });
+
+            modelBuilder.Entity("CharacterVolume", b =>
+                {
+                    b.Property<int>("CharactersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharactersId", "VolumesId");
+
+                    b.HasIndex("VolumesId");
+
+                    b.ToTable("CharacterVolume");
+                });
 
             modelBuilder.Entity("ComicTracker.Data.Models.ApplicationRole", b =>
                 {
@@ -132,39 +312,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ComicTracker.Data.Models.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Arc", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Arc", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,52 +342,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Arcs");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcArtist", b =>
-                {
-                    b.Property<int>("ArcsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArcsId", "ArtistsId");
-
-                    b.HasIndex(new[] { "ArtistsId" }, "IX_ArcArtist_ArtistsId");
-
-                    b.ToTable("ArcArtist");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcGenre", b =>
-                {
-                    b.Property<int>("ArcsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArcsId", "GenresId");
-
-                    b.HasIndex(new[] { "GenresId" }, "IX_ArcGenre_GenresId");
-
-                    b.ToTable("ArcGenre");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcPublisher", b =>
-                {
-                    b.Property<int>("ArcsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PublishersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArcsId", "PublishersId");
-
-                    b.HasIndex(new[] { "PublishersId" }, "IX_ArcPublisher_PublishersId");
-
-                    b.ToTable("ArcPublisher");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcVolume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.ArcVolume", b =>
                 {
                     b.Property<int>("ArcId")
                         .HasColumnType("int");
@@ -251,25 +354,10 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasIndex(new[] { "VolumeId" }, "IX_ArcVolume_VolumeId");
 
-                    b.ToTable("ArcVolume");
+                    b.ToTable("ArcVolumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcWriter", b =>
-                {
-                    b.Property<int>("ArcsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WritersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArcsId", "WritersId");
-
-                    b.HasIndex(new[] { "WritersId" }, "IX_ArcWriter_WritersId");
-
-                    b.ToTable("ArcWriter");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Artist", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Artist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,52 +388,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistIssue", b =>
-                {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IssuesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtistsId", "IssuesId");
-
-                    b.HasIndex(new[] { "IssuesId" }, "IX_ArtistIssue_IssuesId");
-
-                    b.ToTable("ArtistIssue");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistSeries", b =>
-                {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtistsId", "SeriesId");
-
-                    b.HasIndex(new[] { "SeriesId" }, "IX_ArtistSeries_SeriesId");
-
-                    b.ToTable("ArtistSeries");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistVolume", b =>
-                {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VolumesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtistsId", "VolumesId");
-
-                    b.HasIndex(new[] { "VolumesId" }, "IX_ArtistVolume_VolumesId");
-
-                    b.ToTable("ArtistVolume");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Character", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Character", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -370,7 +413,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Characters");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersArc", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterArc", b =>
                 {
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
@@ -383,12 +426,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("CharacterId", "ArcId");
 
-                    b.HasIndex(new[] { "ArcId" }, "IX_CharactersArcs_ArcId");
+                    b.HasIndex("ArcId");
 
                     b.ToTable("CharactersArcs");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersIssue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterIssue", b =>
                 {
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
@@ -401,12 +444,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("CharacterId", "IssueId");
 
-                    b.HasIndex(new[] { "IssueId" }, "IX_CharactersIssues_IssueId");
+                    b.HasIndex("IssueId");
 
                     b.ToTable("CharactersIssues");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersSeries", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterSeries", b =>
                 {
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
@@ -419,12 +462,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("CharacterId", "SeriesId");
 
-                    b.HasIndex(new[] { "SeriesId" }, "IX_CharactersSeries_SeriesId");
+                    b.HasIndex("SeriesId");
 
                     b.ToTable("CharactersSeries");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersVolume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterVolume", b =>
                 {
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
@@ -437,12 +480,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("CharacterId", "VolumeId");
 
-                    b.HasIndex(new[] { "VolumeId" }, "IX_CharactersVolumes_VolumeId");
+                    b.HasIndex("VolumeId");
 
                     b.ToTable("CharactersVolumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Genre", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -459,52 +502,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreIssue", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IssuesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "IssuesId");
-
-                    b.HasIndex(new[] { "IssuesId" }, "IX_GenreIssue_IssuesId");
-
-                    b.ToTable("GenreIssue");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreSeries", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "SeriesId");
-
-                    b.HasIndex(new[] { "SeriesId" }, "IX_GenreSeries_SeriesId");
-
-                    b.ToTable("GenreSeries");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreVolume", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VolumesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "VolumesId");
-
-                    b.HasIndex(new[] { "VolumesId" }, "IX_GenreVolume_VolumesId");
-
-                    b.ToTable("GenreVolume");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Issue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Issue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -544,22 +542,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.IssueWriter", b =>
-                {
-                    b.Property<int>("IssuesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WritersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IssuesId", "WritersId");
-
-                    b.HasIndex(new[] { "WritersId" }, "IX_IssueWriter_WritersId");
-
-                    b.ToTable("IssueWriter");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Nationality", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Nationality", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -576,7 +559,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Nationalities");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Publisher", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Publisher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -601,22 +584,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.PublisherSeries", b =>
-                {
-                    b.Property<int>("PublishersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PublishersId", "SeriesId");
-
-                    b.HasIndex(new[] { "SeriesId" }, "IX_PublisherSeries_SeriesId");
-
-                    b.ToTable("PublisherSeries");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.PublishersIssue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.PublisherIssue", b =>
                 {
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
@@ -629,12 +597,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("PublisherId", "IssueId");
 
-                    b.HasIndex(new[] { "IssueId" }, "IX_PublishersIssues_IssueId");
+                    b.HasIndex("IssueId");
 
                     b.ToTable("PublishersIssues");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.PublishersVolume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.PublisherVolume", b =>
                 {
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
@@ -647,12 +615,12 @@ namespace ComicTracker.Data.Migrations
 
                     b.HasKey("PublisherId", "VolumeId");
 
-                    b.HasIndex(new[] { "VolumeId" }, "IX_PublishersVolumes_VolumeId");
+                    b.HasIndex("VolumeId");
 
                     b.ToTable("PublishersVolumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Series", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Series", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -678,22 +646,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Series");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.SeriesWriter", b =>
-                {
-                    b.Property<int>("SeriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WritersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SeriesId", "WritersId");
-
-                    b.HasIndex(new[] { "WritersId" }, "IX_SeriesWriter_WritersId");
-
-                    b.ToTable("SeriesWriter");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Volume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Volume", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -723,22 +676,7 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("Volumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.VolumeWriter", b =>
-                {
-                    b.Property<int>("VolumesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WritersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("VolumesId", "WritersId");
-
-                    b.HasIndex(new[] { "WritersId" }, "IX_VolumeWriter_WritersId");
-
-                    b.ToTable("VolumeWriter");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Writer", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Writer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -767,6 +705,113 @@ namespace ComicTracker.Data.Migrations
                     b.HasIndex(new[] { "NationalityId" }, "IX_Writers_NationalityId");
 
                     b.ToTable("Writers");
+                });
+
+            modelBuilder.Entity("ComicTracker.Data.Models.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("GenreIssue", b =>
+                {
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IssuesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenresId", "IssuesId");
+
+                    b.HasIndex("IssuesId");
+
+                    b.ToTable("GenreIssue");
+                });
+
+            modelBuilder.Entity("GenreSeries", b =>
+                {
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenresId", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("GenreSeries");
+                });
+
+            modelBuilder.Entity("GenreVolume", b =>
+                {
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenresId", "VolumesId");
+
+                    b.HasIndex("VolumesId");
+
+                    b.ToTable("GenreVolume");
+                });
+
+            modelBuilder.Entity("IssuePublisher", b =>
+                {
+                    b.Property<int>("IssuesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PublishersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IssuesId", "PublishersId");
+
+                    b.HasIndex("PublishersId");
+
+                    b.ToTable("IssuePublisher");
+                });
+
+            modelBuilder.Entity("IssueWriter", b =>
+                {
+                    b.Property<int>("IssuesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WritersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IssuesId", "WritersId");
+
+                    b.HasIndex("WritersId");
+
+                    b.ToTable("IssueWriter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -873,9 +918,249 @@ namespace ComicTracker.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Arc", b =>
+            modelBuilder.Entity("PublisherSeries", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
+                    b.Property<int>("PublishersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PublishersId", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("PublisherSeries");
+                });
+
+            modelBuilder.Entity("PublisherVolume", b =>
+                {
+                    b.Property<int>("PublishersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PublishersId", "VolumesId");
+
+                    b.HasIndex("VolumesId");
+
+                    b.ToTable("PublisherVolume");
+                });
+
+            modelBuilder.Entity("SeriesWriter", b =>
+                {
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WritersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SeriesId", "WritersId");
+
+                    b.HasIndex("WritersId");
+
+                    b.ToTable("SeriesWriter");
+                });
+
+            modelBuilder.Entity("VolumeWriter", b =>
+                {
+                    b.Property<int>("VolumesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WritersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VolumesId", "WritersId");
+
+                    b.HasIndex("WritersId");
+
+                    b.ToTable("VolumeWriter");
+                });
+
+            modelBuilder.Entity("ArcArtist", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArcCharacter", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArcGenre", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArcPublisher", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", null)
+                        .WithMany()
+                        .HasForeignKey("PublishersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArcVolume", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArcWriter", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", null)
+                        .WithMany()
+                        .HasForeignKey("ArcsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Writer", null)
+                        .WithMany()
+                        .HasForeignKey("WritersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArtistIssue", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("IssuesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArtistSeries", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ArtistVolume", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CharacterIssue", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("IssuesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CharacterSeries", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CharacterVolume", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharactersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Arc", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", "Series")
                         .WithMany("Arcs")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -884,73 +1169,16 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Series");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcArtist", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.ArcVolume", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arcs")
-                        .WithMany("ArcArtists")
-                        .HasForeignKey("ArcsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Artist", "Artists")
-                        .WithMany("ArcArtists")
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Arcs");
-
-                    b.Navigation("Artists");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcGenre", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arcs")
-                        .WithMany("ArcGenres")
-                        .HasForeignKey("ArcsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Genre", "Genres")
-                        .WithMany("ArcGenres")
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Arcs");
-
-                    b.Navigation("Genres");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcPublisher", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arcs")
-                        .WithMany("ArcPublishers")
-                        .HasForeignKey("ArcsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Publisher", "Publishers")
-                        .WithMany("ArcPublishers")
-                        .HasForeignKey("PublishersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Arcs");
-
-                    b.Navigation("Publishers");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcVolume", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arc")
-                        .WithMany("ArcVolumes")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", "Arc")
+                        .WithMany("ArcsVolumes")
                         .HasForeignKey("ArcId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volume")
-                        .WithMany("ArcVolumes")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", "Volume")
+                        .WithMany("ArcsVolumes")
                         .HasForeignKey("VolumeId")
                         .IsRequired();
 
@@ -959,100 +1187,23 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Volume");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArcWriter", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Artist", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arcs")
-                        .WithMany("ArcWriters")
-                        .HasForeignKey("ArcsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Writer", "Writers")
-                        .WithMany("ArcWriters")
-                        .HasForeignKey("WritersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Arcs");
-
-                    b.Navigation("Writers");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Artist", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Nationality", "Nationality")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Nationality", "Nationality")
                         .WithMany("Artists")
                         .HasForeignKey("NationalityId");
 
                     b.Navigation("Nationality");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistIssue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterArc", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Artist", "Artists")
-                        .WithMany("ArtistIssues")
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Issue", "Issues")
-                        .WithMany("ArtistIssues")
-                        .HasForeignKey("IssuesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Artists");
-
-                    b.Navigation("Issues");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistSeries", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Artist", "Artists")
-                        .WithMany("ArtistSeries")
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
-                        .WithMany("ArtistSeries")
-                        .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Artists");
-
-                    b.Navigation("Series");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.ArtistVolume", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Artist", "Artists")
-                        .WithMany("ArtistVolumes")
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volumes")
-                        .WithMany("ArtistVolumes")
-                        .HasForeignKey("VolumesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Artists");
-
-                    b.Navigation("Volumes");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersArc", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arc")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", "Arc")
                         .WithMany("CharactersArcs")
                         .HasForeignKey("ArcId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Character", "Character")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", "Character")
                         .WithMany("CharactersArcs")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1063,18 +1214,17 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Character");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersIssue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterIssue", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Character", "Character")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", "Character")
                         .WithMany("CharactersIssues")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Issue", "Issue")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", "Issue")
                         .WithMany("CharactersIssues")
                         .HasForeignKey("IssueId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -1082,18 +1232,17 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Issue");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersSeries", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterSeries", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Character", "Character")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", "Character")
                         .WithMany("CharactersSeries")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", "Series")
                         .WithMany("CharactersSeries")
                         .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -1101,18 +1250,17 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Series");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.CharactersVolume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.CharacterVolume", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Character", "Character")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Character", "Character")
                         .WithMany("CharactersVolumes")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volume")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", "Volume")
                         .WithMany("CharactersVolumes")
                         .HasForeignKey("VolumeId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -1120,76 +1268,19 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Volume");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreIssue", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Issue", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Genre", "Genres")
-                        .WithMany("GenreIssues")
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Issue", "Issues")
-                        .WithMany("GenreIssues")
-                        .HasForeignKey("IssuesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Genres");
-
-                    b.Navigation("Issues");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreSeries", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Genre", "Genres")
-                        .WithMany("GenreSeries")
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
-                        .WithMany("GenreSeries")
-                        .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Genres");
-
-                    b.Navigation("Series");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.GenreVolume", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Genre", "Genres")
-                        .WithMany("GenreVolumes")
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volumes")
-                        .WithMany("GenreVolumes")
-                        .HasForeignKey("VolumesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Genres");
-
-                    b.Navigation("Volumes");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Issue", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Arc", "Arc")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Arc", "Arc")
                         .WithMany("Issues")
                         .HasForeignKey("ArcId");
 
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", "Series")
                         .WithMany("Issues")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volume")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", "Volume")
                         .WithMany("Issues")
                         .HasForeignKey("VolumeId");
 
@@ -1200,28 +1291,9 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Volume");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.IssueWriter", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Publisher", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Issue", "Issues")
-                        .WithMany("IssueWriters")
-                        .HasForeignKey("IssuesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Writer", "Writers")
-                        .WithMany("IssueWriters")
-                        .HasForeignKey("WritersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Issues");
-
-                    b.Navigation("Writers");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Publisher", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Nationality", "Nationality")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Nationality", "Nationality")
                         .WithMany("Publishers")
                         .HasForeignKey("NationalityId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1230,34 +1302,14 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Nationality");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.PublisherSeries", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.PublisherIssue", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Publisher", "Publishers")
-                        .WithMany("PublisherSeries")
-                        .HasForeignKey("PublishersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
-                        .WithMany("PublisherSeries")
-                        .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Publishers");
-
-                    b.Navigation("Series");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.PublishersIssue", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Issue", "Issue")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", "Issue")
                         .WithMany("PublishersIssues")
                         .HasForeignKey("IssueId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Publisher", "Publisher")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", "Publisher")
                         .WithMany("PublishersIssues")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1268,18 +1320,17 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.PublishersVolume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.PublisherVolume", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Publisher", "Publisher")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", "Publisher")
                         .WithMany("PublishersVolumes")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volume")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", "Volume")
                         .WithMany("PublishersVolumes")
                         .HasForeignKey("VolumeId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Publisher");
@@ -1287,28 +1338,9 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Volume");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.SeriesWriter", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Volume", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
-                        .WithMany("SeriesWriters")
-                        .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Writer", "Writers")
-                        .WithMany("SeriesWriters")
-                        .HasForeignKey("WritersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Series");
-
-                    b.Navigation("Writers");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Volume", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Series", "Series")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", "Series")
                         .WithMany("Volumes")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1317,32 +1349,88 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Series");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.VolumeWriter", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Writer", b =>
                 {
-                    b.HasOne("ComicTracker.Web.Models.Volume", "Volumes")
-                        .WithMany("VolumeWriters")
-                        .HasForeignKey("VolumesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ComicTracker.Web.Models.Writer", "Writers")
-                        .WithMany("VolumeWriters")
-                        .HasForeignKey("WritersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Volumes");
-
-                    b.Navigation("Writers");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Writer", b =>
-                {
-                    b.HasOne("ComicTracker.Web.Models.Nationality", "Nationality")
+                    b.HasOne("ComicTracker.Data.Models.Entities.Nationality", "Nationality")
                         .WithMany("Writers")
                         .HasForeignKey("NationalityId");
 
                     b.Navigation("Nationality");
+                });
+
+            modelBuilder.Entity("GenreIssue", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("IssuesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreSeries", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreVolume", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IssuePublisher", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("IssuesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", null)
+                        .WithMany()
+                        .HasForeignKey("PublishersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IssueWriter", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("IssuesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Writer", null)
+                        .WithMany()
+                        .HasForeignKey("WritersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1396,6 +1484,66 @@ namespace ComicTracker.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PublisherSeries", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", null)
+                        .WithMany()
+                        .HasForeignKey("PublishersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PublisherVolume", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Publisher", null)
+                        .WithMany()
+                        .HasForeignKey("PublishersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SeriesWriter", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Writer", null)
+                        .WithMany()
+                        .HasForeignKey("WritersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VolumeWriter", b =>
+                {
+                    b.HasOne("ComicTracker.Data.Models.Entities.Volume", null)
+                        .WithMany()
+                        .HasForeignKey("VolumesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ComicTracker.Data.Models.Entities.Writer", null)
+                        .WithMany()
+                        .HasForeignKey("WritersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ComicTracker.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
@@ -1405,35 +1553,16 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Arc", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Arc", b =>
                 {
-                    b.Navigation("ArcArtists");
-
-                    b.Navigation("ArcGenres");
-
-                    b.Navigation("ArcPublishers");
-
-                    b.Navigation("ArcVolumes");
-
-                    b.Navigation("ArcWriters");
+                    b.Navigation("ArcsVolumes");
 
                     b.Navigation("CharactersArcs");
 
                     b.Navigation("Issues");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Artist", b =>
-                {
-                    b.Navigation("ArcArtists");
-
-                    b.Navigation("ArtistIssues");
-
-                    b.Navigation("ArtistSeries");
-
-                    b.Navigation("ArtistVolumes");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Character", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Character", b =>
                 {
                     b.Navigation("CharactersArcs");
 
@@ -1444,31 +1573,14 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("CharactersVolumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Genre", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Issue", b =>
                 {
-                    b.Navigation("ArcGenres");
-
-                    b.Navigation("GenreIssues");
-
-                    b.Navigation("GenreSeries");
-
-                    b.Navigation("GenreVolumes");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Issue", b =>
-                {
-                    b.Navigation("ArtistIssues");
-
                     b.Navigation("CharactersIssues");
-
-                    b.Navigation("GenreIssues");
-
-                    b.Navigation("IssueWriters");
 
                     b.Navigation("PublishersIssues");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Nationality", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Nationality", b =>
                 {
                     b.Navigation("Artists");
 
@@ -1477,62 +1589,33 @@ namespace ComicTracker.Data.Migrations
                     b.Navigation("Writers");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Publisher", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Publisher", b =>
                 {
-                    b.Navigation("ArcPublishers");
-
-                    b.Navigation("PublisherSeries");
-
                     b.Navigation("PublishersIssues");
 
                     b.Navigation("PublishersVolumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Series", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Series", b =>
                 {
                     b.Navigation("Arcs");
 
-                    b.Navigation("ArtistSeries");
-
                     b.Navigation("CharactersSeries");
 
-                    b.Navigation("GenreSeries");
-
                     b.Navigation("Issues");
-
-                    b.Navigation("PublisherSeries");
-
-                    b.Navigation("SeriesWriters");
 
                     b.Navigation("Volumes");
                 });
 
-            modelBuilder.Entity("ComicTracker.Web.Models.Volume", b =>
+            modelBuilder.Entity("ComicTracker.Data.Models.Entities.Volume", b =>
                 {
-                    b.Navigation("ArcVolumes");
-
-                    b.Navigation("ArtistVolumes");
+                    b.Navigation("ArcsVolumes");
 
                     b.Navigation("CharactersVolumes");
-
-                    b.Navigation("GenreVolumes");
 
                     b.Navigation("Issues");
 
                     b.Navigation("PublishersVolumes");
-
-                    b.Navigation("VolumeWriters");
-                });
-
-            modelBuilder.Entity("ComicTracker.Web.Models.Writer", b =>
-                {
-                    b.Navigation("ArcWriters");
-
-                    b.Navigation("IssueWriters");
-
-                    b.Navigation("SeriesWriters");
-
-                    b.Navigation("VolumeWriters");
                 });
 #pragma warning restore 612, 618
         }

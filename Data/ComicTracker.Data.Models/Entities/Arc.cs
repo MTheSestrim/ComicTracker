@@ -1,52 +1,66 @@
-﻿namespace ComicTracker.Web.Models
+﻿namespace ComicTracker.Data.Models.Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
-    public partial class Arc
+    public class Arc
     {
         public Arc()
         {
-            this.ArcArtists = new HashSet<ArcArtist>();
-
-            this.ArcGenres = new HashSet<ArcGenre>();
-
-            this.ArcPublishers = new HashSet<ArcPublisher>();
-
-            this.ArcVolumes = new HashSet<ArcVolume>();
-
-            this.ArcWriters = new HashSet<ArcWriter>();
-
-            this.CharactersArcs = new HashSet<CharactersArc>();
-
             this.Issues = new HashSet<Issue>();
+            this.Volumes = new HashSet<Volume>();
+            this.ArcsVolumes = new List<ArcVolume>();
+            this.Publishers = new HashSet<Publisher>();
+            this.Writers = new HashSet<Writer>();
+            this.Artists = new HashSet<Artist>();
+            this.Characters = new HashSet<Character>();
+            this.CharactersArcs = new List<CharacterArc>();
+            this.Genres = new HashSet<Genre>();
         }
 
+        [Key]
         public int Id { get; set; }
 
+        // Number of arc
         public int Number { get; set; }
 
+        // Arc might not have a specific title, though this is rare.
+        [MaxLength(150)]
         public string Title { get; set; }
 
-        public string CoverPath { get; set; }
-
-        public int SeriesId { get; set; }
-
+        // Optional description.
         public string Description { get; set; }
 
-        public virtual Series Series { get; set; }
+        // Optional image that represents Arc
+        public string CoverPath { get; set; }
 
-        public virtual ICollection<ArcArtist> ArcArtists { get; set; }
+        public ICollection<Issue> Issues { get; set; }
 
-        public virtual ICollection<ArcGenre> ArcGenres { get; set; }
+        // Arcs could extend beyond one volume.
+        public ICollection<Volume> Volumes { get; set; }
 
-        public virtual ICollection<ArcPublisher> ArcPublishers { get; set; }
+        public List<ArcVolume> ArcsVolumes { get; set; }
 
-        public virtual ICollection<ArcVolume> ArcVolumes { get; set; }
+        // An arc belongs to only one series.
+        public int SeriesId { get; set; }
 
-        public virtual ICollection<ArcWriter> ArcWriters { get; set; }
+        public Series Series { get; set; }
 
-        public virtual ICollection<CharactersArc> CharactersArcs { get; set; }
+        // Arcs can have more than one publisher, like when they get a translation.
+        public ICollection<Publisher> Publishers { get; set; }
 
-        public virtual ICollection<Issue> Issues { get; set; }
+        // Each arc can have several writers
+        public ICollection<Writer> Writers { get; set; }
+
+        // Each arc can have several artists
+        public ICollection<Artist> Artists { get; set; }
+
+        // Each arc has many characters
+        public ICollection<Character> Characters { get; set; }
+
+        public List<CharacterArc> CharactersArcs { get; set; }
+
+        // Each arc can have multiple genres
+        public ICollection<Genre> Genres { get; set; }
     }
 }
