@@ -1,7 +1,9 @@
-﻿namespace ComicTracker.Web.ViewModels.Entities
+﻿namespace ComicTracker.Web.ViewModels.Series
 {
-    public class ArcLinkingController
+    public class EntityLinkingModel
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string CoverPath { get; set; }

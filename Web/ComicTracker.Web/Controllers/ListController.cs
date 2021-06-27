@@ -4,7 +4,7 @@
 
     using ComicTracker.Data;
 
-    using ComicTracker.Web.ViewModels.Entities;
+    using ComicTracker.Web.ViewModels.List;
 
     using Microsoft.AspNetCore.Mvc;
 

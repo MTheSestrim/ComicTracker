@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Arc
+    using ComicTracker.Data.Common.Models;
+
+    public class Arc : BaseDeletableModel<int>
     {
         public Arc()
         {
@@ -17,9 +19,6 @@
             this.CharactersArcs = new List<CharacterArc>();
             this.Genres = new HashSet<Genre>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         // Number of arc
         public int Number { get; set; }

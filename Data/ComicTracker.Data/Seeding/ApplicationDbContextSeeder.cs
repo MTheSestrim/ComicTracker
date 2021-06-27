@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using ComicTracker.Data.Seeding.EntitySeeders;
+
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -27,6 +29,16 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new ArcSeeder(),
+                              new ArtistSeeder(),
+                              new CharacterSeeder(),
+                              new GenreSeeder(),
+                              new IssueSeeder(),
+                              new NationalitySeeder(),
+                              new PublisherSeeder(),
+                              new VolumeSeeder(),
+                              new WriterSeeder(),
+                              new SeriesSeeder(),
                           };
 
             foreach (var seeder in seeders)

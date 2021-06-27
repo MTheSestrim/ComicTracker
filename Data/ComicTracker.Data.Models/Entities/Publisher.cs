@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Publisher
+    using ComicTracker.Data.Common.Models;
+
+    public class Publisher : BaseDeletableModel<int>
     {
         public Publisher()
         {
@@ -15,9 +17,6 @@
             this.Issues = new HashSet<Issue>();
             this.PublishersIssues = new List<PublisherIssue>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]

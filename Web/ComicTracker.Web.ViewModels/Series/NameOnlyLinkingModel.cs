@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.ViewModels.Entities
+﻿namespace ComicTracker.Web.ViewModels.Series
 {
     public class NameOnlyLinkingModel
     {

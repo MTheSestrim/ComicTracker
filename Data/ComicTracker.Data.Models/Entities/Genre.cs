@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Genre
+    using ComicTracker.Data.Common.Models;
+
+    public class Genre : BaseDeletableModel<int>
     {
         public Genre()
         {
@@ -12,9 +14,6 @@
             this.Volumes = new HashSet<Volume>();
             this.Issues = new HashSet<Issue>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(50)]

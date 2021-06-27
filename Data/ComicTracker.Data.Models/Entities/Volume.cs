@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Volume
+    using ComicTracker.Data.Common.Models;
+
+    public class Volume : BaseDeletableModel<int>
     {
         public Volume()
         {
@@ -18,9 +20,6 @@
             this.CharactersVolumes = new List<CharacterVolume>();
             this.Genres = new HashSet<Genre>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         // Number of volume
         public int Number { get; set; }

@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Character
+    using ComicTracker.Data.Common.Models;
+
+    public class Character : BaseDeletableModel<int>
     {
         public Character()
         {
@@ -16,9 +18,6 @@
             this.Issues = new HashSet<Issue>();
             this.CharactersIssues = new List<CharacterIssue>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(200)]

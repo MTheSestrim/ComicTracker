@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Artist
+    using ComicTracker.Data.Common.Models;
+
+    public class Artist : BaseDeletableModel<int>
     {
         public Artist()
         {
@@ -13,9 +15,6 @@
             this.Volumes = new HashSet<Volume>();
             this.Issues = new HashSet<Issue>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(200)]

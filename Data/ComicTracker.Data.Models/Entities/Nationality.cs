@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Nationality
+    using ComicTracker.Data.Common.Models;
+
+    public class Nationality : BaseDeletableModel<int>
     {
         public Nationality()
         {
@@ -11,9 +13,6 @@
             this.Artists = new HashSet<Artist>();
             this.Publishers = new HashSet<Publisher>();
         }
-
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(50)]
