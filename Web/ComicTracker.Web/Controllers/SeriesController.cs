@@ -10,14 +10,14 @@
 
     public class SeriesController : BaseController
     {
-        private ComicTrackerDbContext context;
+        private readonly ComicTrackerDbContext context;
 
         public SeriesController(ComicTrackerDbContext context)
         {
             this.context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
             var currentSeries = this.context.Series
                .Select(s => new SeriesModel
@@ -28,7 +28,12 @@
                    Ongoing = s.Ongoing,
                    Description = s.Description,
                })
-               .First();
+               .FirstOrDefault(s => s.Id == id);
+
+            if (currentSeries == null)
+            {
+                return this.NotFound(currentSeries);
+            }
 
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.

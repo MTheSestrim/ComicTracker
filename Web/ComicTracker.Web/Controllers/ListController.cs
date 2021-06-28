@@ -10,7 +10,7 @@
 
     public class ListController : BaseController
     {
-        private ComicTrackerDbContext context;
+        private readonly ComicTrackerDbContext context;
 
         public ListController(ComicTrackerDbContext context)
         {
@@ -24,7 +24,7 @@
                .Select(s => new ListModel
                {
                    Title = s.Name,
-                   CoverPath = "https://cdn.myanimelist.net/images/manga/1/157897l.webp",
+                   CoverPath = s.CoverPath,
                    Score = 10,
                    IssueCount = s.Issues.Count,
                    VolumeCount = s.Volumes.Count,
