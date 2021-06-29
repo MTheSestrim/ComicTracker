@@ -1,4 +1,4 @@
-﻿@model List<HomeSeriesViewModel> 
+﻿@model List<HomeSeriesViewModel>
 
 @using ComicTracker.Common
 @{
@@ -7,16 +7,22 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    @foreach (var series in Model)
-    {
-        <div class="col-3">
-            <a href="/Series?id=@series.Id">
-                <img src="@series.CoverPath" alt="image description">
-            </a>
-            <div>
-                <p>@series.Name</p>
-                <p>Issues: @series.IssuesCount</p>
-            </div>
-        </div>
-    }
+    <div class="container">
+        <ul class="homeList list-inline">
+            @foreach (var series in Model)
+            {
+                <li class="col-3 list-inline-item">
+                    <div>
+                        <a href="/Series?id=@series.Id">
+                            <img class="img-thumbnail" src="@series.CoverPath" alt="image description">
+                        </a>
+                        <div>
+                            <p>@series.Name</p>
+                            <p>Issues: @series.IssuesCount</p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
 </div>

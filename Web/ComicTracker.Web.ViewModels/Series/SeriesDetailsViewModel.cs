@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class SeriesModel
+    public class SeriesDetailsViewModel
     {
         // Id is necessary for query comparisons; Need to know identity of current series
         public int Id { get; set; }

@@ -5,6 +5,8 @@
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models;
+
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Mapping;
 
     public class SettingsService : ISettingsService

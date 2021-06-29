@@ -1,35 +1,24 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
 
-    using ComicTracker.Data;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels;
-    using ComicTracker.Web.ViewModels.Home;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly ComicTrackerDbContext context;
+        private readonly IHomePageService homePageService;
 
-        public HomeController(ComicTrackerDbContext context)
+        public HomeController(IHomePageService homePageService)
         {
-            this.context = context;
+            this.homePageService = homePageService;
         }
 
         public IActionResult Index()
         {
-            var series = this.context
-                .Series
-                .Select(s => new HomeSeriesViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    CoverPath = s.CoverPath,
-                    IssuesCount = s.Issues.Count,
-                })
-                .ToList();
+            var series = this.homePageService.GetSeries();
 
             return this.View(series);
         }

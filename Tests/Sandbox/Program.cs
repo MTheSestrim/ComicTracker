@@ -12,6 +12,7 @@
     using ComicTracker.Data.Repositories;
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services.Data;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Messaging;
 
     using CommandLine;

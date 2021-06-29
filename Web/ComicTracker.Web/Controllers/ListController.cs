@@ -1,36 +1,21 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System.Linq;
-
-    using ComicTracker.Data;
-
-    using ComicTracker.Web.ViewModels.List;
+    using ComicTracker.Services.Data.Contracts;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class ListController : BaseController
     {
-        private readonly ComicTrackerDbContext context;
+        private readonly IListService listService;
 
-        public ListController(ComicTrackerDbContext context)
+        public ListController(IListService listService)
         {
-            this.context = context;
+            this.listService = listService;
         }
 
         public IActionResult Index()
         {
-            var listData = this.context
-               .Series
-               .Select(s => new ListModel
-               {
-                   Title = s.Name,
-                   CoverPath = s.CoverPath,
-                   Score = 10,
-                   IssueCount = s.Issues.Count,
-                   VolumeCount = s.Volumes.Count,
-                   ArcCount = s.Arcs.Count,
-               })
-               .ToList();
+            var listData = this.listService.GetListData();
 
             return this.View(listData);
         }

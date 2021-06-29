@@ -9,6 +9,7 @@
     using ComicTracker.Data.Repositories;
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services.Data;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Mapping;
     using ComicTracker.Services.Messaging;
     using ComicTracker.Web.ViewModels;
@@ -63,8 +64,17 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+
+            // ComicTracker.Services.Data
+            services.AddTransient<IHomePageService, HomePageService>();
+            services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
+            services.AddTransient<IListService, ListService>();
+            services.AddTransient<ISeriesCreationService, SeriesCreationService>();
+            services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
             services.AddTransient<ISettingsService, SettingsService>();
+
+            // ComicTracker.Services.Messaging
+            services.AddTransient<IEmailSender, NullMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

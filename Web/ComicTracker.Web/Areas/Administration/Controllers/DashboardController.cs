@@ -1,6 +1,6 @@
 ﻿namespace ComicTracker.Web.Areas.Administration.Controllers
 {
-    using ComicTracker.Services.Data;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Administration.Dashboard;
 
     using Microsoft.AspNetCore.Mvc;

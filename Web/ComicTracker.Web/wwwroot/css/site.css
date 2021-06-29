@@ -91,3 +91,7 @@ body {
 .undertext {
     color: dimgray;
 }
+
+.homeList {
+    list-style-type: none;
+}

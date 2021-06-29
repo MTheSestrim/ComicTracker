@@ -1,75 +1,59 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System.Linq;
+    using System.Threading.Tasks;
 
-    using ComicTracker.Data;
-
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class SeriesController : BaseController
     {
-        private readonly ComicTrackerDbContext context;
+        private readonly ISeriesDetailsService seriesDetailsService;
+        private readonly IGenreRetrievalService genreRetrievalService;
+        private readonly ISeriesCreationService seriesCreationService;
 
-        public SeriesController(ComicTrackerDbContext context)
+        public SeriesController(
+            ISeriesDetailsService seriesDetailsService,
+            IGenreRetrievalService genreRetrievalService,
+            ISeriesCreationService seriesCreationService)
         {
-            this.context = context;
+            this.seriesDetailsService = seriesDetailsService;
+            this.genreRetrievalService = genreRetrievalService;
+            this.seriesCreationService = seriesCreationService;
         }
 
         public IActionResult Index(int id)
         {
-            var currentSeries = this.context.Series
-               .Select(s => new SeriesModel
-               {
-                   Id = s.Id,
-                   Title = s.Name,
-                   CoverPath = s.CoverPath,
-                   Ongoing = s.Ongoing,
-                   Description = s.Description,
-               })
-               .FirstOrDefault(s => s.Id == id);
+            var currentSeries = this.seriesDetailsService.GetSeries(id);
 
             if (currentSeries == null)
             {
                 return this.NotFound(currentSeries);
             }
 
-            // Entities are extracted in separate queries to take advantage of IQueryable.
-            // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            // As an added bonus, this approach takes advantage of caching.
-            var issues = this.context.Issues.
-               Where(i => i.Series.Id == currentSeries.Id)
-               .Select(i => new EntityLinkingModel
-               {
-                   CoverPath = i.CoverPath,
-                   Title = i.Title,
-                   Number = i.Number,
-               }).OrderByDescending(i => i.Number).ToArray();
-
-            var arcs = this.context.Arcs.
-               Where(a => a.Series.Id == currentSeries.Id)
-               .Select(a => new EntityLinkingModel
-               {
-                   CoverPath = a.CoverPath,
-                   Title = a.Title,
-                   Number = a.Number,
-               }).OrderByDescending(a => a.Number).ToArray();
-
-            var volumes = this.context.Volumes.
-               Where(v => v.Series.Id == currentSeries.Id)
-               .Select(v => new EntityLinkingModel
-               {
-                   CoverPath = v.CoverPath,
-                   Title = v.Title,
-                   Number = v.Number,
-               }).OrderByDescending(i => i.Number).ToArray();
-
-            currentSeries.Issues = issues;
-            currentSeries.Arcs = arcs;
-            currentSeries.Volumes = volumes;
-
             return this.View(currentSeries);
+        }
+
+        public IActionResult Create()
+        {
+            var viewModel = new CreateSeriesInputModel();
+            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateSeriesInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest("Invalid series data.");
+            }
+
+            var id = await this.seriesCreationService.CreateSeries(model);
+
+            return this.Redirect($"/Series?id={id}");
         }
     }
 }

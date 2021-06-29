@@ -5,7 +5,7 @@
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models;
-    using ComicTracker.Services.Data;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Settings;
 
     using Microsoft.AspNetCore.Mvc;
