@@ -121,7 +121,7 @@
                         // eg. Series/Create since it treats "Creats" as a non-existent id.
                         endpoints.MapControllerRoute(
                             name: "seriesDetails",
-                            pattern: "{controller}/{id?}",
+                            pattern: "{controller}/{id}",
                             defaults: new { action = "Index" },
                             constraints: new { id = @"\d+" });
 
