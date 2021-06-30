@@ -113,6 +113,18 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        // Custom routing for SeriesController so that it supports the following route:
+                        // Series/{id?}; Example: Series/1 => Directs us to Series with Id of 1;
+                        // Much more convenient than using query string "id=1"
+                        // Needs a constraint that makes sure the id is a number.
+                        // Otherwise, it blocks out other actions,
+                        // eg. Series/Create since it treats "Creats" as a non-existent id.
+                        endpoints.MapControllerRoute(
+                            name: "seriesDetails",
+                            pattern: "{controller}/{id?}",
+                            defaults: new { action = "Index" },
+                            constraints: new { id = @"\d+" });
+
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();

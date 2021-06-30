@@ -53,7 +53,7 @@
 
             var id = await this.seriesCreationService.CreateSeries(model);
 
-            return this.Redirect($"/Series?id={id}");
+            return this.Redirect($"/Series/{id}");
         }
     }
 }
