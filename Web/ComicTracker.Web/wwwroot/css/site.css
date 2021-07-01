@@ -95,3 +95,7 @@ body {
 .homeList {
     list-style-type: none;
 }
+
+.nav-upload {
+    padding-right: 5px;
+}

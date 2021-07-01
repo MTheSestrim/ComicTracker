@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
+
     public class CreateSeriesInputModel
     {
         [Required]
@@ -12,6 +14,8 @@
         public string Description { get; set; }
 
         public string CoverPath { get; set; }
+
+        public IFormFile CoverImage { get; set; }
 
         public bool Ongoing { get; set; }
 

@@ -21,4 +21,13 @@
             console.log($(`option[value=${event.value}]`).prop('selected'))
         }
     });
+
+    // Set genre input to max-width
+    $('.iconic-multiselect__container').css('width', '100%');
+
+    // For tab selection in image upload options
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
 })

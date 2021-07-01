@@ -17,7 +17,9 @@ class IconicMultiSelect {
     noResults;
     options = [];
     placeholder;
-    prefix = "iconic" + Math.floor(1000 + Math.random() * 9000) + "-";
+    // I've removed this for easier DOM manipulation
+    // prefix = "iconic" + Math.floor(1000 + Math.random() * 9000) + "-";
+    prefix = "iconic-";
     selectContainer;
     selectedOptions = [];
     textField;

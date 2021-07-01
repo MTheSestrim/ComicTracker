@@ -1,6 +1,8 @@
 ﻿namespace ComicTracker.Services.Data
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,6 +10,8 @@
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Series;
+
+    using static ComicTracker.Common.GlobalConstants;
 
     public class SeriesCreationService : ISeriesCreationService
     {
@@ -34,19 +38,55 @@
                     .ToList();
             }
 
-            var newSeries = new Series
+            var uniqueFileName = await this.GetUploadedFileNameAsync(model);
+
+            Series newSeries = null;
+
+            if (uniqueFileName == null)
             {
-                Name = model.Name,
-                Description = model.Description,
-                CoverPath = model.CoverPath,
-                Ongoing = model.Ongoing,
-                Genres = selectedGenres,
-            };
+                newSeries = new Series
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    CoverPath = model.CoverPath,
+                    Ongoing = model.Ongoing,
+                    Genres = selectedGenres,
+                };
+            }
+            else
+            {
+                newSeries = new Series
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    CoverPath = uniqueFileName,
+                    Ongoing = model.Ongoing,
+                    Genres = selectedGenres,
+                };
+            }
 
             await this.seriesRepository.AddAsync(newSeries);
             await this.seriesRepository.SaveChangesAsync();
 
             return newSeries.Id;
+        }
+
+        private async Task<string> GetUploadedFileNameAsync(CreateSeriesInputModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.CoverImage != null)
+            {
+                string uploadsFolder = $"wwwroot{SeriesImagePath}";
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.CoverImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.CoverImage.CopyToAsync(fileStream);
+                }
+            }
+
+            return SeriesImagePath + uniqueFileName;
         }
     }
 }
