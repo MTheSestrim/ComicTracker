@@ -1,0 +1,8 @@
+﻿.table td {
+    vertical-align: middle;
+}
+
+.table td img {
+    height: auto;
+    width: 50px;
+}

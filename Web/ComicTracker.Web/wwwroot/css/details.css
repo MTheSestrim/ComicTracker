@@ -1,0 +1,12 @@
+﻿.undertext {
+    color: dimgray;
+}
+
+.entityTitle {
+    font-size: 40px;
+}
+
+.coverImage {
+    width: inherit;
+    height: inherit;
+}

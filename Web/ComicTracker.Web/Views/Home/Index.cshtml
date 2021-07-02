@@ -1,27 +1,38 @@
 ﻿@model List<HomeSeriesViewModel>
 
 @using ComicTracker.Common
+@using static ComicTracker.Common.GlobalConstants;
+
 @{
-    this.ViewData["Title"] = "Home Page";
+    this.ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     <div class="container">
-        <ul class="homeList list-inline">
-            @foreach (var series in Model)
-            {
-                <li class="col-3 list-inline-item">
-                    
-                        <a href="/Series/@series.Id">
-                            <img class="img-thumbnail" src="@series.CoverPath" alt="image description">
+        @for (int i = 0; i < Model.Count; i += SeriesPerRow)
+        {
+            // One SeriesPerRow number of series per row
+            // i + SeriesPerRow > Model.Count ? Model.Count : i + SeriesPerRow -> Checks where the loop should end
+            // If the series are 13 with 4 SeriesPerRow for example,
+            // the last row should not loop until 12 + 4 since there will be an IndexOutOfRange exception.
+            // Instead, it should loop until the models end rather than overflow the count.
+            <div class="row">
+                @for (int j = i; 
+                    j < (i + SeriesPerRow > Model.Count ? Model.Count : i + SeriesPerRow); 
+                    j++)
+                {
+                    <div class="col-3">
+                        <a href="/Series/@Model[j].Id">
+                            <img class="img-thumbnail" src="@Model[j].CoverPath" alt="image description">
                         </a>
                         <div>
-                            <p>@series.Name</p>
-                            <p>Issues: @series.IssuesCount</p>
+                            <p>@Model[j].Name</p>
+                            <p>Issues: @Model[j].IssuesCount</p>
                         </div>
-                </li>
-            }
-        </ul>
+                    </div>
+                }
+            </div>
+        }
     </div>
 </div>

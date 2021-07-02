@@ -1,8 +1,13 @@
 ﻿@model SeriesDetailsViewModel
 
 @{
-    ViewData["Title"] = "Series";
+    ViewData["Title"] = @Model.Title;
 }
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+} 
 
 <div class="row">
     <div class="col-xl-4">

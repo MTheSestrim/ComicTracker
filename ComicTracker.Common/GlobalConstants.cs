@@ -9,5 +9,7 @@
         public const string JSONDataFolderPath = "../../Data/ComicTracker.Data/Seeding/JSONData";
 
         public const string SeriesImagePath = "/images/series/";
+
+        public const int SeriesPerRow = 4;
     }
 }
