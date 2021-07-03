@@ -5,6 +5,7 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Series;
 
     public class SeriesDetailsService : ISeriesDetailsService

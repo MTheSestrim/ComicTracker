@@ -1,4 +1,6 @@
-﻿@model List<HomeSeriesViewModel>
+﻿@using ComicTracker.Web.ViewModels.Home
+
+@model List<HomeSeriesViewModel>
 
 @using ComicTracker.Common
 @using static ComicTracker.Common.GlobalConstants;
@@ -18,12 +20,12 @@
             // the last row should not loop until 12 + 4 since there will be an IndexOutOfRange exception.
             // Instead, it should loop until the models end rather than overflow the count.
             <div class="row">
-                @for (int j = i; 
-                    j < (i + SeriesPerRow > Model.Count ? Model.Count : i + SeriesPerRow); 
-                    j++)
+                @for (int j = i;
+                  j < (i + SeriesPerRow > Model.Count ? Model.Count : i + SeriesPerRow);
+                  j++)
                 {
                     <div class="col-3">
-                        <a href="/Series/@Model[j].Id">
+                        <a asp-controller="Series" asp-route-id="@Model[j].Id">
                             <img class="img-thumbnail" src="@Model[j].CoverPath" alt="image description">
                         </a>
                         <div>

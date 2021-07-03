@@ -1,0 +1,54 @@
+﻿@using ComicTracker.Web.ViewModels.ViewComponents;
+
+@addTagHelper *, ComicTracker.Web
+
+@model VCEntityViewModel
+
+<div>
+    <ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link show active" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-selected="true">Description</a>
+        </li>
+        @foreach (var entityLinkingTitle in Model.EntityLinkings.Select(el => el.Name))
+        {
+            <li class="nav-item">
+                <a class="nav-link show" id="pills-home-tab" data-toggle="pill" href="#pills-@entityLinkingTitle.ToLower()" role="tab" aria-controls="pills-@entityLinkingTitle.ToLower()" aria-selected="true">@entityLinkingTitle</a>
+            </li>
+        }
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade active show" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
+            <h3 class="tab-title">Description</h3>
+            <p>
+                @Model.Description
+            </p>
+
+        </div>
+        @foreach (var elModel in Model.EntityLinkings)
+        {
+            <div class="tab-pane fade" id="pills-@elModel.Name.ToLower()" role="tabpanel" aria-labelledby="pills-@elModel.Name.ToLower()-tab">
+                <h3 class="tab-title">@elModel.Name</h3>
+                <table class="table table-bordered">
+                    <tbody>
+                        @foreach (var entity in elModel.EntityLinkings)
+                        {
+                            <tr>
+                                @if (entity.CoverPath != null)
+                                {
+                                    <td class="col-3 text-md-left">
+                                        <img src="@entity.CoverPath" alt="image description">
+                                    </td>
+                                }
+                                <td class="col-2 text-md-center">@entity.Number</td>
+                                @if (entity.Title != null)
+                                {
+                                    <td class="col-7 text-md-center">@entity.Title</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

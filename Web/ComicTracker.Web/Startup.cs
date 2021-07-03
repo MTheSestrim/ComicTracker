@@ -66,8 +66,9 @@
             // Application services
 
             // ComicTracker.Services.Data
-            services.AddTransient<IHomePageService, HomePageService>();
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
+            services.AddTransient<IHomePageService, HomePageService>();
+            services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IListService, ListService>();
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
