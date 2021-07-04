@@ -1,12 +1,27 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using ComicTracker.Services.Data.Contracts;
     using Microsoft.AspNetCore.Mvc;
 
     public class VolumeController : BaseController
     {
-        public IActionResult Index()
+        private readonly IVolumeDetailsService volumeDetailsService;
+
+        public VolumeController(IVolumeDetailsService volumeDetailsService)
         {
-            return this.View();
+            this.volumeDetailsService = volumeDetailsService;
+        }
+
+        public IActionResult Index(int id)
+        {
+            var currentVolume = this.volumeDetailsService.GetVolume(id);
+
+            if (currentVolume == null)
+            {
+                return this.NotFound(currentVolume);
+            }
+
+            return this.View(currentVolume);
         }
     }
 }

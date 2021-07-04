@@ -66,6 +66,7 @@
             // Application services
 
             // ComicTracker.Services.Data
+            services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
             services.AddTransient<IHomePageService, HomePageService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
@@ -73,6 +74,7 @@
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
 
             // ComicTracker.Services.Messaging
             services.AddTransient<IEmailSender, NullMessageSender>();

@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using ComicTracker.Web.ViewModels.Arc
+
+@using static ComicTracker.Common.GlobalConstants;
+
+@addTagHelper *, ComicTracker.Web
+
+@model ArcDetailsViewModel
+
 @{
+    // If there is no Model.Title, a default title is displayed in this format: {SeriesTitle} #{Number of Issue}
+    ViewData["Title"] = @Model.Title != null ?
+        Model.Title :
+        string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
+
+    if (Model.Title == null)
+    {
+        Model.Title = "Arc";
+    }
 }
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+}
+
+<div class="row">
+    <partial name="_EntityThumbnail" model="Model" />
+    <div class="container-fluid col-xl-8">
+        <partial name="_EntityTitle" model="Model" />
+        <div class="product-details">
+            <h3 class="undertext">Number: #@Model.Number</h3>
+        </div>
+        <partial name="_EntityRelatedSeries" model="Model" />
+        <vc:entity-linking-tabs entity-Model="Model"></vc:entity-linking-tabs>
+    </div>
+</div>

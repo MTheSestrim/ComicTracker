@@ -13,6 +13,6 @@
         public const int SeriesPerRow = 4;
 
         // {0} -> Series Title; {1} -> Issue Number
-        public const string DefaultIssueTitleFormat = "{0} #{1}";
+        public const string DefaultSeriesRelatedEntityTitleFormat = "{0} #{1}";
     }
 }

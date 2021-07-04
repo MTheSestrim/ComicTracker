@@ -1,12 +1,28 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using ComicTracker.Services.Data.Contracts;
+
     using Microsoft.AspNetCore.Mvc;
 
     public class ArcController : BaseController
     {
-        public IActionResult Index()
+        private readonly IArcDetailsService arcDetailsService;
+
+        public ArcController(IArcDetailsService arcDetailsService)
         {
-            return this.View();
+            this.arcDetailsService = arcDetailsService;
+        }
+
+        public IActionResult Index(int id)
+        {
+            var currentArc = this.arcDetailsService.GetArc(id);
+
+            if (currentArc == null)
+            {
+                return this.NotFound(currentArc);
+            }
+
+            return this.View(currentArc);
         }
     }
 }

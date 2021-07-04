@@ -18,11 +18,7 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade active show" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
-            <h3 class="tab-title">Description</h3>
-            <p>
-                @Model.Description
-            </p>
-
+            <partial name="_EntityDescription" model="Model" />
         </div>
         @foreach (var elModel in Model.EntityLinkings)
         {
@@ -36,13 +32,23 @@
                                 @if (entity.CoverPath != null)
                                 {
                                     <td class="col-3 text-md-left">
-                                        <img src="@entity.CoverPath" alt="image description">
+                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                            <img src="@entity.CoverPath" alt="image description">
+                                        </a>
                                     </td>
                                 }
-                                <td class="col-2 text-md-center">@entity.Number</td>
+                                    <td class="col-2 text-md-center">
+                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                            @entity.Number
+                                        </a>
+                                    </td>
                                 @if (entity.Title != null)
                                 {
-                                    <td class="col-7 text-md-center">@entity.Title</td>
+                                    <td class="col-7 text-md-center">
+                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                            @entity.Title
+                                        </a>
+                                    </td>
                                 }
                             </tr>
                         }

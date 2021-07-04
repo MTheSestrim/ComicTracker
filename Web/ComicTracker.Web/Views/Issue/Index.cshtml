@@ -8,9 +8,9 @@
 
 @{
     // If there is no Model.Title, a default title is displayed in this format: {SeriesTitle} #{Number of Issue}
-    ViewData["Title"] = @Model.Title != null ? 
-        Model.Title : 
-        string.Format(DefaultIssueTitleFormat, Model.SeriesTitle, Model.Number);
+    ViewData["Title"] = @Model.Title != null ?
+        Model.Title :
+        string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
 }
 
 @section Styles
@@ -22,6 +22,36 @@
     <partial name="_EntityThumbnail" model="Model" />
     <div class="container-fluid col-xl-8">
         <partial name="_EntityTitle" model="Model" />
-        <vc:entity-linking-tabs entity-Model="Model"></vc:entity-linking-tabs>
+        <partial name="_EntityRelatedSeries" model="Model" />
+        <div class="product-details">
+            <h3 class="undertext">Number: #@Model.Number</h3>
+        </div>
+        @if (Model.VolumeId != null)
+        {
+            <a asp-controller="Volume" asp-route-id="@Model.VolumeId">
+                @if (Model.VolumeTitle != null)
+                {
+                    <h2 class="undertext">Volume: @Model.VolumeTitle</h2>
+                }
+                else
+                {
+                    <h2 class="undertext">Volume: @Model.VolumeNumber</h2>
+                }
+            </a>
+        }
+        @if (Model.ArcId != null)
+        {
+            <a asp-controller="Arc" asp-route-id="@Model.ArcId">
+                @if (Model.ArcTitle != null)
+                {
+                    <h3 class="undertext">Arc: @Model.ArcTitle</h3>
+                }
+                else
+                {
+                    <h3 class="undertext">Arc: @Model.ArcNumber</h3>
+                }
+            </a>
+        }
+        <partial name="_EntityDescription" model="Model" />
     </div>
 </div>

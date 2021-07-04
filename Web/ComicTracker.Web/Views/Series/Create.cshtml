@@ -40,25 +40,25 @@
     </div>
     <div class="panel panel-default">
         <div id="dvTab">
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-upload">
-                    <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" class="btn btn-primary uploadSelect">
+            <ul class="nav nav-pills  justify-content-lg-start" role="tablist">
+                <li class="nav-item">
+                    <a href="#coverPathTab" aria-controls="coverPathTab" role="tab" data-toggle="pill" class="nav-link show active">
                         Link Image
                     </a>
                 </li>
-                <li>
-                    <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="btn btn-primary uploadSelect">
+                <li class="nav-item">
+                    <a href="#coverImageTab" aria-controls="coverImageTab" role="tab" data-toggle="pill" class="nav-link show">
                         Upload Image
                     </a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active form-group" id="tab1">
+                <div role="tabpanel" class="tab-pane active form-group" id="coverPathTab">
                     <label asp-for="CoverPath">Cover Path</label>
                     <input asp-for="CoverPath" class="form-control" />
                     <span asp-validation-for="CoverPath" class="text-danger"></span>
                 </div>
-                <div role="tabpanel" class="tab-pane form-group" id="tab2">
+                <div role="tabpanel" class="tab-pane form-group" id="coverImageTab">
                     <label asp-for="CoverImage" class="control-label">Cover Image</label>
                     <div class="custom-file">
                         <input asp-for="CoverImage" class="custom-file-input" id="customFile">

@@ -1,15 +1,14 @@
-﻿namespace ComicTracker.Web.ViewModels.Issues
+﻿namespace ComicTracker.Web.ViewModels.Volume
 {
     using System.Collections.Generic;
 
     using ComicTracker.Web.ViewModels.Contracts;
+    using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Series;
 
-    public class IssueDetailsViewModel : IEntityViewModel, ISeriesRelatedViewModel
+    public class VolumeDetailsViewModel : IEntityViewModel, ISeriesRelatedViewModel
     {
         public int Id { get; set; }
-
-        public int Number { get; set; }
 
         public string Title { get; set; }
 
@@ -17,21 +16,15 @@
 
         public string Description { get; set; }
 
+        public int Number { get; set; }
+
         public int SeriesId { get; set; }
 
         public string SeriesTitle { get; set; }
 
-        public int? VolumeId { get; set; }
+        public ICollection<EntityLinkingModel> Issues { get; set; }
 
-        public string VolumeTitle { get; set; }
-
-        public int? VolumeNumber { get; set; }
-
-        public int? ArcId { get; set; }
-
-        public int? ArcNumber { get; set; }
-
-        public string ArcTitle { get; set; }
+        public ICollection<EntityLinkingModel> Arcs { get; set; }
 
         public ICollection<PublisherLinkingModel> Publishers { get; set; }
 

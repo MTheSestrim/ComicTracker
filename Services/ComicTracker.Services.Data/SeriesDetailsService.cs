@@ -51,9 +51,10 @@
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
             var issues = this.issuesRepository
                 .All()
-                .Where(i => i.Series.Id == currentSeries.Id)
+                .Where(i => i.SeriesId == currentSeries.Id)
                 .Select(i => new EntityLinkingModel
                 {
+                    Id = i.Id,
                     CoverPath = i.CoverPath,
                     Title = i.Title,
                     Number = i.Number,
@@ -61,9 +62,10 @@
 
             var arcs = this.arcsRepository
                 .All()
-                .Where(a => a.Series.Id == currentSeries.Id)
+                .Where(a => a.SeriesId == currentSeries.Id)
                 .Select(a => new EntityLinkingModel
                 {
+                    Id = a.Id,
                     CoverPath = a.CoverPath,
                     Title = a.Title,
                     Number = a.Number,
@@ -71,9 +73,10 @@
 
             var volumes = this.volumesRepository
                 .All()
-                .Where(v => v.Series.Id == currentSeries.Id)
+                .Where(v => v.SeriesId == currentSeries.Id)
                 .Select(v => new EntityLinkingModel
                 {
+                    Id = v.Id,
                     CoverPath = v.CoverPath,
                     Title = v.Title,
                     Number = v.Number,

@@ -30,8 +30,10 @@
                    SeriesId = i.SeriesId,
                    SeriesTitle = i.Series.Name,
                    ArcId = i.ArcId,
+                   ArcNumber = i.Arc.Number,
                    ArcTitle = i.Arc.Title,
                    VolumeId = i.VolumeId,
+                   VolumeNumber = i.Volume.Number,
                    VolumeTitle = i.Volume.Title,
                })
                .FirstOrDefault(i => i.Id == issueId);
