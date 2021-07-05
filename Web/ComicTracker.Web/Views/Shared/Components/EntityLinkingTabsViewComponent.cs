@@ -10,11 +10,18 @@
 
     using Microsoft.AspNetCore.Mvc;
 
+    using static ComicTracker.Common.GlobalConstants;
+
     public class EntityLinkingTabsViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(IEntityViewModel entityModel)
         {
             var items = this.GetEntityLinkingModels(entityModel);
+
+            if (entityModel.Description == null)
+            {
+                entityModel.Description = DefaultDescription;
+            }
 
             var vcModel = new VCEntityViewModel
             {
@@ -25,16 +32,16 @@
             return this.View(vcModel);
         }
 
-        private ICollection<VCEntityLinkingViewModel> GetEntityLinkingModels(
+        private IReadOnlyCollection<VCEntityLinkingViewModel> GetEntityLinkingModels(
             IEntityViewModel entityModel)
         {
             return entityModel.GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.PropertyType == typeof(ICollection<EntityLinkingModel>))
+                .Where(p => p.PropertyType == typeof(IReadOnlyCollection<EntityLinkingModel>))
                 .Select(p => new VCEntityLinkingViewModel
                 {
                     Name = p.Name,
-                    EntityLinkings = (ICollection<EntityLinkingModel>)p.GetValue(entityModel),
+                    EntityLinkings = (IReadOnlyCollection<EntityLinkingModel>)p.GetValue(entityModel),
                 })
                 .ToList();
         }

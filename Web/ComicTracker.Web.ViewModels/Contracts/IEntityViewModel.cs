@@ -15,14 +15,14 @@
 
         public string Description { get; set; }
 
-        public ICollection<PublisherLinkingModel> Publishers { get; set; }
+        public IReadOnlyCollection<PublisherLinkingModel> Publishers { get; set; }
 
-        public ICollection<NameOnlyLinkingModel> Writers { get; set; }
+        public IReadOnlyCollection<NameOnlyLinkingModel> Writers { get; set; }
 
-        public ICollection<NameOnlyLinkingModel> Artists { get; set; }
+        public IReadOnlyCollection<NameOnlyLinkingModel> Artists { get; set; }
 
-        public ICollection<NameOnlyLinkingModel> Characters { get; set; }
+        public IReadOnlyCollection<NameOnlyLinkingModel> Characters { get; set; }
 
-        public ICollection<NameOnlyLinkingModel> Genres { get; set; }
+        public IReadOnlyCollection<NameOnlyLinkingModel> Genres { get; set; }
     }
 }

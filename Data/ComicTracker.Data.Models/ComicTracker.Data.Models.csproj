@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ComicTracker.Common\ComicTracker.Common.csproj" />
     <ProjectReference Include="..\ComicTracker.Data.Common\ComicTracker.Data.Common.csproj" />
   </ItemGroup>
   

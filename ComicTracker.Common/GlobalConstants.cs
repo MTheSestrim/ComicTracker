@@ -14,5 +14,11 @@
 
         // {0} -> Series Title; {1} -> Issue Number
         public const string DefaultSeriesRelatedEntityTitleFormat = "{0} #{1}";
+
+        public const string DefaultDescription = "No description.";
+
+        public const int DefaultEntityTitleLength = 150;
+
+        public const int DefaultSeriesNameLength = 200;
     }
 }

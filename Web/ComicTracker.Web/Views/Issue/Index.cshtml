@@ -11,6 +11,11 @@
     ViewData["Title"] = @Model.Title != null ?
         Model.Title :
         string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
+
+    if (Model.Description == null)
+    {
+        Model.Description = DefaultDescription;
+    }
 }
 
 @section Styles

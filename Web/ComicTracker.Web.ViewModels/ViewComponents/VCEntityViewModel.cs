@@ -6,6 +6,6 @@
     {
         public string Description { get; set; }
 
-        public IEnumerable<VCEntityLinkingViewModel> EntityLinkings { get; set; }
+        public IReadOnlyCollection<VCEntityLinkingViewModel> EntityLinkings { get; set; }
     }
 }

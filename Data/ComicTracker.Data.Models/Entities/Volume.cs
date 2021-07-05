@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using ComicTracker.Data.Common.Models;
+    using ComicTracker.Data.Models.Entities.BaseModels;
 
-    public class Volume : BaseDeletableModel<int>
+    using static ComicTracker.Common.GlobalConstants;
+
+    public class Volume : BaseSeriesRelatedModel<int>
     {
         public Volume()
         {
@@ -21,11 +23,8 @@
             this.Genres = new HashSet<Genre>();
         }
 
-        // Number of volume
-        public int Number { get; set; }
-
         // Volume might not have a specific title.
-        [MaxLength(150)]
+        [MaxLength(DefaultEntityTitleLength)]
         public string Title { get; set; }
 
         // Optional description.
@@ -33,11 +32,6 @@
 
         // Cover of volume
         public string CoverPath { get; set; }
-
-        // A volume belongs to only one series.
-        public int SeriesId { get; set; }
-
-        public Series Series { get; set; }
 
         // Volumes could potentially contain more than one arc.
         public ICollection<Arc> Arcs { get; set; }

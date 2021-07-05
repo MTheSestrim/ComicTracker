@@ -37,11 +37,11 @@
                                         </a>
                                     </td>
                                 }
-                                    <td class="col-2 text-md-center">
-                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                            @entity.Number
-                                        </a>
-                                    </td>
+                                <td class="col-2 text-md-center">
+                                    <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                        @entity.Number
+                                    </a>
+                                </td>
                                 @if (entity.Title != null)
                                 {
                                     <td class="col-7 text-md-center">

@@ -8,6 +8,6 @@
     {
         public string Name { get; set; }
 
-        public ICollection<EntityLinkingModel> EntityLinkings { get; set; }
+        public IReadOnlyCollection<EntityLinkingModel> EntityLinkings { get; set; }
     }
 }

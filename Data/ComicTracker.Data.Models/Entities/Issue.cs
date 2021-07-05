@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using ComicTracker.Data.Common.Models;
+    using ComicTracker.Data.Models.Entities.BaseModels;
 
-    public class Issue : BaseDeletableModel<int>
+    using static ComicTracker.Common.GlobalConstants;
+
+    public class Issue : BaseSeriesRelatedModel<int>
     {
         public Issue()
         {
@@ -18,11 +20,8 @@
             this.Genres = new HashSet<Genre>();
         }
 
-        // Number of issue
-        public int Number { get; set; }
-
         // Issue might not have a specific title.
-        [MaxLength(150)]
+        [MaxLength(DefaultEntityTitleLength)]
         public string Title { get; set; }
 
         // Optional description
@@ -30,11 +29,6 @@
 
         // Cover of issue
         public string CoverPath { get; set; }
-
-        // An issue belongs to only one series.
-        public int SeriesId { get; set; }
-
-        public Series Series { get; set; }
 
         // An issue can belong to an arc. Or not.
         public int? ArcId { get; set; }

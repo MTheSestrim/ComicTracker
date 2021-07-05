@@ -5,6 +5,8 @@
 
     using ComicTracker.Data.Common.Models;
 
+    using static ComicTracker.Common.GlobalConstants;
+
     public class Series : BaseDeletableModel<int>
     {
         public Series()
@@ -21,7 +23,7 @@
         }
 
         [Required]
-        [MaxLength(200)]
+        [MaxLength(DefaultSeriesNameLength)]
         public string Name { get; set; }
 
         // Optional description.

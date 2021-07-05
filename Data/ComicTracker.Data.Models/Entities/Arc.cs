@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using ComicTracker.Data.Common.Models;
+    using ComicTracker.Data.Models.Entities.BaseModels;
 
-    public class Arc : BaseDeletableModel<int>
+    using static ComicTracker.Common.GlobalConstants;
+
+    public class Arc : BaseSeriesRelatedModel<int>
     {
         public Arc()
         {
@@ -20,11 +22,8 @@
             this.Genres = new HashSet<Genre>();
         }
 
-        // Number of arc
-        public int Number { get; set; }
-
         // Arc might not have a specific title, though this is rare.
-        [MaxLength(150)]
+        [MaxLength(DefaultEntityTitleLength)]
         public string Title { get; set; }
 
         // Optional description.
@@ -39,11 +38,6 @@
         public ICollection<Volume> Volumes { get; set; }
 
         public List<ArcVolume> ArcsVolumes { get; set; }
-
-        // An arc belongs to only one series.
-        public int SeriesId { get; set; }
-
-        public Series Series { get; set; }
 
         // Arcs can have more than one publisher, like when they get a translation.
         public ICollection<Publisher> Publishers { get; set; }
