@@ -23,9 +23,9 @@
             this.seriesCreationService = seriesCreationService;
         }
 
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id)
         {
-            var currentSeries = this.seriesDetailsService.GetSeries(id);
+            var currentSeries = await this.seriesDetailsService.GetSeriesAsync(id);
 
             if (currentSeries == null)
             {
@@ -35,10 +35,10 @@
             return this.View(currentSeries);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new CreateSeriesInputModel();
-            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+            viewModel.RetrievedGenres = await this.genreRetrievalService.GetAllAsKeyValuePairsAsync();
 
             return this.View(viewModel);
         }
@@ -51,7 +51,7 @@
                 return this.BadRequest("Invalid series data.");
             }
 
-            var id = await this.seriesCreationService.CreateSeries(model);
+            var id = await this.seriesCreationService.CreateSeriesAsync(model);
 
             return this.Redirect($"/Series/{id}");
         }

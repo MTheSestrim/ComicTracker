@@ -1,5 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Services.Data.Contracts;
 
     using Microsoft.AspNetCore.Mvc;
@@ -13,9 +15,9 @@
             this.listService = listService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var listData = this.listService.GetListData();
+            var listData = await this.listService.GetListDataAsync();
 
             return this.View(listData);
         }

@@ -1,9 +1,11 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Web.ViewModels.Issues;
 
     public interface IIssueDetailsService
     {
-        IssueDetailsViewModel GetIssue(int issueId);
+        Task<IssueDetailsViewModel> GetIssueAsync(int issueId);
     }
 }

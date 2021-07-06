@@ -26,7 +26,7 @@
             this.genresRepository = genresRepository;
         }
 
-        public async Task<int> CreateSeries(CreateSeriesInputModel model)
+        public async Task<int> CreateSeriesAsync(CreateSeriesInputModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -38,11 +38,9 @@
                     .ToList();
             }
 
-            var uniqueFileName = await this.GetUploadedFileNameAsync(model);
-
             Series newSeries = null;
 
-            if (uniqueFileName == null)
+            if (model.CoverImage == null)
             {
                 newSeries = new Series
                 {
@@ -55,6 +53,8 @@
             }
             else
             {
+                var uniqueFileName = await this.GetUploadedFileNameAsync(model);
+
                 newSeries = new Series
                 {
                     Name = model.Name,

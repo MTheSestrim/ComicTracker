@@ -1,9 +1,10 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IGenreRetrievalService
     {
-        IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
     }
 }

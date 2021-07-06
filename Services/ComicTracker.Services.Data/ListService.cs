@@ -2,11 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.List;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class ListService : IListService
     {
@@ -17,7 +20,7 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IEnumerable<ListViewModel> GetListData() => this.seriesRepository
+        public async Task<IEnumerable<ListViewModel>> GetListDataAsync() => await this.seriesRepository
                .All()
                .Select(s => new ListViewModel
                {
@@ -28,6 +31,6 @@
                    VolumeCount = s.Volumes.Count,
                    ArcCount = s.Arcs.Count,
                })
-               .ToList();
+               .ToListAsync();
     }
 }

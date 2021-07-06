@@ -2,11 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Home;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class HomePageService : IHomePageService
     {
@@ -17,7 +20,7 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IEnumerable<HomeSeriesViewModel> GetSeries() => this.seriesRepository
+        public async Task<IEnumerable<HomeSeriesViewModel>> GetSeriesAsync() => await this.seriesRepository
                 .All()
                 .Select(s => new HomeSeriesViewModel
                 {
@@ -26,6 +29,6 @@
                     CoverPath = s.CoverPath,
                     IssuesCount = s.Issues.Count,
                 })
-                .ToList();
+                .ToListAsync();
     }
 }

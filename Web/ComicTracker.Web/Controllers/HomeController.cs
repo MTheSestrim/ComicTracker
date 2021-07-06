@@ -1,6 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels;
@@ -16,9 +17,9 @@
             this.homePageService = homePageService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var series = this.homePageService.GetSeries();
+            var series = await this.homePageService.GetSeriesAsync();
 
             return this.View(series);
         }

@@ -1,6 +1,9 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Services.Data.Contracts;
+
     using Microsoft.AspNetCore.Mvc;
 
     public class VolumeController : BaseController
@@ -12,9 +15,9 @@
             this.volumeDetailsService = volumeDetailsService;
         }
 
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id)
         {
-            var currentVolume = this.volumeDetailsService.GetVolume(id);
+            var currentVolume = await this.volumeDetailsService.GetVolumeAsync(id);
 
             if (currentVolume == null)
             {

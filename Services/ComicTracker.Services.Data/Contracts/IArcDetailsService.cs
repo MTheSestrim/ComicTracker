@@ -1,9 +1,11 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Web.ViewModels.Arc;
 
     public interface IArcDetailsService
     {
-        ArcDetailsViewModel GetArc(int arcId);
+        Task<ArcDetailsViewModel> GetArcAsync(int arcId);
     }
 }

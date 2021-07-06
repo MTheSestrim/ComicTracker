@@ -1,11 +1,13 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Issues;
+    using Microsoft.EntityFrameworkCore;
 
     public class IssueDetailsService : IIssueDetailsService
     {
@@ -16,9 +18,9 @@
             this.issuesRepository = issuesRepository;
         }
 
-        public IssueDetailsViewModel GetIssue(int issueId)
+        public async Task<IssueDetailsViewModel> GetIssueAsync(int issueId)
         {
-            var currentIssue = this.issuesRepository
+            var currentIssue = await this.issuesRepository
                .All()
                .Select(i => new IssueDetailsViewModel
                {
@@ -36,7 +38,7 @@
                    VolumeNumber = i.Volume.Number,
                    VolumeTitle = i.Volume.Title,
                })
-               .FirstOrDefault(i => i.Id == issueId);
+               .FirstOrDefaultAsync(i => i.Id == issueId);
 
             if (currentIssue == null)
             {

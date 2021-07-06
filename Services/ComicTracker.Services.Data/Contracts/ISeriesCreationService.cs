@@ -6,6 +6,6 @@
 
     public interface ISeriesCreationService
     {
-        Task<int> CreateSeries(CreateSeriesInputModel model);
+        Task<int> CreateSeriesAsync(CreateSeriesInputModel model);
     }
 }

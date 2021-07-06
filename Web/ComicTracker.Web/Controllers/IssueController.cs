@@ -1,5 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Services.Data.Contracts;
 
     using Microsoft.AspNetCore.Mvc;
@@ -13,9 +15,9 @@
             this.issueDetailsService = issueDetailsService;
         }
 
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id)
         {
-            var currentIssue = this.issueDetailsService.GetIssue(id);
+            var currentIssue = await this.issueDetailsService.GetIssueAsync(id);
 
             if (currentIssue == null)
             {

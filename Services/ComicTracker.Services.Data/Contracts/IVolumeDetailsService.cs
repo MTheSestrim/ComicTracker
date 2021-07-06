@@ -1,9 +1,11 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
+
     using ComicTracker.Web.ViewModels.Volume;
 
     public interface IVolumeDetailsService
     {
-        VolumeDetailsViewModel GetVolume(int volumeId);
+        Task<VolumeDetailsViewModel> GetVolumeAsync(int volumeId);
     }
 }
