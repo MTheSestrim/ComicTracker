@@ -17,9 +17,9 @@
             this.homePageService = homePageService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var series = await this.homePageService.GetSeriesAsync();
+            var series = this.homePageService.GetSeries();
 
             return this.View(series);
         }

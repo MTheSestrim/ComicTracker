@@ -1,7 +1,5 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System.Threading.Tasks;
-
     using ComicTracker.Services.Data.Contracts;
 
     using Microsoft.AspNetCore.Mvc;
@@ -15,9 +13,9 @@
             this.arcDetailsService = arcDetailsService;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
-            var currentArc = await this.arcDetailsService.GetArcAsync(id);
+            var currentArc = this.arcDetailsService.GetArc(id);
 
             if (currentArc == null)
             {

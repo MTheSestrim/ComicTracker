@@ -1,15 +1,12 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
-    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Series;
-
-    using Microsoft.EntityFrameworkCore;
 
     public class SeriesDetailsService : ISeriesDetailsService
     {
@@ -30,12 +27,12 @@
             this.volumesRepository = volumesRepository;
         }
 
-        public async Task<SeriesDetailsViewModel> GetSeriesAsync(
+        public SeriesDetailsViewModel GetSeries(
             int seriesId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            var issues = await this.issuesRepository
+            var issues = this.issuesRepository
                 .All()
                 .Where(i => i.SeriesId == seriesId)
                 .Select(i => new EntityLinkingModel
@@ -44,9 +41,9 @@
                     CoverPath = i.CoverPath,
                     Title = i.Title,
                     Number = i.Number,
-                }).OrderByDescending(i => i.Number).ToArrayAsync();
+                }).OrderByDescending(i => i.Number).ToArray();
 
-            var volumes = await this.volumesRepository
+            var volumes = this.volumesRepository
                 .All()
                 .Where(v => v.SeriesId == seriesId)
                 .Select(v => new EntityLinkingModel
@@ -55,9 +52,9 @@
                     CoverPath = v.CoverPath,
                     Title = v.Title,
                     Number = v.Number,
-                }).OrderByDescending(i => i.Number).ToArrayAsync();
+                }).OrderByDescending(i => i.Number).ToArray();
 
-            var arcs = await this.arcsRepository
+            var arcs = this.arcsRepository
                 .All()
                 .Where(a => a.SeriesId == seriesId)
                 .Select(a => new EntityLinkingModel
@@ -66,9 +63,9 @@
                     CoverPath = a.CoverPath,
                     Title = a.Title,
                     Number = a.Number,
-                }).OrderByDescending(a => a.Number).ToArrayAsync();
+                }).OrderByDescending(a => a.Number).ToArray();
 
-            var currentSeries = await this.seriesRepository
+            var currentSeries = this.seriesRepository
                .All()
                .Select(s => new SeriesDetailsViewModel
                {
@@ -81,7 +78,7 @@
                    Volumes = volumes,
                    Arcs = arcs,
                })
-               .FirstOrDefaultAsync(s => s.Id == seriesId);
+               .FirstOrDefault(s => s.Id == seriesId);
 
             if (currentSeries == null)
             {

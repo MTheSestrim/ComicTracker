@@ -1,4 +1,11 @@
-﻿<h3 class="tab-title">Description</h3>
-<p>
-    @Model.Description
-</p>
+﻿@{
+    var lines = Model.Description.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+}
+<h3 class="tab-title">Description</h3>
+
+@foreach (var line in lines)
+{
+    <p>
+        @line
+    </p>
+}

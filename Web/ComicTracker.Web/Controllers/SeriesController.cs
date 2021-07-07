@@ -23,9 +23,9 @@
             this.seriesCreationService = seriesCreationService;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
-            var currentSeries = await this.seriesDetailsService.GetSeriesAsync(id);
+            var currentSeries = this.seriesDetailsService.GetSeries(id);
 
             if (currentSeries == null)
             {
@@ -35,10 +35,10 @@
             return this.View(currentSeries);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var viewModel = new CreateSeriesInputModel();
-            viewModel.RetrievedGenres = await this.genreRetrievalService.GetAllAsKeyValuePairsAsync();
+            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
 
             return this.View(viewModel);
         }

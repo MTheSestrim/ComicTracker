@@ -1,15 +1,12 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
-    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Volume;
-
-    using Microsoft.EntityFrameworkCore;
 
     public class VolumeDetailsService : IVolumeDetailsService
     {
@@ -27,11 +24,11 @@
             this.arcsRepository = arcsRepository;
         }
 
-        public async Task<VolumeDetailsViewModel> GetVolumeAsync(int volumeId)
+        public VolumeDetailsViewModel GetVolume(int volumeId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            var issues = await this.issuesRepository
+            var issues = this.issuesRepository
                 .All()
                 .Where(i => i.VolumeId == volumeId)
                 .Select(i => new EntityLinkingModel
@@ -40,9 +37,9 @@
                     CoverPath = i.CoverPath,
                     Title = i.Title,
                     Number = i.Number,
-                }).OrderByDescending(i => i.Number).ToArrayAsync();
+                }).OrderByDescending(i => i.Number).ToArray();
 
-            var arcs = await this.arcsRepository
+            var arcs = this.arcsRepository
                 .All()
                 .Where(a => a.ArcsVolumes.Any(av => av.VolumeId == volumeId))
                 .Select(a => new EntityLinkingModel
@@ -51,9 +48,9 @@
                     CoverPath = a.CoverPath,
                     Title = a.Title,
                     Number = a.Number,
-                }).OrderByDescending(a => a.Number).ToArrayAsync();
+                }).OrderByDescending(a => a.Number).ToArray();
 
-            var currentVolume = await this.volumesRepository.All()
+            var currentVolume = this.volumesRepository.All()
                 .Select(v => new VolumeDetailsViewModel
                 {
                     Id = v.Id,
@@ -66,7 +63,7 @@
                     Issues = issues,
                     Arcs = arcs,
                 })
-                .FirstOrDefaultAsync(v => v.Id == volumeId);
+                .FirstOrDefault(v => v.Id == volumeId);
 
             if (currentVolume == null)
             {

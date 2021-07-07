@@ -27,11 +27,11 @@
             this.volumesRepository = volumesRepository;
         }
 
-        public async Task<ArcDetailsViewModel> GetArcAsync(int arcId)
+        public ArcDetailsViewModel GetArc(int arcId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            var issues = await this.issuesRepository
+            var issues = this.issuesRepository
                 .All()
                 .Where(i => i.ArcId == arcId)
                 .Select(i => new EntityLinkingModel
@@ -40,9 +40,9 @@
                     CoverPath = i.CoverPath,
                     Title = i.Title,
                     Number = i.Number,
-                }).OrderByDescending(i => i.Number).ToArrayAsync();
+                }).OrderByDescending(i => i.Number).ToArray();
 
-            var volumes = await this.volumesRepository
+            var volumes = this.volumesRepository
                 .All()
                 .Where(v => v.ArcsVolumes.Any(av => av.ArcId == arcId))
                 .Select(v => new EntityLinkingModel
@@ -51,9 +51,9 @@
                     CoverPath = v.CoverPath,
                     Title = v.Title,
                     Number = v.Number,
-                }).OrderByDescending(v => v.Number).ToArrayAsync();
+                }).OrderByDescending(v => v.Number).ToArray();
 
-            var currentArc = await this.arcsRepository.All()
+            var currentArc = this.arcsRepository.All()
                 .Select(a => new ArcDetailsViewModel
                 {
                     Id = a.Id,
@@ -66,7 +66,7 @@
                     Issues = issues,
                     Volumes = volumes,
                 })
-                .FirstOrDefaultAsync(a => a.Id == arcId);
+                .FirstOrDefault(a => a.Id == arcId);
 
             if (currentArc == null)
             {
