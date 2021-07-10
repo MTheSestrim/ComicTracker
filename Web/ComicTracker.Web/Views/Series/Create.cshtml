@@ -10,7 +10,6 @@
         new SelectListItem("Ongoing", "true"),
         new SelectListItem("Completed", "false"),
                     };
-
 }
 
 @section Scripts
@@ -41,7 +40,7 @@
         <div id="dvTab">
             <ul class="nav nav-pills  justify-content-lg-start" role="tablist">
                 <li class="nav-item">
-                    <a href="#coverPathTab" aria-controls="coverPathTab" role="tab" data-toggle="pill" class="nav-link show active">
+                    <a href="#coverPathTab" aria-controls="coverPathTab" role="tab" data-toggle="pill" class="nav-link show">
                         Link Image
                     </a>
                 </li>
@@ -52,7 +51,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active form-group" id="coverPathTab">
+                <div role="tabpanel" class="tab-pane form-group" id="coverPathTab">
                     <label asp-for="CoverPath">Cover Path</label>
                     <input asp-for="CoverPath" class="form-control" />
                     <span asp-validation-for="CoverPath" class="text-danger"></span>

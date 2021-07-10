@@ -1,5 +1,12 @@
 ﻿$(document).ready(function () {
 
+    // Select proper image upload tab upon reload by clicking the appropriate anchor tag.
+    var url = window.location.hash;
+    if (!url) {
+        url = '#coverPathTab';
+    }
+    $(`a[href="${url}"]`).trigger('click');
+
     const multiSelect = new IconicMultiSelect({
         select: "#genreValues",
     });
@@ -30,4 +37,8 @@
         var fileName = $(this).val().split('\\').pop();
         $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
     });
+
+    $('a.nav-link').on('click', function () {
+        window.location.hash = $(this).attr("href");
+    })
 })

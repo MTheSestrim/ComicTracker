@@ -1,13 +1,11 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Filters;
 
     public class SeriesController : BaseController
     {
