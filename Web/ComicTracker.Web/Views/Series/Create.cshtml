@@ -9,7 +9,7 @@
     {
         new SelectListItem("Ongoing", "true"),
         new SelectListItem("Completed", "false"),
-            };
+                    };
 
 }
 
@@ -27,7 +27,6 @@
 <h1>@this.ViewData["Title"]</h1>
 
 <form method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="All"></div>
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -70,14 +69,14 @@
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Ongoing"></label>
-        <select asp-for="Ongoing" class="form-control" asp-items="ongoingStatuses"></select>
-        <span asp-validation-for="Ongoing" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label asp-for="Genres"></label>
         <select id="genreValues" asp-for="Genres" class="form-control" asp-items="genres"></select>
         <span asp-validation-for="Genres" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Ongoing"></label>
+        <select asp-for="Ongoing" class="form-control" asp-items="ongoingStatuses"></select>
+        <span asp-validation-for="Ongoing" class="text-danger"></span>
     </div>
     <input type="submit" class="btn btn-primary" />
 </form>

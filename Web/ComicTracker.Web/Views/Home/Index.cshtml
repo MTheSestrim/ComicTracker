@@ -24,7 +24,7 @@
                   j < (i + SeriesPerRow > Model.Count ? Model.Count : i + SeriesPerRow);
                   j++)
                 {
-                    <div class="col-3">
+                    <div class="col-6 col-sm-3">
                         <a asp-controller="Series" asp-route-id="@Model[j].Id">
                             <img class="img-thumbnail" src="@Model[j].CoverPath" alt="image description">
                         </a>

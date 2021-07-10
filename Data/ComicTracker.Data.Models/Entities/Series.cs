@@ -23,7 +23,7 @@
         }
 
         [Required]
-        [MaxLength(DefaultSeriesNameLength)]
+        [MaxLength(DefaultSeriesNameMaxLength)]
         public string Name { get; set; }
 
         // Optional description.

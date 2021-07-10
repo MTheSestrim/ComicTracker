@@ -19,6 +19,12 @@
 
         public const int DefaultEntityTitleLength = 150;
 
-        public const int DefaultSeriesNameLength = 200;
+        public const int DefaultSeriesNameMaxLength = 200;
+
+        public const int DefaultSeriesNameMinLength = 2;
+
+        public const int DefaultImageSizeInKB = 2048;
+
+        public const int BytesInAKilobyte = 1000;
     }
 }

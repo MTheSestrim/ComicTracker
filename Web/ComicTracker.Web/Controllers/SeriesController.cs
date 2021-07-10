@@ -1,11 +1,13 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
 
     public class SeriesController : BaseController
     {
@@ -48,7 +50,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest("Invalid series data.");
+                model.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+                return this.View(model);
             }
 
             var id = await this.seriesCreationService.CreateSeriesAsync(model);
