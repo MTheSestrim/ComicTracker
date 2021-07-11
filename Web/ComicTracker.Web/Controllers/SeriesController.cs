@@ -12,15 +12,18 @@
         private readonly ISeriesDetailsService seriesDetailsService;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
+        private readonly ISeriesDeletionService seriesDeletionService;
 
         public SeriesController(
             ISeriesDetailsService seriesDetailsService,
             IGenreRetrievalService genreRetrievalService,
-            ISeriesCreationService seriesCreationService)
+            ISeriesCreationService seriesCreationService,
+            ISeriesDeletionService seriesDeletionService)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
+            this.seriesDeletionService = seriesDeletionService;
         }
 
         public IActionResult Index(int id)
@@ -55,6 +58,19 @@
             var id = await this.seriesCreationService.CreateSeriesAsync(model);
 
             return this.Redirect($"/Series/{id}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await this.seriesDeletionService.DeleteSeries(id);
+
+            if (!result)
+            {
+                return this.RedirectToAction($"/Series/{id}");
+            }
+
+            return this.Redirect("/");
         }
     }
 }

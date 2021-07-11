@@ -72,6 +72,7 @@
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IListService, ListService>();
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
+            services.AddTransient<ISeriesDeletionService, SeriesDeletionService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
@@ -116,12 +117,12 @@
             app.UseEndpoints(
                 endpoints =>
                     {
-                        // Custom routing for SeriesController so that it supports the following route:
-                        // Series/{id?}; Example: Series/1 => Directs us to Series with Id of 1;
-                        // Much more convenient than using query string "id=1"
-                        // Needs a constraint that makes sure the id is a number.
-                        // Otherwise, it blocks out other actions,
-                        // eg. Series/Create since it treats "Creats" as a non-existent id.
+                        /* Custom routing for SeriesController so that it supports the following route:
+                         Series/{id?}; Example: Series/1 => Directs us to Series with Id of 1;
+                         Much more convenient than using query string "id=1"
+                         Needs a constraint that makes sure the id is a number.
+                         Otherwise, it blocks out other actions,
+                         eg. Series/Create since it treats "Creats" as a non-existent id.*/
                         endpoints.MapControllerRoute(
                             name: "details",
                             pattern: "{controller}/{id}",

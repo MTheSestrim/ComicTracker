@@ -1,0 +1,20 @@
+﻿<div>
+    <ul class="list-inline justify-content-center">
+        <li class="list-inline-item">
+            <form method="post" asp-action="Edit" asp-route-id="@Model.Id">
+                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link edit" data-original-title="Edit"
+                        href="">
+                    <i class="fa fa-pencil"></i>
+                </button>
+            </form>
+        </li>
+        <!--asp-controller="Series" asp-action="Delete" asp-route-id="@Model.Id"-->
+        <li class="list-inline-item">
+            <form method="post" asp-action="Delete" asp-route-id="@Model.Id">
+                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link delete" data-original-title="Delete">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
