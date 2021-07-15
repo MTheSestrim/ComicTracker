@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using ComicTracker.Common.Enums;
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
@@ -19,20 +20,30 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm) => this.seriesRepository
-                    .All()
-                    .Select(s => new HomeSeriesViewModel
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        CoverPath = s.CoverPath,
-                        IssuesCount = s.Issues.Count,
-                    })
-                    .Where(s => s.Name.Contains(searchTerm))
-                    .OrderBy(s => s.Name)
-                    .Skip((currentPage - 1) * SeriesPerPage)
-                    .Take(SeriesPerPage)
-                    .ToList();
+        public IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm, Sorting sorting)
+        {
+            var query = this.seriesRepository.All()
+                .Where(s => s.Name.Contains(searchTerm));
+
+            query = sorting switch
+            {
+                Sorting.Status => query.OrderByDescending(s => s.Ongoing).ThenBy(s => s.Name),
+                Sorting.Name or _ => query.OrderBy(s => s.Name),
+            };
+
+            var series = query.Select(s => new HomeSeriesViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                CoverPath = s.CoverPath,
+                IssuesCount = s.Issues.Count,
+            })
+            .Skip((currentPage - 1) * SeriesPerPage)
+            .Take(SeriesPerPage)
+            .ToList();
+
+            return series;
+        }
 
         public int GetTotalSeriesCount() => this.seriesRepository.All().Count();
     }
