@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Http;
 
     using static ComicTracker.Common.GlobalConstants;
+    using static ComicTracker.Common.SeriesConstants;
 
     public class CreateSeriesInputModel
     {

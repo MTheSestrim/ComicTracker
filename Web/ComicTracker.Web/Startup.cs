@@ -68,12 +68,12 @@
             // ComicTracker.Services.Data
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
-            services.AddTransient<IHomePageService, HomePageService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IListService, ListService>();
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDeletionService, SeriesDeletionService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
+            services.AddTransient<ISeriesRetrievalService, SeriesRetrievalService>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
 

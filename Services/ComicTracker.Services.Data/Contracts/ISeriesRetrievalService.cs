@@ -4,8 +4,10 @@
 
     using ComicTracker.Web.ViewModels.Home;
 
-    public interface IHomePageService
+    public interface ISeriesRetrievalService
     {
-        IEnumerable<HomeSeriesViewModel> GetSeries();
+        int GetTotalSeriesCount();
+
+        IList<HomeSeriesViewModel> GetSeries(int currentPage);
     }
 }

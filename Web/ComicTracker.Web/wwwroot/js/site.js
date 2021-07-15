@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    $('#searchBar').keypress(function (e) {
+        if (e.keyCode == 13) {
+            let searchTerm = $('#searchBar').val()
+            if (searchTerm) {
+                window.location.href = `/?searchTerm=${searchTerm}`
+            }
+            else {
+                window.location.href = '/';
+            }
+        }
+    });
+})

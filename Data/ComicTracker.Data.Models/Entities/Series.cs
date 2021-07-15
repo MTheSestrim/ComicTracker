@@ -5,7 +5,7 @@
 
     using ComicTracker.Data.Common.Models;
 
-    using static ComicTracker.Common.GlobalConstants;
+    using static ComicTracker.Common.SeriesConstants;
 
     public class Series : BaseDeletableModel<int>
     {

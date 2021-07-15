@@ -1,27 +1,28 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels;
+    using ComicTracker.Web.ViewModels.Home;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly IHomePageService homePageService;
+        private readonly ISeriesRetrievalService homePageService;
 
-        public HomeController(IHomePageService homePageService)
+        public HomeController(ISeriesRetrievalService homePageService)
         {
             this.homePageService = homePageService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery]HomePageViewModel model)
         {
-            var series = this.homePageService.GetSeries();
+            model.Series = this.homePageService.GetSeries(model.CurrentPage);
+            model.TotalSeriesCount = this.homePageService.GetTotalSeriesCount();
 
-            return this.View(series);
+            return this.View(model);
         }
 
         public IActionResult Privacy()
