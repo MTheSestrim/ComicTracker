@@ -8,6 +8,6 @@
     {
         int GetTotalSeriesCount();
 
-        IList<HomeSeriesViewModel> GetSeries(int currentPage);
+        IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm);
     }
 }

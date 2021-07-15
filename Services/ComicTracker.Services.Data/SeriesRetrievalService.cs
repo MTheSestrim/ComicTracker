@@ -19,7 +19,7 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IList<HomeSeriesViewModel> GetSeries(int currentPage) => this.seriesRepository
+        public IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm) => this.seriesRepository
                     .All()
                     .Select(s => new HomeSeriesViewModel
                     {
@@ -28,6 +28,7 @@
                         CoverPath = s.CoverPath,
                         IssuesCount = s.Issues.Count,
                     })
+                    .Where(s => s.Name.Contains(searchTerm))
                     .OrderBy(s => s.Name)
                     .Skip((currentPage - 1) * SeriesPerPage)
                     .Take(SeriesPerPage)

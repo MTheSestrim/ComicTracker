@@ -44,9 +44,9 @@
             {
                 newSeries = new Series
                 {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CoverPath = model.CoverPath,
+                    Name = model.Name.Trim(),
+                    Description = model.Description.Trim(),
+                    CoverPath = model.CoverPath.Trim(),
                     Ongoing = model.Ongoing,
                     Genres = selectedGenres,
                 };
@@ -57,8 +57,8 @@
 
                 newSeries = new Series
                 {
-                    Name = model.Name,
-                    Description = model.Description,
+                    Name = model.Name.Trim(),
+                    Description = model.Description.Trim(),
                     CoverPath = uniqueFileName,
                     Ongoing = model.Ongoing,
                     Genres = selectedGenres,
