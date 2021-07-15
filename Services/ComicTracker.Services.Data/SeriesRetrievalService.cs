@@ -22,14 +22,7 @@
 
         public IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm, Sorting sorting)
         {
-            var query = this.seriesRepository.All()
-                .Where(s => s.Name.Contains(searchTerm));
-
-            query = sorting switch
-            {
-                Sorting.Status => query.OrderByDescending(s => s.Ongoing).ThenBy(s => s.Name),
-                Sorting.Name or _ => query.OrderBy(s => s.Name),
-            };
+            var query = this.FormSeriesQuery(searchTerm, sorting);
 
             var series = query.Select(s => new HomeSeriesViewModel
             {
@@ -45,6 +38,24 @@
             return series;
         }
 
-        public int GetTotalSeriesCount() => this.seriesRepository.All().Count();
+        public int GetTotalSeriesCount(string searchTerm, Sorting sorting)
+        {
+            var query = this.FormSeriesQuery(searchTerm, sorting);
+            return query.Count();
+        }
+
+        private IQueryable<Series> FormSeriesQuery(string searchTerm, Sorting sorting)
+        {
+            var query = this.seriesRepository.All()
+                .Where(s => s.Name.Contains(searchTerm));
+
+            query = sorting switch
+            {
+                Sorting.Status => query.OrderByDescending(s => s.Ongoing).ThenBy(s => s.Name),
+                Sorting.Name or _ => query.OrderBy(s => s.Name),
+            };
+
+            return query;
+        }
     }
 }

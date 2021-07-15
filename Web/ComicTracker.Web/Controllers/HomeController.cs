@@ -20,7 +20,7 @@
         public IActionResult Index([FromQuery]HomePageViewModel model)
         {
             model.Series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
-            model.TotalSeriesCount = this.homePageService.GetTotalSeriesCount();
+            model.TotalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
 
             return this.View(model);
         }

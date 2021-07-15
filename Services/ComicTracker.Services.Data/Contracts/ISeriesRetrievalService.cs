@@ -7,7 +7,7 @@
 
     public interface ISeriesRetrievalService
     {
-        int GetTotalSeriesCount();
+        int GetTotalSeriesCount(string searchTerm, Sorting sorting);
 
         IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm, Sorting sorting);
     }
