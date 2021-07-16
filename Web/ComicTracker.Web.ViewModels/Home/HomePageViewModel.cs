@@ -1,8 +1,11 @@
 ﻿namespace ComicTracker.Web.ViewModels.Home
 {
+    using System;
     using System.Collections.Generic;
 
     using ComicTracker.Common.Enums;
+
+    using static ComicTracker.Common.HomeConstants;
 
     public class HomePageViewModel
     {
@@ -15,5 +18,7 @@
         public int TotalSeriesCount { get; set; }
 
         public IList<HomeSeriesViewModel> Series { get; set; }
+
+        public double MaxPageCount => Math.Ceiling((double)this.TotalSeriesCount / SeriesPerPage);
     }
 }

@@ -19,8 +19,15 @@
 
         public IActionResult Index([FromQuery]HomePageViewModel model)
         {
-            model.Series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
             model.TotalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
+
+            if (model.CurrentPage > model.MaxPageCount)
+            {
+                model.CurrentPage = (int)model.MaxPageCount;
+                return this.RedirectToAction("Index", new { model.Sorting, model.CurrentPage, model.SearchTerm });
+            }
+
+            model.Series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
 
             return this.View(model);
         }

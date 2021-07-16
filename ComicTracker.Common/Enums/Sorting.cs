@@ -4,5 +4,6 @@
     {
         Name = 1,
         Status = 2,
+        Issues = 3,
     }
 }

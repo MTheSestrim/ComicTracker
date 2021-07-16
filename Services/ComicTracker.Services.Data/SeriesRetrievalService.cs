@@ -51,7 +51,11 @@
 
             query = sorting switch
             {
-                Sorting.Status => query.OrderByDescending(s => s.Ongoing).ThenBy(s => s.Name),
+                Sorting.Issues => query.OrderByDescending(s => s.Issues.Count)
+                                       .ThenBy(s => s.Name),
+                Sorting.Status => query.OrderByDescending(s => s.Ongoing)
+                                       .ThenBy(s => s.Issues.Count)
+                                       .ThenBy(s => s.Name),
                 Sorting.Name or _ => query.OrderBy(s => s.Name),
             };
 
