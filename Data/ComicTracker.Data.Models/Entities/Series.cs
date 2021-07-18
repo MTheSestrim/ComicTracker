@@ -60,6 +60,7 @@
         // Each series can have multiple genres
         public ICollection<Genre> Genres { get; set; }
 
+        // Each user can rate each series.
         public ICollection<UserSeries> UsersSeries { get; set; }
     }
 }

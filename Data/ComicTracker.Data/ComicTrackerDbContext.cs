@@ -316,6 +316,34 @@
                     .HasMaxLength(200);
             });
 
+            builder.Entity<UserArc>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.ArcId });
+
+                entity.HasOne(ua => ua.Arc)
+                .WithMany(a => a.UsersArcs)
+                .HasForeignKey(ua => ua.ArcId);
+
+                entity.HasOne(ua => ua.User)
+                .WithMany(u => u.UsersArcs)
+                .HasForeignKey(ua => ua.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<UserIssue>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.IssueId });
+
+                entity.HasOne(ui => ui.Issue)
+                .WithMany(i => i.UsersIssues)
+                .HasForeignKey(ui => ui.IssueId);
+
+                entity.HasOne(ui => ui.User)
+                .WithMany(u => u.UsersIssues)
+                .HasForeignKey(ui => ui.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
             builder.Entity<UserSeries>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.SeriesId });
@@ -327,6 +355,20 @@
                 entity.HasOne(us => us.User)
                 .WithMany(u => u.UsersSeries)
                 .HasForeignKey(us => us.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<UserVolume>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.VolumeId });
+
+                entity.HasOne(uv => uv.Volume)
+                .WithMany(v => v.UsersVolumes)
+                .HasForeignKey(uv => uv.VolumeId);
+
+                entity.HasOne(uv => uv.User)
+                .WithMany(u => u.UsersVolumes)
+                .HasForeignKey(uv => uv.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 

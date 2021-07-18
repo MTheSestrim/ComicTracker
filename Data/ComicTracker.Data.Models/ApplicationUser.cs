@@ -18,6 +18,9 @@ namespace ComicTracker.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.UsersSeries = new HashSet<UserSeries>();
+            this.UsersArcs = new HashSet<UserArc>();
+            this.UsersVolumes = new HashSet<UserVolume>();
+            this.UsersIssues = new HashSet<UserIssue>();
         }
 
         // Audit info
@@ -31,6 +34,16 @@ namespace ComicTracker.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
+        // Each user can rate each series.
         public virtual ICollection<UserSeries> UsersSeries { get; set; }
+
+        // Each user can rate each arc.
+        public virtual ICollection<UserArc> UsersArcs { get; set; }
+
+        // Each user can rate each volume.
+        public virtual ICollection<UserVolume> UsersVolumes { get; set; }
+
+        // Each user can score each issue.
+        public virtual ICollection<UserIssue> UsersIssues { get; set; }
     }
 }

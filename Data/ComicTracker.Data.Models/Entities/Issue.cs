@@ -18,6 +18,7 @@
             this.Characters = new HashSet<Character>();
             this.CharactersIssues = new List<CharacterIssue>();
             this.Genres = new HashSet<Genre>();
+            this.UsersIssues = new HashSet<UserIssue>();
         }
 
         // Issue might not have a specific title.
@@ -58,5 +59,8 @@
 
         // Each issue can have multiple genres
         public ICollection<Genre> Genres { get; set; }
+
+        // Each user can score each issue.
+        public ICollection<UserIssue> UsersIssues { get; set; }
     }
 }

@@ -20,6 +20,7 @@
             this.Characters = new HashSet<Character>();
             this.CharactersArcs = new List<CharacterArc>();
             this.Genres = new HashSet<Genre>();
+            this.UsersArcs = new HashSet<UserArc>();
         }
 
         // Arc might not have a specific title, though this is rare.
@@ -55,5 +56,8 @@
 
         // Each arc can have multiple genres
         public ICollection<Genre> Genres { get; set; }
+
+        // Each user can rate each arc.
+        public ICollection<UserArc> UsersArcs { get; set; }
     }
 }

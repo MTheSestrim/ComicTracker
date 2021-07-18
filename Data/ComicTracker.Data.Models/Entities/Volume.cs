@@ -21,6 +21,7 @@
             this.Characters = new HashSet<Character>();
             this.CharactersVolumes = new List<CharacterVolume>();
             this.Genres = new HashSet<Genre>();
+            this.UsersVolumes = new HashSet<UserVolume>();
         }
 
         // Volume might not have a specific title.
@@ -58,5 +59,8 @@
 
         // Each volume can have multiple genres
         public ICollection<Genre> Genres { get; set; }
+
+        // Each user can rate each volume.
+        public ICollection<UserVolume> UsersVolumes { get; set; }
     }
 }
