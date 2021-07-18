@@ -11,8 +11,12 @@
 
     public partial class IndexModel : PageModel
     {
+#pragma warning disable SA1309 // Field names should not begin with underscore
         private readonly UserManager<ApplicationUser> _userManager;
+#pragma warning restore SA1309 // Field names should not begin with underscore
+#pragma warning disable SA1309 // Field names should not begin with underscore
         private readonly SignInManager<ApplicationUser> _signInManager;
+#pragma warning restore SA1309 // Field names should not begin with underscore
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
@@ -37,7 +41,9 @@
             public string UserName { get; set; }
         }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
         private async Task LoadAsync(ApplicationUser user)
+#pragma warning restore SA1201 // Elements should appear in the correct order
         {
             var userName = await this._userManager.GetUserNameAsync(user);
 
@@ -47,7 +53,9 @@
             };
         }
 
+#pragma warning disable SA1202 // Elements should be ordered by access
         public async Task<IActionResult> OnGetAsync()
+#pragma warning restore SA1202 // Elements should be ordered by access
         {
             var user = await this._userManager.GetUserAsync(this.User);
             if (user == null)

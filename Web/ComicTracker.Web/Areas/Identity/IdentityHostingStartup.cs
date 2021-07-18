@@ -1,21 +1,16 @@
-﻿using System;
-using ComicTracker.Data;
-using ComicTracker.Data.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(ComicTracker.Web.Areas.Identity.IdentityHostingStartup))]
+
 namespace ComicTracker.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
+#pragma warning disable SA1500 // Braces for multi-line statements should not share line
             builder.ConfigureServices((context, services) => {
+#pragma warning restore SA1500 // Braces for multi-line statements should not share line
             });
         }
     }
