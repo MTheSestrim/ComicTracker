@@ -59,5 +59,7 @@
 
         // Each series can have multiple genres
         public ICollection<Genre> Genres { get; set; }
+
+        public ICollection<UserSeries> UsersSeries { get; set; }
     }
 }

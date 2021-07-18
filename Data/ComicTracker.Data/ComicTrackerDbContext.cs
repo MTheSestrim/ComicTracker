@@ -316,6 +316,20 @@
                     .HasMaxLength(200);
             });
 
+            builder.Entity<UserSeries>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.SeriesId });
+
+                entity.HasOne(us => us.Series)
+                .WithMany(s => s.UsersSeries)
+                .HasForeignKey(us => us.SeriesId);
+
+                entity.HasOne(us => us.User)
+                .WithMany(u => u.UsersSeries)
+                .HasForeignKey(us => us.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
             builder.Entity<Volume>(entity =>
             {
                 entity.HasIndex(e => e.SeriesId, "IX_Volumes_SeriesId");
