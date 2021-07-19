@@ -15,6 +15,10 @@
 
         public bool Ongoing { get; set; }
 
+        public string TotalScore { get; set; }
+
+        public string UserScore { get; set; }
+
         public string Description { get; set; }
 
         public IReadOnlyCollection<EntityLinkingModel> Issues { get; set; }

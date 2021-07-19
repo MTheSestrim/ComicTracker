@@ -3,8 +3,9 @@
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Web.Infrastructure;
     using ComicTracker.Web.ViewModels.Series;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class SeriesController : BaseController
@@ -13,17 +14,20 @@
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
         private readonly ISeriesDeletionService seriesDeletionService;
+        private readonly ISeriesRatingService seriesRatingService;
 
         public SeriesController(
             ISeriesDetailsService seriesDetailsService,
             IGenreRetrievalService genreRetrievalService,
             ISeriesCreationService seriesCreationService,
-            ISeriesDeletionService seriesDeletionService)
+            ISeriesDeletionService seriesDeletionService,
+            ISeriesRatingService seriesRatingService)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
             this.seriesDeletionService = seriesDeletionService;
+            this.seriesRatingService = seriesRatingService;
         }
 
         public IActionResult Index(int id)
@@ -38,6 +42,7 @@
             return this.View(currentSeries);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var viewModel = new CreateSeriesInputModel();
@@ -47,6 +52,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateSeriesInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -61,6 +67,21 @@
         }
 
         [HttpPost]
+        [Authorize]
+        public IActionResult Rate(RateSeriesInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(model);
+            }
+
+            this.seriesRatingService.RateSeries(this.User.GetId(), model.SeriesId, model.Score);
+
+            return this.StatusCode(201);
+        }
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await this.seriesDeletionService.DeleteSeries(id);

@@ -18,6 +18,10 @@
 
         public int Number { get; set; }
 
+        public string TotalScore { get; set; }
+
+        public string UserScore { get; set; }
+
         public int SeriesId { get; set; }
 
         public string SeriesTitle { get; set; }

@@ -44,7 +44,46 @@ li.list-inline-item button {
     color: #fff;
 }
 
+.mediocre:hover {
+    background: #d39e00;
+    color: #fff;
+}
+
+.delete:focus {
+    background: #ff5252;
+    color: #fff;
+}
+
+.edit:focus {
+    background: #59d659;
+    color: #fff;
+}
+
+.mediocre:focus {
+    background: #d39e00;
+    color: #fff;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+.btn-link:focus {
+    text-decoration: none;
+}
 
 .fa {
     line-height: 40px;
+}
+
+.score {
+    font-size: 20px !important;
+    font-weight: bold;
+    font-family: "Muli", sans-serif;
+    padding-right: 5px;
+    padding-left: 5px;
 }

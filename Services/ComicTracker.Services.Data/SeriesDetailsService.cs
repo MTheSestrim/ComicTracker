@@ -1,6 +1,7 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
+    using System.Security.Claims;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
@@ -8,23 +9,28 @@
     using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Series;
 
+    using Microsoft.AspNetCore.Http;
+
     public class SeriesDetailsService : ISeriesDetailsService
     {
         private readonly IDeletableEntityRepository<Series> seriesRepository;
         private readonly IDeletableEntityRepository<Issue> issuesRepository;
         private readonly IDeletableEntityRepository<Arc> arcsRepository;
         private readonly IDeletableEntityRepository<Volume> volumesRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public SeriesDetailsService(
             IDeletableEntityRepository<Series> seriesRepository,
             IDeletableEntityRepository<Issue> issuesRepository,
             IDeletableEntityRepository<Arc> arcsRepository,
-            IDeletableEntityRepository<Volume> volumesRepository)
+            IDeletableEntityRepository<Volume> volumesRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.seriesRepository = seriesRepository;
             this.issuesRepository = issuesRepository;
             this.arcsRepository = arcsRepository;
             this.volumesRepository = volumesRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public SeriesDetailsViewModel GetSeries(
@@ -65,6 +71,8 @@
                     Number = a.Number,
                 }).OrderByDescending(a => a.Number).ToArray();
 
+            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var currentSeries = this.seriesRepository
                .All()
                .Select(s => new SeriesDetailsViewModel
@@ -74,6 +82,8 @@
                    CoverPath = s.CoverPath,
                    Ongoing = s.Ongoing,
                    Description = s.Description,
+                   TotalScore = s.UsersSeries.Average(us => us.Score).ToString(),
+                   UserScore = s.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score.ToString(),
                    Issues = issues,
                    Volumes = volumes,
                    Arcs = arcs,
