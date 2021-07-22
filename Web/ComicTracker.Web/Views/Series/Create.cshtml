@@ -9,13 +9,7 @@
     {
         new SelectListItem("Ongoing", "true"),
         new SelectListItem("Completed", "false"),
-                    };
-}
-
-@section Scripts
-{
-    <script src="@Url.Content("~/js/multi-select.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/js/seriesCreate.js")" type="text/javascript"></script>
+                            };
 }
 
 @section Styles
@@ -79,3 +73,9 @@
     </div>
     <input type="submit" class="btn btn-primary" />
 </form>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/multi-select.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/seriesCreate.js")" type="text/javascript"></script>
+}

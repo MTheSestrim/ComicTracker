@@ -1,7 +1,9 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
+
     public interface ISeriesRatingService
     {
-        void RateSeries(string userId, int seriesId, int score);
+        Task<int> RateSeries(string userId, int seriesId, int score);
     }
 }

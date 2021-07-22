@@ -20,6 +20,7 @@
             this.Characters = new HashSet<Character>();
             this.CharactersSeries = new List<CharacterSeries>();
             this.Genres = new HashSet<Genre>();
+            this.UsersSeries = new HashSet<UserSeries>();
         }
 
         [Required]

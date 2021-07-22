@@ -1,10 +1,13 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class SeriesRatingService : ISeriesRatingService
     {
@@ -15,11 +18,42 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public void RateSeries(string userId, int seriesId, int score)
+        public async Task<int> RateSeries(string userId, int seriesId, int score)
         {
-            var series = this.seriesRepository.All().FirstOrDefault(s => s.Id == seriesId);
+            var series = await this.seriesRepository.All()
+                .Include(s => s.UsersSeries)
+                .FirstOrDefaultAsync(s => s.Id == seriesId);
 
-            series.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score = score;
+            if (series != null)
+            {
+                var userSeries = series.UsersSeries.FirstOrDefault(us => us.UserId == userId);
+
+                if (userSeries == null)
+                {
+                    userSeries = new UserSeries
+                    {
+                        UserId = userId,
+                        SeriesId = seriesId,
+                        Score = score,
+                    };
+
+                    series.UsersSeries.Add(userSeries);
+
+                    this.seriesRepository.Update(series);
+                    await this.seriesRepository.SaveChangesAsync();
+                }
+                else
+                {
+                    userSeries.Score = score;
+
+                    this.seriesRepository.Update(series);
+                    await this.seriesRepository.SaveChangesAsync();
+                }
+
+                return score;
+            }
+
+            return 0;
         }
     }
 }
