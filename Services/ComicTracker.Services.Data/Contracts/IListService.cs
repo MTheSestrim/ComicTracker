@@ -6,6 +6,6 @@
 
     public interface IListService
     {
-        IEnumerable<ListViewModel> GetListData();
+        IEnumerable<ListViewModel> GetListData(string userId);
     }
 }

@@ -6,7 +6,7 @@
 
         public string CoverPath { get; set; }
 
-        public int Score { get; set; }
+        public int? Score { get; set; }
 
         public int IssueCount { get; set; }
 

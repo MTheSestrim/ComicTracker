@@ -29,7 +29,7 @@
                          alt="image description">
                 </td>
                 <td class="col-2 text-md-center">@Model[i].Title</td>
-                <td class="col-2 text-md-center">@Model[i].Score</td>
+                <td class="col-2 text-md-center">@(Model[i].Score == null ? "-" : Model[i].Score)</td>
                 <td class="col-2 text-md-center">@Model[i].IssueCount</td>
                 <td class="col-2 text-md-center">@Model[i].VolumeCount</td>
                 <td class="col-1 text-md-center">@Model[i].ArcCount</td>

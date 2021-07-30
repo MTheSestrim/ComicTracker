@@ -17,13 +17,13 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IEnumerable<ListViewModel> GetListData() => this.seriesRepository
+        public IEnumerable<ListViewModel> GetListData(string userId) => this.seriesRepository
                .All()
                .Select(s => new ListViewModel
                {
                    Title = s.Name,
                    CoverPath = s.CoverPath,
-                   Score = 10,
+                   Score = s.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score,
                    IssueCount = s.Issues.Count,
                    VolumeCount = s.Volumes.Count,
                    ArcCount = s.Arcs.Count,
