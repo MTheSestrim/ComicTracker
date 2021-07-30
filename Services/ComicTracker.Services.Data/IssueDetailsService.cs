@@ -1,23 +1,32 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
+    using System.Security.Claims;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Web.ViewModels.Issues;
 
+    using Microsoft.AspNetCore.Http;
+
     public class IssueDetailsService : IIssueDetailsService
     {
         private readonly IDeletableEntityRepository<Issue> issuesRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public IssueDetailsService(IDeletableEntityRepository<Issue> issuesRepository)
+        public IssueDetailsService(
+            IDeletableEntityRepository<Issue> issuesRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.issuesRepository = issuesRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public IssueDetailsViewModel GetIssue(int issueId)
         {
+            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var currentIssue = this.issuesRepository
                .All()
                .Select(i => new IssueDetailsViewModel
@@ -27,6 +36,8 @@
                    Title = i.Title,
                    CoverPath = i.CoverPath,
                    Description = i.Description,
+                   TotalScore = i.UsersIssues.Average(ui => ui.Score).ToString(),
+                   UserScore = i.UsersIssues.FirstOrDefault(ui => ui.UserId == userId).Score.ToString(),
                    SeriesId = i.SeriesId,
                    SeriesTitle = i.Series.Name,
                    ArcId = i.ArcId,

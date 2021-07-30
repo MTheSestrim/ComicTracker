@@ -22,5 +22,7 @@
         public const int BytesInAKilobyte = 1000;
 
         public const string CoverNotFoundAltDesc = "Cover not found.";
+
+        public const string DefaultScoreValue = "-";
     }
 }

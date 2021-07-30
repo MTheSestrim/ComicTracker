@@ -1,6 +1,7 @@
 ﻿namespace ComicTracker.Services.Data
 {
     using System.Linq;
+    using System.Security.Claims;
 
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
@@ -8,20 +9,25 @@
     using ComicTracker.Web.ViewModels.Entities;
     using ComicTracker.Web.ViewModels.Volume;
 
+    using Microsoft.AspNetCore.Http;
+
     public class VolumeDetailsService : IVolumeDetailsService
     {
         private readonly IDeletableEntityRepository<Volume> volumesRepository;
         private readonly IDeletableEntityRepository<Issue> issuesRepository;
         private readonly IDeletableEntityRepository<Arc> arcsRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public VolumeDetailsService(
             IDeletableEntityRepository<Volume> volumesRepository,
             IDeletableEntityRepository<Issue> issuesRepository,
-            IDeletableEntityRepository<Arc> arcsRepository)
+            IDeletableEntityRepository<Arc> arcsRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.volumesRepository = volumesRepository;
             this.issuesRepository = issuesRepository;
             this.arcsRepository = arcsRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public VolumeDetailsViewModel GetVolume(int volumeId)
@@ -50,6 +56,8 @@
                     Number = a.Number,
                 }).OrderByDescending(a => a.Number).ToArray();
 
+            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var currentVolume = this.volumesRepository.All()
                 .Select(v => new VolumeDetailsViewModel
                 {
@@ -58,6 +66,8 @@
                     CoverPath = v.CoverPath,
                     Description = v.Description,
                     Number = v.Number,
+                    TotalScore = v.UsersVolumes.Average(uv => uv.Score).ToString(),
+                    UserScore = v.UsersVolumes.FirstOrDefault(uv => uv.UserId == userId).Score.ToString(),
                     SeriesId = v.SeriesId,
                     SeriesTitle = v.Series.Name,
                     Issues = issues,

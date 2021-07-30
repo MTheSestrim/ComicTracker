@@ -1,12 +1,14 @@
-﻿@{ 
+﻿@using static ComicTracker.Common.GlobalConstants;
+
+@{ 
     if(Model.TotalScore == null)
     {
-        Model.TotalScore = "-";
+        Model.TotalScore = DefaultScoreValue;
     }
 
     if(Model.UserScore == null)
     {
-        Model.UserScore = "-";
+        Model.UserScore = DefaultScoreValue;
     }
 }
 
@@ -23,14 +25,14 @@
         @for (int i = 0; i <= 4; i++)
         {
             <li class="list-inline-item">
-                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link delete score" data-original-title="Edit"
+                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link delete score" data-original-title="Rate"
                         href="" value="@Model.Id">
                     @i
                 </button>
             </li>
         }
         <li class="list-inline-item">
-            <button data-toggle="tooltip" data-placement="top" title="" class="btn-link mediocre score" data-original-title="Edit"
+            <button data-toggle="tooltip" data-placement="top" title="" class="btn-link mediocre score" data-original-title="Rate"
                     href="" value="@Model.Id">
                 5
             </button>
@@ -38,7 +40,7 @@
         @for (int i = 6; i <= 10; i++)
         {
             <li class="list-inline-item">
-                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link edit score" data-original-title="Edit"
+                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link edit score" data-original-title="Rate"
                         href="" value="@Model.Id">
                     @i
                 </button>

@@ -68,20 +68,6 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Rate(RateSeriesInputModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(model);
-            }
-
-            this.seriesRatingService.RateSeries(this.User.GetId(), model.SeriesId, model.Score);
-
-            return this.StatusCode(201);
-        }
-
-        [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await this.seriesDeletionService.DeleteSeries(id);

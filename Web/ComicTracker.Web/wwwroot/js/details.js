@@ -1,6 +1,12 @@
 ﻿$(document).ready(function () {
 
     $('.score').on('click', function () {
+        /* 
+         * window.location.pathname = /{Entity}/{id}
+         * .split('/')[1] -> {Entity}
+         */
+        let controller = window.location.pathname.split('/')[1];
+
         let id = $(this).val();
 
         let value = parseInt($(this).text());
@@ -8,9 +14,9 @@
         if (value >= 0 && value <= 10) {
             $.ajax({
                 type: 'PUT',
-                url: `/api/Series`,
+                url: `/api/${controller}`,
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
-                data: JSON.stringify({ seriesId: id, score: value }),
+                data: JSON.stringify({ id: id, score: value }),
                 contentType: 'application/json;charset=utf-8',
             }).done((res) =>
             {

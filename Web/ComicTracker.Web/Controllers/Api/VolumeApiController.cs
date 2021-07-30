@@ -9,14 +9,14 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/Series")]
-    public class SeriesApiController : ControllerBase
+    [Route("api/Volume")]
+    public class VolumeApiController : ControllerBase
     {
-        private readonly ISeriesRatingService seriesRatingService;
+        private readonly IVolumeRatingService volumeRatingService;
 
-        public SeriesApiController(ISeriesRatingService seriesRatingService)
+        public VolumeApiController(IVolumeRatingService volumeRatingService)
         {
-            this.seriesRatingService = seriesRatingService;
+            this.volumeRatingService = volumeRatingService;
         }
 
         [HttpPut]
@@ -24,7 +24,7 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return await this.seriesRatingService.RateSeries(this.User.GetId(), model.Id, model.Score);
+                return await this.volumeRatingService.RateVolume(this.User.GetId(), model.Id, model.Score);
             }
 
             return this.Unauthorized();
