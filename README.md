@@ -2,6 +2,10 @@
 Web application that allows users to track their comic book reading progress, in the same vein as sites like [MyAnimeList](https://myanimelist.net/), [Goodreads](https://www.goodreads.com/), [IMDb](https://www.imdb.com/) and others.
 Based on *ASP.NET Core*.
 
+## Documentation
+
+Information on the app's different aspects can be found in the [ComicTracker wiki](https://github.com/MTheSestrim/ComicTracker/wiki).
+
 ## Database Diagrams
 ### Full Diagram
 ![Full Diagram](DiagramImages/FullDiagram.png)
