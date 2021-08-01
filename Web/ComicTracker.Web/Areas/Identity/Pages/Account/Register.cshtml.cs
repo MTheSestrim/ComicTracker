@@ -7,11 +7,10 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authentication;
-#pragma warning disable SA1210 // Using directives should be ordered alphabetically by namespace
-    using Microsoft.AspNetCore.Authorization;
-#pragma warning restore SA1210 // Using directives should be ordered alphabetically by namespace
     using ComicTracker.Data.Models;
+
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
@@ -24,18 +23,10 @@
     public class RegisterModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
-#pragma warning disable SA1309 // Field names should not begin with underscore
-        private readonly SignInManager<ApplicationUser> _signInManager;
-#pragma warning restore SA1309 // Field names should not begin with underscore
-#pragma warning disable SA1309 // Field names should not begin with underscore
-        private readonly UserManager<ApplicationUser> _userManager;
-#pragma warning restore SA1309 // Field names should not begin with underscore
-#pragma warning disable SA1309 // Field names should not begin with underscore
-        private readonly ILogger<RegisterModel> _logger;
-#pragma warning restore SA1309 // Field names should not begin with underscore
-#pragma warning disable SA1309 // Field names should not begin with underscore
-        private readonly IEmailSender _emailSender;
-#pragma warning restore SA1309 // Field names should not begin with underscore
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<RegisterModel> logger;
+        private readonly IEmailSender emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -43,18 +34,10 @@
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
-#pragma warning disable SA1101 // Prefix local calls with this
-            _userManager = userManager;
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            _signInManager = signInManager;
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            _logger = logger;
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            _emailSender = emailSender;
-#pragma warning restore SA1101 // Prefix local calls with this
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
+            this.emailSender = emailSender;
         }
 
         [BindProperty]
@@ -93,103 +76,54 @@
         public async Task OnGetAsync(string returnUrl = null)
 #pragma warning restore SA1201 // Elements should appear in the correct order
         {
-#pragma warning disable SA1101 // Prefix local calls with this
-            ReturnUrl = returnUrl;
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
+            this.ReturnUrl = returnUrl;
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-#pragma warning disable SA1101 // Prefix local calls with this
-            returnUrl ??= Url.Content("~/");
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-            if (ModelState.IsValid)
-#pragma warning restore SA1101 // Prefix local calls with this
+            returnUrl ??= this.Url.Content("~/");
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (this.ModelState.IsValid)
             {
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email };
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-                var result = await _userManager.CreateAsync(user, Input.Password);
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
+                var user = new ApplicationUser { UserName = this.Input.Username, Email = this.Input.Email };
+                var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
-#pragma warning disable SA1101 // Prefix local calls with this
-                    _logger.LogInformation("User created a new account with password.");
-#pragma warning restore SA1101 // Prefix local calls with this
+                    this.logger.LogInformation("User created a new account with password.");
 
-#pragma warning disable SA1101 // Prefix local calls with this
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-#pragma warning restore SA1101 // Prefix local calls with this
+                    var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-#pragma warning disable SA1101 // Prefix local calls with this
-                    var callbackUrl = Url.Page(
-#pragma warning restore SA1101 // Prefix local calls with this
+                    var callbackUrl = this.Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-#pragma warning disable SA1101 // Prefix local calls with this
-                        protocol: Request.Scheme);
-#pragma warning restore SA1101 // Prefix local calls with this
+                        protocol: this.Request.Scheme);
 
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1117 // Parameters should be on same line or separate lines
+                    await this.emailSender.SendEmailAsync(
+                        this.Input.Email,
+                        "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-#pragma warning restore SA1117 // Parameters should be on same line or separate lines
 
-#pragma warning disable SA1101 // Prefix local calls with this
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-#pragma warning restore SA1101 // Prefix local calls with this
+                    if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-#pragma warning disable SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning restore SA1101 // Prefix local calls with this
+                        return this.RedirectToPage("RegisterConfirmation", new { email = this.Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-#pragma warning disable SA1101 // Prefix local calls with this
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-#pragma warning restore SA1101 // Prefix local calls with this
-#pragma warning disable SA1101 // Prefix local calls with this
-                        return LocalRedirect(returnUrl);
-#pragma warning restore SA1101 // Prefix local calls with this
+                        await this.signInManager.SignInAsync(user, isPersistent: false);
+                        return this.LocalRedirect(returnUrl);
                     }
-#pragma warning disable SA1513 // Closing brace should be followed by blank line
                 }
+
                 foreach (var error in result.Errors)
-#pragma warning restore SA1513 // Closing brace should be followed by blank line
                 {
-#pragma warning disable SA1101 // Prefix local calls with this
-                    ModelState.AddModelError(string.Empty, error.Description);
-#pragma warning restore SA1101 // Prefix local calls with this
+                    this.ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-#pragma warning disable SA1101 // Prefix local calls with this
-            return Page();
-#pragma warning restore SA1101 // Prefix local calls with this
+            return this.Page();
         }
     }
 }
