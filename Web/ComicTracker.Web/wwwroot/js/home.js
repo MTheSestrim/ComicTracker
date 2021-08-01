@@ -1,19 +1,24 @@
 ﻿$(document).ready(function () {
     $('#Sorting').on('change', function () {
 
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for (var i = 0; i < hashes.length; i++) {
+        let args = [], hash;
+
+        let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+        for (let i = 0; i < hashes.length; i++) {
             hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
+            args.push(hash[0]);
+            args[hash[0]] = hash[1];
         }
 
         let href = '/?';
-        if (vars['searchTerm']) {
-            href += `searchTerm=${vars['searchTerm']}&`
+
+        if (args['searchTerm']) {
+            href += `searchTerm=${args['searchTerm']}&`;
         }
-        href += `sorting=${$(this).val()}`
+
+        href += `sorting=${$(this).val()}`;
+
         window.location.href = href;
     })
 })

@@ -1,10 +1,12 @@
 ﻿$(document).ready(function () {
 
     // Select proper image upload tab upon reload by clicking the appropriate anchor tag.
-    var url = window.location.hash;
+    let url = window.location.hash;
+
     if (!url) {
         url = '#coverPathTab';
     }
+
     $(`a[href="${url}"]`).trigger('click');
 
     const multiSelect = new IconicMultiSelect({
@@ -20,12 +22,10 @@
         // Makes option selected if the user adds it through the search bar
         if (event.action == 'ADD_OPTION') {
             $(`option[value=${event.value}]`).prop('selected', true);
-            console.log($(`option[value=${event.value}]`).prop('selected'))
         }
         // Unselects option if the user removes it through the search bar
         else if (event.action == 'REMOVE_OPTION') {
             $(`option[value=${event.value}]`).prop('selected', false);
-            console.log($(`option[value=${event.value}]`).prop('selected'))
         }
     });
 
