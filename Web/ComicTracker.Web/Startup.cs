@@ -75,6 +75,7 @@
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDeletionService, SeriesDeletionService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
+            services.AddTransient<ISeriesEditingInfoService, SeriesEditingInfoService>();
             services.AddTransient<ISeriesRatingService, SeriesRatingService>();
             services.AddTransient<ISeriesRetrievalService, SeriesRetrievalService>();
             services.AddTransient<ISettingsService, SettingsService>();

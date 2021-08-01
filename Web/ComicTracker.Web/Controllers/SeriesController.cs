@@ -14,17 +14,20 @@
         private readonly ISeriesDetailsService seriesDetailsService;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
+        private readonly ISeriesEditingInfoService seriesEditingInfoService;
         private readonly ISeriesDeletionService seriesDeletionService;
 
         public SeriesController(
             ISeriesDetailsService seriesDetailsService,
             IGenreRetrievalService genreRetrievalService,
             ISeriesCreationService seriesCreationService,
+            ISeriesEditingInfoService seriesEditingInfoService,
             ISeriesDeletionService seriesDeletionService)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
+            this.seriesEditingInfoService = seriesEditingInfoService;
             this.seriesDeletionService = seriesDeletionService;
         }
 
@@ -73,6 +76,29 @@
             var id = await this.seriesCreationService.CreateSeriesAsync(serviceModel);
 
             return this.Redirect($"/Series/{id}");
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var currentSeries = this.seriesEditingInfoService.GetSeries(id);
+
+            if (currentSeries == null)
+            {
+                return this.NotFound(currentSeries);
+            }
+
+            var viewModel = new EditSeriesInputModel
+            {
+                Id = currentSeries.Id,
+                Title = currentSeries.Title,
+                Ongoing = currentSeries.Ongoing,
+                Description = currentSeries.Description,
+                Genres = currentSeries.Genres,
+                RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs(),
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
