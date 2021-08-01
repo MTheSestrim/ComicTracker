@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.List;
+    using ComicTracker.Services.Data.Models.List;
 
     public interface IListService
     {
-        IEnumerable<ListViewModel> GetListData(string userId);
+        IEnumerable<ListServiceModel> GetListData(string userId);
     }
 }

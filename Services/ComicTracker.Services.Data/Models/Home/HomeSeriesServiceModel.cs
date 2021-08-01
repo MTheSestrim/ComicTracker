@@ -1,6 +1,6 @@
-﻿namespace ComicTracker.Web.ViewModels.Home
+﻿namespace ComicTracker.Services.Data.Models.Home
 {
-    public class HomeSeriesViewModel
+    public class HomeSeriesServiceModel
     {
         public int Id { get; set; }
 

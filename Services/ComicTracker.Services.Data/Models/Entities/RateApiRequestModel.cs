@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.ViewModels.Entities
+﻿namespace ComicTracker.Services.Data.Models.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;

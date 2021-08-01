@@ -6,9 +6,8 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
-    using ComicTracker.Web.ViewModels.Series;
-
+    using ComicTracker.Services.Data.Models.Entities;
+    using ComicTracker.Services.Data.Models.Series;
     using Microsoft.AspNetCore.Http;
 
     public class SeriesDetailsService : ISeriesDetailsService
@@ -33,7 +32,7 @@
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public SeriesDetailsViewModel GetSeries(
+        public SeriesDetailsServiceModel GetSeries(
             int seriesId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
@@ -75,7 +74,7 @@
 
             var currentSeries = this.seriesRepository
                .All()
-               .Select(s => new SeriesDetailsViewModel
+               .Select(s => new SeriesDetailsServiceModel
                {
                    Id = s.Id,
                    Title = s.Name,

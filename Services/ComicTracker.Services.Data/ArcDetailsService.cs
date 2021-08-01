@@ -6,9 +6,8 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Arc;
-    using ComicTracker.Web.ViewModels.Entities;
-
+    using ComicTracker.Services.Data.Models.Arc;
+    using ComicTracker.Services.Data.Models.Entities;
     using Microsoft.AspNetCore.Http;
 
     public class ArcDetailsService : IArcDetailsService
@@ -30,7 +29,7 @@
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public ArcDetailsViewModel GetArc(int arcId)
+        public ArcDetailsServiceModel GetArc(int arcId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
@@ -59,7 +58,7 @@
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var currentArc = this.arcsRepository.All()
-                .Select(a => new ArcDetailsViewModel
+                .Select(a => new ArcDetailsServiceModel
                 {
                     Id = a.Id,
                     Title = a.Title,

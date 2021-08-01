@@ -6,7 +6,7 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Issues;
+    using ComicTracker.Services.Data.Models.Issues;
 
     using Microsoft.AspNetCore.Http;
 
@@ -23,13 +23,13 @@
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public IssueDetailsViewModel GetIssue(int issueId)
+        public IssueDetailsServiceModel GetIssue(int issueId)
         {
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var currentIssue = this.issuesRepository
                .All()
-               .Select(i => new IssueDetailsViewModel
+               .Select(i => new IssueDetailsServiceModel
                {
                    Id = i.Id,
                    Number = i.Number,

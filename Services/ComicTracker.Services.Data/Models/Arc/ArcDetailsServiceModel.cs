@@ -1,12 +1,11 @@
-﻿namespace ComicTracker.Web.ViewModels.Volume
+﻿namespace ComicTracker.Services.Data.Models.Arc
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
-    using ComicTracker.Web.ViewModels.Series;
+    using ComicTracker.Services.Data.Models.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
 
-    public class VolumeDetailsViewModel : IEntityViewModel, ISeriesRelatedViewModel
+    public class ArcDetailsServiceModel : IEntityServiceModel, ISeriesRelatedServiceModel
     {
         public int Id { get; set; }
 
@@ -28,7 +27,7 @@
 
         public IReadOnlyCollection<EntityLinkingModel> Issues { get; set; }
 
-        public IReadOnlyCollection<EntityLinkingModel> Arcs { get; set; }
+        public IReadOnlyCollection<EntityLinkingModel> Volumes { get; set; }
 
         public IReadOnlyCollection<PublisherLinkingModel> Publishers { get; set; }
 

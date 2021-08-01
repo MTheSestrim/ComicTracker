@@ -6,7 +6,7 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.List;
+    using ComicTracker.Services.Data.Models.List;
 
     public class ListService : IListService
     {
@@ -17,9 +17,9 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IEnumerable<ListViewModel> GetListData(string userId) => this.seriesRepository
+        public IEnumerable<ListServiceModel> GetListData(string userId) => this.seriesRepository
                .All()
-               .Select(s => new ListViewModel
+               .Select(s => new ListServiceModel
                {
                    Title = s.Name,
                    CoverPath = s.CoverPath,

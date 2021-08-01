@@ -1,22 +1,21 @@
-﻿namespace ComicTracker.Web.ViewModels.Arc
+﻿namespace ComicTracker.Services.Data.Models.Issues
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
-    using ComicTracker.Web.ViewModels.Series;
+    using ComicTracker.Services.Data.Models.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
 
-    public class ArcDetailsViewModel : IEntityViewModel, ISeriesRelatedViewModel
+    public class IssueDetailsServiceModel : IEntityServiceModel, ISeriesRelatedServiceModel
     {
         public int Id { get; set; }
+
+        public int Number { get; set; }
 
         public string Title { get; set; }
 
         public string CoverPath { get; set; }
 
         public string Description { get; set; }
-
-        public int Number { get; set; }
 
         public string TotalScore { get; set; }
 
@@ -26,9 +25,17 @@
 
         public string SeriesTitle { get; set; }
 
-        public IReadOnlyCollection<EntityLinkingModel> Issues { get; set; }
+        public int? VolumeId { get; set; }
 
-        public IReadOnlyCollection<EntityLinkingModel> Volumes { get; set; }
+        public string VolumeTitle { get; set; }
+
+        public int? VolumeNumber { get; set; }
+
+        public int? ArcId { get; set; }
+
+        public int? ArcNumber { get; set; }
+
+        public string ArcTitle { get; set; }
 
         public IReadOnlyCollection<PublisherLinkingModel> Publishers { get; set; }
 

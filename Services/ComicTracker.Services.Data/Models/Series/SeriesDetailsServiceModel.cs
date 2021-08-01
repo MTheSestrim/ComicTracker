@@ -1,11 +1,11 @@
-﻿namespace ComicTracker.Web.ViewModels.Series
+﻿namespace ComicTracker.Services.Data.Models.Series
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
+    using ComicTracker.Services.Data.Models.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
 
-    public class SeriesDetailsViewModel : IEntityViewModel
+    public class SeriesDetailsServiceModel : IEntityServiceModel
     {
         public int Id { get; set; }
 

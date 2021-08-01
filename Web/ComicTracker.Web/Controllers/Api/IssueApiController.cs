@@ -3,8 +3,8 @@
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Web.Infrastructure;
-    using ComicTracker.Web.ViewModels.Entities;
 
     using Microsoft.AspNetCore.Mvc;
 

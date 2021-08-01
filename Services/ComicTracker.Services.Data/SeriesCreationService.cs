@@ -9,7 +9,7 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Series;
+    using ComicTracker.Services.Data.Models.Series;
 
     using static ComicTracker.Common.GlobalConstants;
 
@@ -26,7 +26,7 @@
             this.genresRepository = genresRepository;
         }
 
-        public async Task<int> CreateSeriesAsync(CreateSeriesInputModel model)
+        public async Task<int> CreateSeriesAsync(CreateSeriesServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -71,7 +71,7 @@
             return newSeries.Id;
         }
 
-        private async Task<string> GetUploadedFileNameAsync(CreateSeriesInputModel model)
+        private async Task<string> GetUploadedFileNameAsync(CreateSeriesServiceModel model)
         {
             string uniqueFileName = null;
 

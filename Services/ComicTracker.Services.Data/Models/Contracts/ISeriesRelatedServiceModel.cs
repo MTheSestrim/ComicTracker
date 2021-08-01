@@ -1,6 +1,6 @@
-﻿namespace ComicTracker.Web.ViewModels.Contracts
+﻿namespace ComicTracker.Services.Data.Models.Contracts
 {
-    public interface ISeriesRelatedViewModel
+    public interface ISeriesRelatedServiceModel
     {
         public int Number { get; set; }
 

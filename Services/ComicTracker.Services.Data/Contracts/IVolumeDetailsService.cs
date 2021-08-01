@@ -1,9 +1,9 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
-    using ComicTracker.Web.ViewModels.Volume;
+    using ComicTracker.Services.Data.Models.Volume;
 
     public interface IVolumeDetailsService
     {
-        VolumeDetailsViewModel GetVolume(int volumeId);
+        VolumeDetailsServiceModel GetVolume(int volumeId);
     }
 }

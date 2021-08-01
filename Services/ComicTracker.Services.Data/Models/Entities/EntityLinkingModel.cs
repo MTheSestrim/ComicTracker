@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.ViewModels.Entities
+﻿namespace ComicTracker.Services.Data.Models.Entities
 {
     public class EntityLinkingModel
     {

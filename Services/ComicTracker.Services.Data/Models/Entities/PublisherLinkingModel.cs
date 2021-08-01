@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.ViewModels.Series
+﻿namespace ComicTracker.Services.Data.Models.Entities
 {
     public class PublisherLinkingModel
     {

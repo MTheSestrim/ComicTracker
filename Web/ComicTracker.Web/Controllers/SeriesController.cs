@@ -3,8 +3,9 @@
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Services.Data.Models.Series;
     using ComicTracker.Web.ViewModels.Series;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +15,17 @@
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
         private readonly ISeriesDeletionService seriesDeletionService;
-        private readonly ISeriesRatingService seriesRatingService;
 
         public SeriesController(
             ISeriesDetailsService seriesDetailsService,
             IGenreRetrievalService genreRetrievalService,
             ISeriesCreationService seriesCreationService,
-            ISeriesDeletionService seriesDeletionService,
-            ISeriesRatingService seriesRatingService)
+            ISeriesDeletionService seriesDeletionService)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
             this.seriesDeletionService = seriesDeletionService;
-            this.seriesRatingService = seriesRatingService;
         }
 
         public IActionResult Index(int id)
@@ -61,7 +59,18 @@
                 return this.View(model);
             }
 
-            var id = await this.seriesCreationService.CreateSeriesAsync(model);
+            var serviceModel = new CreateSeriesServiceModel
+            {
+                Name = model.Name,
+                CoverImage = model.CoverImage,
+                CoverPath = model.CoverPath,
+                Description = model.Description,
+                Genres = model.Genres,
+                Ongoing = model.Ongoing,
+                RetrievedGenres = model.RetrievedGenres,
+            };
+
+            var id = await this.seriesCreationService.CreateSeriesAsync(serviceModel);
 
             return this.Redirect($"/Series/{id}");
         }

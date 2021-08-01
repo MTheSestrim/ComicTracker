@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.Entities;
+    using ComicTracker.Services.Data.Models.Entities;
 
     public class VCEntityLinkingViewModel
     {

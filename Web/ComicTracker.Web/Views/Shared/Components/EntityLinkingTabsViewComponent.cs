@@ -4,8 +4,8 @@
     using System.Linq;
     using System.Reflection;
 
-    using ComicTracker.Web.ViewModels.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
+    using ComicTracker.Services.Data.Models.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Web.ViewModels.ViewComponents;
 
     using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@
 
     public class EntityLinkingTabsViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(IEntityViewModel entityModel)
+        public IViewComponentResult Invoke(IEntityServiceModel entityModel)
         {
             var items = this.GetEntityLinkingModels(entityModel);
 
@@ -33,7 +33,7 @@
         }
 
         private IReadOnlyCollection<VCEntityLinkingViewModel> GetEntityLinkingModels(
-            IEntityViewModel entityModel)
+            IEntityServiceModel entityModel)
         {
             return entityModel.GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)

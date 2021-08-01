@@ -6,8 +6,8 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Entities;
-    using ComicTracker.Web.ViewModels.Volume;
+    using ComicTracker.Services.Data.Models.Entities;
+    using ComicTracker.Services.Data.Models.Volume;
 
     using Microsoft.AspNetCore.Http;
 
@@ -30,7 +30,7 @@
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public VolumeDetailsViewModel GetVolume(int volumeId)
+        public VolumeDetailsServiceModel GetVolume(int volumeId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
@@ -59,7 +59,7 @@
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var currentVolume = this.volumesRepository.All()
-                .Select(v => new VolumeDetailsViewModel
+                .Select(v => new VolumeDetailsServiceModel
                 {
                     Id = v.Id,
                     Title = v.Title,

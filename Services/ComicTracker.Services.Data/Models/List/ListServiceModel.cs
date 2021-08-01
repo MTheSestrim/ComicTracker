@@ -1,6 +1,6 @@
-﻿namespace ComicTracker.Web.ViewModels.List
+﻿namespace ComicTracker.Services.Data.Models.List
 {
-    public class ListViewModel
+    public class ListServiceModel
     {
         public string Title { get; set; }
 

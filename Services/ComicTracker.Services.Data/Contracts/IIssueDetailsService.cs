@@ -1,9 +1,9 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
-    using ComicTracker.Web.ViewModels.Issues;
+    using ComicTracker.Services.Data.Models.Issues;
 
     public interface IIssueDetailsService
     {
-        IssueDetailsViewModel GetIssue(int issueId);
+        IssueDetailsServiceModel GetIssue(int issueId);
     }
 }

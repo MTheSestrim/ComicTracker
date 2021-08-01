@@ -7,7 +7,7 @@
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Web.ViewModels.Home;
+    using ComicTracker.Services.Data.Models.Home;
 
     using static ComicTracker.Common.HomeConstants;
 
@@ -20,11 +20,11 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public IList<HomeSeriesViewModel> GetSeries(int currentPage, string searchTerm, Sorting sorting)
+        public IList<HomeSeriesServiceModel> GetSeries(int currentPage, string searchTerm, Sorting sorting)
         {
             var query = this.FormSeriesQuery(searchTerm, sorting);
 
-            var series = query.Select(s => new HomeSeriesViewModel
+            var series = query.Select(s => new HomeSeriesServiceModel
             {
                 Id = s.Id,
                 Name = s.Name,

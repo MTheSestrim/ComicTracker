@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using ComicTracker.Common.Enums;
+    using ComicTracker.Services.Data.Models.Home;
 
     using static ComicTracker.Common.HomeConstants;
 
@@ -17,7 +18,7 @@
 
         public int TotalSeriesCount { get; set; }
 
-        public IList<HomeSeriesViewModel> Series { get; set; }
+        public IList<HomeSeriesServiceModel> Series { get; set; }
 
         public double MaxPageCount => Math.Ceiling((double)this.TotalSeriesCount / SeriesPerPage);
     }

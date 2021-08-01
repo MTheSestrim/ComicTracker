@@ -1,23 +1,33 @@
-﻿namespace ComicTracker.Web.ViewModels.Contracts
+﻿namespace ComicTracker.Services.Data.Models.Volume
 {
     using System.Collections.Generic;
 
-    using ComicTracker.Web.ViewModels.Series;
+    using ComicTracker.Services.Data.Models.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
 
-    public interface IEntityViewModel
+    public class VolumeDetailsServiceModel : IEntityServiceModel, ISeriesRelatedServiceModel
     {
-        // Id is necessary for query comparisons; Need to know identity of current series
         public int Id { get; set; }
 
         public string Title { get; set; }
 
         public string CoverPath { get; set; }
 
+        public string Description { get; set; }
+
+        public int Number { get; set; }
+
         public string TotalScore { get; set; }
 
         public string UserScore { get; set; }
 
-        public string Description { get; set; }
+        public int SeriesId { get; set; }
+
+        public string SeriesTitle { get; set; }
+
+        public IReadOnlyCollection<EntityLinkingModel> Issues { get; set; }
+
+        public IReadOnlyCollection<EntityLinkingModel> Arcs { get; set; }
 
         public IReadOnlyCollection<PublisherLinkingModel> Publishers { get; set; }
 

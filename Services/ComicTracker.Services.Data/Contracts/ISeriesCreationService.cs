@@ -2,10 +2,10 @@
 {
     using System.Threading.Tasks;
 
-    using ComicTracker.Web.ViewModels.Series;
+    using ComicTracker.Services.Data.Models.Series;
 
     public interface ISeriesCreationService
     {
-        Task<int> CreateSeriesAsync(CreateSeriesInputModel model);
+        Task<int> CreateSeriesAsync(CreateSeriesServiceModel model);
     }
 }

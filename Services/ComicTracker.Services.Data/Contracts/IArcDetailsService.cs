@@ -1,9 +1,9 @@
 ﻿namespace ComicTracker.Services.Data.Contracts
 {
-    using ComicTracker.Web.ViewModels.Arc;
+    using ComicTracker.Services.Data.Models.Arc;
 
     public interface IArcDetailsService
     {
-        ArcDetailsViewModel GetArc(int arcId);
+        ArcDetailsServiceModel GetArc(int arcId);
     }
 }
