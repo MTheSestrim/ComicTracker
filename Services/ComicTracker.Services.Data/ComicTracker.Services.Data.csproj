@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Data\ComicTracker.Data.Common\ComicTracker.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
     <ProjectReference Include="..\ComicTracker.Services.Mapping\ComicTracker.Services.Mapping.csproj" />
+    <ProjectReference Include="..\ComicTracker.Services\ComicTracker.Services.csproj" />
   </ItemGroup>
 
 </Project>

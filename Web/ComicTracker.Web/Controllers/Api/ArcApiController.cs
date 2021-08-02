@@ -2,12 +2,13 @@
 {
     using System.Threading.Tasks;
 
-    using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Web.Infrastructure;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     [ApiController]
     [Route("api/Arc")]
     public class ArcApiController : ControllerBase
@@ -22,12 +23,7 @@
         [HttpPut]
         public async Task<ActionResult<int>> ScoreSeries(RateApiRequestModel model)
         {
-            if (this.User.Identity.IsAuthenticated)
-            {
                 return await this.arcRatingService.RateArc(this.User.GetId(), model.Id, model.Score);
-            }
-
-            return this.Unauthorized();
         }
     }
 }

@@ -8,8 +8,18 @@
     using ComicTracker.Data.Models;
     using ComicTracker.Data.Repositories;
     using ComicTracker.Data.Seeding;
-    using ComicTracker.Services.Data;
-    using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Arc;
+    using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Services.Data.Genre;
+    using ComicTracker.Services.Data.Genre.Contracts;
+    using ComicTracker.Services.Data.Issue;
+    using ComicTracker.Services.Data.Issue.Contracts;
+    using ComicTracker.Services.Data.List;
+    using ComicTracker.Services.Data.List.Contracts;
+    using ComicTracker.Services.Data.Series;
+    using ComicTracker.Services.Data.Series.Contracts;
+    using ComicTracker.Services.Data.Volume;
+    using ComicTracker.Services.Data.Volume.Contracts;
     using ComicTracker.Services.Mapping;
     using ComicTracker.Services.Messaging;
     using ComicTracker.Web.ViewModels;
@@ -66,12 +76,21 @@
             // Application services
 
             // ComicTracker.Services.Data
+            // Arc
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IArcRatingService, ArcRatingService>();
+
+            // Genre
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
+
+            // Issue
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IIssueRatingService, IssueRatingService>();
+
+            // List
             services.AddTransient<IListService, ListService>();
+
+            // Series
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDeletionService, SeriesDeletionService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
@@ -79,7 +98,8 @@
             services.AddTransient<ISeriesEditingService, SeriesEditingService>();
             services.AddTransient<ISeriesRatingService, SeriesRatingService>();
             services.AddTransient<ISeriesRetrievalService, SeriesRetrievalService>();
-            services.AddTransient<ISettingsService, SettingsService>();
+
+            // Volume
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
             services.AddTransient<IVolumeRatingService, VolumeRatingService>();
 

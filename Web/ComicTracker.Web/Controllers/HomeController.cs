@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
 
-    using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Web.ViewModels;
     using ComicTracker.Web.ViewModels.Home;
 

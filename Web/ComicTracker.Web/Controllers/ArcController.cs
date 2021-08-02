@@ -1,6 +1,6 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Arc.Contracts;
 
     using Microsoft.AspNetCore.Mvc;
 

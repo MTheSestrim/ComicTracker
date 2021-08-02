@@ -1,6 +1,6 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Web.Infrastructure;
 
     using Microsoft.AspNetCore.Authorization;

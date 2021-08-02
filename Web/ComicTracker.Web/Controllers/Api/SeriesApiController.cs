@@ -2,12 +2,13 @@
 {
     using System.Threading.Tasks;
 
-    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
+    using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Web.Infrastructure;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     [ApiController]
     [Route("api/Series")]
     public class SeriesApiController : ControllerBase

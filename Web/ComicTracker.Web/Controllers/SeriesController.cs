@@ -2,8 +2,9 @@
 {
     using System.Threading.Tasks;
 
-    using ComicTracker.Services.Data.Contracts;
-    using ComicTracker.Services.Data.Models.Series;
+    using ComicTracker.Services.Data.Genre.Contracts;
+    using ComicTracker.Services.Data.Series.Contracts;
+    using ComicTracker.Services.Data.Series.Models;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Authorization;
