@@ -22,6 +22,11 @@
             {
                 $('#userScore').text(`Your Score: ${res}`);
             })
+            .fail((res) => {
+                if (res.status == 401) {
+                    window.location.href = '/Identity/Account/Login';
+                }
+            })
         }
     })
 })
