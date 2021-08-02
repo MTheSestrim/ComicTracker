@@ -16,11 +16,11 @@
             this.seriesRepository = seriesRepository;
         }
 
-        public EditSeriesServiceModel GetSeries(int seriesId)
+        public EditInfoSeriesServiceModel GetSeries(int seriesId)
         {
             var currentSeries = this.seriesRepository
                .All()
-               .Select(s => new EditSeriesServiceModel
+               .Select(s => new EditInfoSeriesServiceModel
                {
                    Id = s.Id,
                    Title = s.Name,

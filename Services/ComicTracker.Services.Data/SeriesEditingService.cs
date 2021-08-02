@@ -8,15 +8,15 @@
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Models.Series;
-
+    using Microsoft.EntityFrameworkCore;
     using static FileUploadLocator;
 
-    public class SeriesCreationService : ISeriesCreationService
+    public class SeriesEditingService : ISeriesEditingService
     {
         private readonly IDeletableEntityRepository<Series> seriesRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;
 
-        public SeriesCreationService(
+        public SeriesEditingService(
             IDeletableEntityRepository<Series> seriesRepository,
             IDeletableEntityRepository<Genre> genresRepository)
         {
@@ -24,7 +24,7 @@
             this.genresRepository = genresRepository;
         }
 
-        public async Task<int> CreateSeriesAsync(CreateSeriesServiceModel model)
+        public async Task<int> EditSeriesAsync(EditSeriesServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -36,37 +36,36 @@
                     .ToList();
             }
 
-            Series newSeries = null;
+            var currentSeries = this.seriesRepository.All().Include(s => s.Genres).FirstOrDefault(s => s.Id == model.Id);
 
-            if (model.CoverImage == null)
+            if (currentSeries == null)
             {
-                newSeries = new Series
-                {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CoverPath = model.CoverPath,
-                    Ongoing = model.Ongoing,
-                    Genres = selectedGenres,
-                };
+                return -1;
             }
-            else
+
+            currentSeries.Name = model.Title;
+            currentSeries.Description = model.Description;
+            currentSeries.Ongoing = model.Ongoing;
+            currentSeries.Genres = selectedGenres;
+
+            // else if -> Only updates thumbnail if data is passed.
+            if (model.CoverImage != null)
             {
                 var uniqueFileName = await GetUploadedFileNameAsync(model.CoverImage);
 
-                newSeries = new Series
-                {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CoverPath = uniqueFileName,
-                    Ongoing = model.Ongoing,
-                    Genres = selectedGenres,
-                };
+                // Delete old cover image and replace it with the new one.
+                DeleteCover(currentSeries.CoverPath);
+                currentSeries.CoverPath = uniqueFileName;
+            }
+            else if (model.CoverPath != null)
+            {
+                currentSeries.CoverPath = model.CoverPath;
             }
 
-            await this.seriesRepository.AddAsync(newSeries);
+            this.seriesRepository.Update(currentSeries);
             await this.seriesRepository.SaveChangesAsync();
 
-            return newSeries.Id;
+            return currentSeries.Id;
         }
     }
 }

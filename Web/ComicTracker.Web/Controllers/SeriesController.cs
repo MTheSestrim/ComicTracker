@@ -15,6 +15,7 @@
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
         private readonly ISeriesEditingInfoService seriesEditingInfoService;
+        private readonly ISeriesEditingService seriesEditingService;
         private readonly ISeriesDeletionService seriesDeletionService;
 
         public SeriesController(
@@ -22,12 +23,14 @@
             IGenreRetrievalService genreRetrievalService,
             ISeriesCreationService seriesCreationService,
             ISeriesEditingInfoService seriesEditingInfoService,
+            ISeriesEditingService seriesEditingService,
             ISeriesDeletionService seriesDeletionService)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
             this.seriesEditingInfoService = seriesEditingInfoService;
+            this.seriesEditingService = seriesEditingService;
             this.seriesDeletionService = seriesDeletionService;
         }
 
@@ -99,6 +102,32 @@
             };
 
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(EditSeriesInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                model.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+                return this.View(model);
+            }
+
+            var serviceModel = new EditSeriesServiceModel
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Ongoing = model.Ongoing,
+                Description = model.Description,
+                CoverImage = model.CoverImage,
+                CoverPath = model.CoverPath,
+                Genres = model.Genres,
+            };
+
+            var id = await this.seriesEditingService.EditSeriesAsync(serviceModel);
+
+            return this.Redirect($"/Series/{id}");
         }
 
         [HttpPost]

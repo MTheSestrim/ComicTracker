@@ -4,6 +4,6 @@
 
     public interface ISeriesEditingInfoService
     {
-        public EditSeriesServiceModel GetSeries(int seriesId);
+        public EditInfoSeriesServiceModel GetSeries(int seriesId);
     }
 }
