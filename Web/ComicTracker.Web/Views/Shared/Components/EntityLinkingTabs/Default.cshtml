@@ -20,40 +20,71 @@
         <div class="tab-pane fade active show" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
             <partial name="_EntityDescription" model="Model" />
         </div>
+
         @foreach (var elModel in Model.EntityLinkings)
         {
+
             <div class="tab-pane fade" id="pills-@elModel.Name.ToLower()" role="tabpanel" aria-labelledby="pills-@elModel.Name.ToLower()-tab">
                 <h3 class="tab-title">@elModel.Name</h3>
-                <table class="table table-bordered">
-                    <tbody>
-                        @foreach (var entity in elModel.EntityLinkings)
-                        {
-                            <tr>
-                                @if (entity.CoverPath != null)
-                                {
-                                    <td class="col-3 text-md-left">
+                @if (elModel.EntityLinkings.Count > 0)
+                {
+                    <table class="table table-bordered">
+                        <tbody>
+                            @foreach (var entity in elModel.EntityLinkings)
+                            {
+                                <tr>
+                                    @if (entity.CoverPath != null)
+                                    {
+                                        <td class="col-3 text-md-left">
+                                            <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                                <img src="@entity.CoverPath" alt="image description">
+                                            </a>
+                                        </td>
+                                    }
+                                    <td class="col-2 text-md-center">
                                         <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                            <img src="@entity.CoverPath" alt="image description">
+                                            @entity.Number
                                         </a>
                                     </td>
-                                }
-                                <td class="col-2 text-md-center">
-                                    <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                        @entity.Number
-                                    </a>
-                                </td>
-                                @if (entity.Title != null)
-                                {
-                                    <td class="col-7 text-md-center">
-                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                            @entity.Title
-                                        </a>
-                                    </td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                    @if (entity.Title != null)
+                                    {
+                                        <td class="col-7 text-md-center">
+                                            <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                                @entity.Title
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="container text-center col-8">
+                        <h3>
+                            No @elModel.Name.ToLower() for this @Model.EntityTypeName.
+                        </h3>
+                        <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                            Create a select number of empty @elModel.Name.ToLower()?
+                        </a>
+
+                        <div id="@elModel.Name.ToLower()Modal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content col-xl-6 col-12">
+                                <span class="close text-right pr-2">&times;</span>
+                                <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
+                                <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
+                                <button type="submit" 
+                                        class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
+                                        value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         }
     </div>

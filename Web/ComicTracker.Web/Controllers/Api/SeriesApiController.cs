@@ -22,13 +22,6 @@
 
         [HttpPut]
         public async Task<ActionResult<int>> ScoreSeries(RateApiRequestModel model)
-        {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                return await this.seriesRatingService.RateSeries(this.User.GetId(), model.Id, model.Score);
-            }
-
-            return this.Unauthorized();
-        }
+            => await this.seriesRatingService.RateSeries(this.User.GetId(), model.Id, model.Score);
     }
 }

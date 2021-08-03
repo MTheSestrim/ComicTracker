@@ -18,14 +18,46 @@
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
                 data: JSON.stringify({ id: id, score: value }),
                 contentType: 'application/json;charset=utf-8',
-            }).done((res) =>
-            {
+            }).done((res) => {
                 $('#userScore').text(`Your Score: ${res}`);
             })
             .fail((res) => {
                 if (res.status == 401) {
                     window.location.href = '/Identity/Account/Login';
                 }
+            })
+        }
+    })
+
+    $('.templateCreator').on('click', function () {
+        let entityName = $(this).attr('value');
+        // Get the modal
+        $(`#${entityName.toLowerCase() + 's'}Modal`).css('display', 'block');
+    })
+
+    // Get the <span> element that closes the modal
+    $(".close").on('click', function () {
+        $(this).parent().parent().css('display', 'none');
+    });
+
+    $('.templateSubmit').on('click', function () {
+        let entityName = $(this).attr('value');
+
+        // Gets the value of the input before the submit button, which is the target of this function
+        let numberOfEntities = $(this).prev().val();
+
+        if (entityName && numberOfEntities) {
+            $.ajax({
+                type: 'POST',
+                url: `/api/${entityName}`,
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                data: numberOfEntities,
+                contentType: 'application/json;charset=utf-8',
+            }).done((res) => {
+                console.log(res.text);
+            })
+            .fail((res) => {
+        
             })
         }
     })

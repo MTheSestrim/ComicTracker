@@ -5,6 +5,7 @@
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
     using ComicTracker.Web.Infrastructure;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -21,14 +22,7 @@
         }
 
         [HttpPut]
-        public async Task<ActionResult<int>> ScoreSeries(RateApiRequestModel model)
-        {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                return await this.volumeRatingService.RateVolume(this.User.GetId(), model.Id, model.Score);
-            }
-
-            return this.Unauthorized();
-        }
+        public async Task<ActionResult<int>> ScoreVolume(RateApiRequestModel model)
+            => await this.volumeRatingService.RateVolume(this.User.GetId(), model.Id, model.Score);
     }
 }
