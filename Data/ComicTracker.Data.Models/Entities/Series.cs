@@ -25,7 +25,7 @@
 
         [Required]
         [MaxLength(DefaultSeriesNameMaxLength)]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         // Optional description.
         public string Description { get; set; }

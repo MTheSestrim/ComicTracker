@@ -3,6 +3,9 @@
     using System.Linq;
     using System.Security.Claims;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Issue.Contracts;
@@ -14,13 +17,16 @@
     {
         private readonly IDeletableEntityRepository<Issue> issuesRepository;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IMapper mapper;
 
         public IssueDetailsService(
             IDeletableEntityRepository<Issue> issuesRepository,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper)
         {
             this.issuesRepository = issuesRepository;
             this.httpContextAccessor = httpContextAccessor;
+            this.mapper = mapper;
         }
 
         public IssueDetailsServiceModel GetIssue(int issueId)
@@ -28,7 +34,7 @@
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var currentIssue = this.issuesRepository
-               .All()
+               .AllAsNoTracking()
                .Select(i => new IssueDetailsServiceModel
                {
                    Id = i.Id,
@@ -39,7 +45,7 @@
                    TotalScore = i.UsersIssues.Average(ui => ui.Score).ToString(),
                    UserScore = i.UsersIssues.FirstOrDefault(ui => ui.UserId == userId).Score.ToString(),
                    SeriesId = i.SeriesId,
-                   SeriesTitle = i.Series.Name,
+                   SeriesTitle = i.Series.Title,
                    ArcId = i.ArcId,
                    ArcNumber = i.Arc.Number,
                    ArcTitle = i.Arc.Title,

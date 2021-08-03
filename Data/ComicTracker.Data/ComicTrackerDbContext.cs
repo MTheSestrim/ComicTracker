@@ -311,7 +311,7 @@
 
             builder.Entity<Series>(entity =>
             {
-                entity.Property(e => e.Name)
+                entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(200);
             });

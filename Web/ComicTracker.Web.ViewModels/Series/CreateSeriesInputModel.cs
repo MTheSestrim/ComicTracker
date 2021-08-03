@@ -17,8 +17,8 @@
         [StringLength(
             DefaultSeriesNameMaxLength,
             MinimumLength = DefaultSeriesNameMinLength,
-            ErrorMessage = "Name must be between 2 and 200 characters.")]
-        public string Name { get; set; }
+            ErrorMessage = "Title must be between 2 and 200 characters.")]
+        public string Title { get; set; }
 
         public string Description { get; set; }
 

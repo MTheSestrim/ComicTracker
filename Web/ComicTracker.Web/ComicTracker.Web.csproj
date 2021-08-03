@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
@@ -38,10 +39,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ComicTracker.Common\ComicTracker.Common.csproj" />
+    <ProjectReference Include="..\..\ComicTracker.Services.Data.Mapping\ComicTracker.Services.Data.Mapping.csproj" />
+    <ProjectReference Include="..\..\ComicTracker.Web.Infrastructure.Mapping\ComicTracker.Web.Infrastructure.Mapping.csproj" />
     <ProjectReference Include="..\..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\ComicTracker.Data\ComicTracker.Data.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
-    <ProjectReference Include="..\..\Services\ComicTracker.Services.Mapping\ComicTracker.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Messaging\ComicTracker.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services\ComicTracker.Services.csproj" />
     <ProjectReference Include="..\ComicTracker.Web.Infrastructure\ComicTracker.Web.Infrastructure.csproj" />

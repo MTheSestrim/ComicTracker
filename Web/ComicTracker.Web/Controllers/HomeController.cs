@@ -10,9 +10,9 @@
 
     public class HomeController : BaseController
     {
-        private readonly ISeriesRetrievalService homePageService;
+        private readonly ISeriesSearchQueryingService homePageService;
 
-        public HomeController(ISeriesRetrievalService homePageService)
+        public HomeController(ISeriesSearchQueryingService homePageService)
         {
             this.homePageService = homePageService;
         }

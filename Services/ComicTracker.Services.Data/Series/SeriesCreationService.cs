@@ -9,7 +9,7 @@
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
 
-    using static ComicTracker.Services.FileUploadLocator;
+    using static ComicTracker.Services.Data.FileUploadLocator;
 
     public class SeriesCreationService : ISeriesCreationService
     {
@@ -42,7 +42,7 @@
             {
                 newSeries = new Series
                 {
-                    Name = model.Name,
+                    Title = model.Name,
                     Description = model.Description,
                     CoverPath = model.CoverPath,
                     Ongoing = model.Ongoing,
@@ -55,7 +55,7 @@
 
                 newSeries = new Series
                 {
-                    Name = model.Name,
+                    Title = model.Name,
                     Description = model.Description,
                     CoverPath = uniqueFileName,
                     Ongoing = model.Ongoing,

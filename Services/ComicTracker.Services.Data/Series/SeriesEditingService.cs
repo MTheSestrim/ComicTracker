@@ -10,7 +10,7 @@
     using ComicTracker.Services.Data.Series.Models;
     using Microsoft.EntityFrameworkCore;
 
-    using static ComicTracker.Services.FileUploadLocator;
+    using static ComicTracker.Services.Data.FileUploadLocator;
 
     public class SeriesEditingService : ISeriesEditingService
     {
@@ -44,7 +44,7 @@
                 return -1;
             }
 
-            currentSeries.Name = model.Title;
+            currentSeries.Title = model.Title;
             currentSeries.Description = model.Description;
             currentSeries.Ongoing = model.Ongoing;
             currentSeries.Genres = selectedGenres;

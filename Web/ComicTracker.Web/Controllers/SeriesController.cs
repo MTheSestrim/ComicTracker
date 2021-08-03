@@ -2,6 +2,8 @@
 {
     using System.Threading.Tasks;
 
+    using AutoMapper;
+
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
@@ -18,6 +20,7 @@
         private readonly ISeriesEditingInfoService seriesEditingInfoService;
         private readonly ISeriesEditingService seriesEditingService;
         private readonly ISeriesDeletionService seriesDeletionService;
+        private readonly IMapper mapper;
 
         public SeriesController(
             ISeriesDetailsService seriesDetailsService,
@@ -25,7 +28,8 @@
             ISeriesCreationService seriesCreationService,
             ISeriesEditingInfoService seriesEditingInfoService,
             ISeriesEditingService seriesEditingService,
-            ISeriesDeletionService seriesDeletionService)
+            ISeriesDeletionService seriesDeletionService,
+            IMapper mapper)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.genreRetrievalService = genreRetrievalService;
@@ -33,6 +37,7 @@
             this.seriesEditingInfoService = seriesEditingInfoService;
             this.seriesEditingService = seriesEditingService;
             this.seriesDeletionService = seriesDeletionService;
+            this.mapper = mapper;
         }
 
         public IActionResult Index(int id)
@@ -68,7 +73,7 @@
 
             var serviceModel = new CreateSeriesServiceModel
             {
-                Name = model.Name,
+                Name = model.Title,
                 CoverImage = model.CoverImage,
                 CoverPath = model.CoverPath,
                 Description = model.Description,
@@ -92,15 +97,8 @@
                 return this.NotFound(currentSeries);
             }
 
-            var viewModel = new EditSeriesInputModel
-            {
-                Id = currentSeries.Id,
-                Title = currentSeries.Title,
-                Ongoing = currentSeries.Ongoing,
-                Description = currentSeries.Description,
-                Genres = currentSeries.Genres,
-                RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs(),
-            };
+            var viewModel = this.mapper.Map<EditSeriesInputModel>(currentSeries);
+            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
 
             return this.View(viewModel);
         }

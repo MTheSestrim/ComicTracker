@@ -5,7 +5,7 @@
     using ComicTracker.Common.Enums;
     using ComicTracker.Services.Data.Models.Home;
 
-    public interface ISeriesRetrievalService
+    public interface ISeriesSearchQueryingService
     {
         int GetTotalSeriesCount(string searchTerm, Sorting sorting);
 

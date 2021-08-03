@@ -20,8 +20,8 @@
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Volume;
     using ComicTracker.Services.Data.Volume.Contracts;
-    using ComicTracker.Services.Mapping;
     using ComicTracker.Services.Messaging;
+    using ComicTracker.Web.Infrastructure;
     using ComicTracker.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -73,6 +73,9 @@
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+            // AutoMapper
+            services.AddAutoMapper(typeof(WebMappingProfile), typeof(ServiceMappingProfile));
+
             // Application services
 
             // ComicTracker.Services.Data
@@ -97,7 +100,7 @@
             services.AddTransient<ISeriesEditingInfoService, SeriesEditingInfoService>();
             services.AddTransient<ISeriesEditingService, SeriesEditingService>();
             services.AddTransient<ISeriesRatingService, SeriesRatingService>();
-            services.AddTransient<ISeriesRetrievalService, SeriesRetrievalService>();
+            services.AddTransient<ISeriesSearchQueryingService, SeriesSearchQueryingService>();
 
             // Volume
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
@@ -110,8 +113,6 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

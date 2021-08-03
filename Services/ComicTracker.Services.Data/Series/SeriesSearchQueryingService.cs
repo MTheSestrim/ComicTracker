@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using ComicTracker.Common.Enums;
     using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models.Entities;
@@ -11,26 +14,22 @@
 
     using static ComicTracker.Common.HomeConstants;
 
-    public class SeriesRetrievalService : ISeriesRetrievalService
+    public class SeriesSearchQueryingService : ISeriesSearchQueryingService
     {
         private readonly IDeletableEntityRepository<Series> seriesRepository;
+        private readonly IMapper mapper;
 
-        public SeriesRetrievalService(IDeletableEntityRepository<Series> seriesRepository)
+        public SeriesSearchQueryingService(IDeletableEntityRepository<Series> seriesRepository, IMapper mapper)
         {
             this.seriesRepository = seriesRepository;
+            this.mapper = mapper;
         }
 
         public IList<HomeSeriesServiceModel> GetSeries(int currentPage, string searchTerm, Sorting sorting)
         {
             var query = this.FormSeriesQuery(searchTerm, sorting);
 
-            var series = query.Select(s => new HomeSeriesServiceModel
-            {
-                Id = s.Id,
-                Name = s.Name,
-                CoverPath = s.CoverPath,
-                IssuesCount = s.Issues.Count,
-            })
+            var series = query.ProjectTo<HomeSeriesServiceModel>(this.mapper.ConfigurationProvider)
             .Skip((currentPage - 1) * SeriesPerPage)
             .Take(SeriesPerPage)
             .ToList();
@@ -46,17 +45,17 @@
 
         private IQueryable<Series> FormSeriesQuery(string searchTerm, Sorting sorting)
         {
-            var query = this.seriesRepository.All()
-                .Where(s => s.Name.Contains(searchTerm));
+            var query = this.seriesRepository.AllAsNoTracking()
+                .Where(s => s.Title.Contains(searchTerm));
 
             query = sorting switch
             {
                 Sorting.Issues => query.OrderByDescending(s => s.Issues.Count)
-                                       .ThenBy(s => s.Name),
+                                       .ThenBy(s => s.Title),
                 Sorting.Status => query.OrderByDescending(s => s.Ongoing)
                                        .ThenBy(s => s.Issues.Count)
-                                       .ThenBy(s => s.Name),
-                Sorting.Name or _ => query.OrderBy(s => s.Name),
+                                       .ThenBy(s => s.Title),
+                Sorting.Name or _ => query.OrderBy(s => s.Title),
             };
 
             return query;

@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Services
+﻿namespace ComicTracker.Services.Data
 {
     using System;
     using System.IO;
