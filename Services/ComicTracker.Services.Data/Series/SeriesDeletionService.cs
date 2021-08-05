@@ -18,7 +18,7 @@
 
         public async Task<bool> DeleteSeries(int seriesId)
         {
-            var series = await this.dbContext.Series.FirstOrDefaultAsync(s => s.Id == seriesId);
+            var series = await this.dbContext.Series.FindAsync(seriesId);
 
             if (series == null)
             {
