@@ -4,6 +4,6 @@
 
     public interface IIssueDetailsService
     {
-        IssueDetailsServiceModel GetIssue(int issueId);
+        IssueDetailsServiceModel GetIssue(int issueId, string userId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
     using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Web.Infrastructure;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@
 
         public IActionResult Index(int id)
         {
-            var currentArc = this.arcDetailsService.GetArc(id);
+            var currentArc = this.arcDetailsService.GetArc(id, this.User.GetId());
 
             if (currentArc == null)
             {

@@ -4,6 +4,6 @@
 
     public interface IArcDetailsService
     {
-        ArcDetailsServiceModel GetArc(int arcId);
+        ArcDetailsServiceModel GetArc(int arcId, string userId);
     }
 }

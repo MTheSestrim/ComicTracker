@@ -1,7 +1,6 @@
 ﻿namespace ComicTracker.Services.Data.Arc
 {
     using System.Linq;
-    using System.Security.Claims;
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -11,25 +10,20 @@
     using ComicTracker.Services.Data.Arc.Models;
     using ComicTracker.Services.Data.Models.Entities;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class ArcDetailsService : IArcDetailsService
     {
         private readonly ComicTrackerDbContext dbContext;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public ArcDetailsService(ComicTrackerDbContext dbContext,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+        public ArcDetailsService(ComicTrackerDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
-            this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
 
-        public ArcDetailsServiceModel GetArc(int arcId)
+        public ArcDetailsServiceModel GetArc(int arcId, string userId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
@@ -44,8 +38,6 @@
                 .Where(v => v.ArcsVolumes.Any(av => av.ArcId == arcId))
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(v => v.Number).ToArray();
-
-            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             /* Mapper is not used;
              * 1. A separate query is necessary for taking UserScore and setting it later;

@@ -1,7 +1,6 @@
 ﻿namespace ComicTracker.Services.Data.Series
 {
     using System.Linq;
-    using System.Security.Claims;
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -11,26 +10,20 @@
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class SeriesDetailsService : ISeriesDetailsService
     {
         private readonly ComicTrackerDbContext dbContext;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public SeriesDetailsService(ComicTrackerDbContext dbContext,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+        public SeriesDetailsService(ComicTrackerDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
-            this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
 
-        public SeriesDetailsServiceModel GetSeries(
-            int seriesId)
+        public SeriesDetailsServiceModel GetSeries(int seriesId, string userId)
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
@@ -51,8 +44,6 @@
                 .Where(a => a.SeriesId == seriesId)
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
-
-            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var currentSeries = this.dbContext.Series
                .AsNoTracking()

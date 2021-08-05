@@ -7,6 +7,7 @@
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
+    using ComicTracker.Web.Infrastructure;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Authorization;
@@ -42,7 +43,7 @@
 
         public IActionResult Index(int id)
         {
-            var currentSeries = this.seriesDetailsService.GetSeries(id);
+            var currentSeries = this.seriesDetailsService.GetSeries(id, this.User.GetId());
 
             if (currentSeries == null)
             {

@@ -4,6 +4,6 @@
 
     public interface IVolumeDetailsService
     {
-        VolumeDetailsServiceModel GetVolume(int volumeId);
+        VolumeDetailsServiceModel GetVolume(int volumeId, string userId);
     }
 }

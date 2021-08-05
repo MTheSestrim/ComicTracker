@@ -4,6 +4,6 @@
 
     public interface ISeriesDetailsService
     {
-        SeriesDetailsServiceModel GetSeries(int seriesId);
+        SeriesDetailsServiceModel GetSeries(int seriesId, string userId);
     }
 }
