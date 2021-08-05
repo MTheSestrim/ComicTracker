@@ -72,6 +72,7 @@
             // Arc
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IArcRatingService, ArcRatingService>();
+            services.AddTransient<IArcTemplateCreationService, ArcTemplateCreationService>();
 
             // Genre
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
@@ -96,6 +97,7 @@
             // Volume
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
             services.AddTransient<IVolumeRatingService, VolumeRatingService>();
+            services.AddTransient<IVolumeTemplateCreationService, VolumeTemplateCreationService>();
 
             // ComicTracker.Services.Messaging
             services.AddTransient<IEmailSender, NullMessageSender>();

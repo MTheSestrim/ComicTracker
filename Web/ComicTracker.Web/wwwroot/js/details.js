@@ -40,6 +40,7 @@
         $(this).parent().parent().css('display', 'none');
     });
 
+    // Function for entity creation specific to series
     $('.templateSubmit').on('click', function () {
         let entityName = $(this).attr('value');
 
@@ -57,9 +58,17 @@
                 data: JSON.stringify({ numberOfEntities: numberOfEntities, seriesId: seriesId }),
                 contentType: 'application/json;charset=utf-8',
             }).done((res) => {
-                console.log(res.text);
-            })
-            .fail((res) => {
+                // GET request to load new entities into table
+                $.ajax({
+                    type: 'GET',
+                    url: `/Series/${seriesId}`,
+                }).done((res) => {
+                    let data = $('<div />').append(res).find(`#pills-${entityName.toLowerCase()}s`).html();
+                    $(`#pills-${entityName.toLowerCase()}s`).html(data);
+                }).fail((res) => {
+                    window.location.href = `/Series/${seriesId}`;
+                })
+            }).fail((res) => {
                 console.log(res.text);
             })
         }
