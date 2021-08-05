@@ -1,7 +1,6 @@
 ﻿namespace ComicTracker.Web
 {
     using ComicTracker.Data;
-    using ComicTracker.Data.Common;
     using ComicTracker.Data.Models;
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services.Data.Arc;
@@ -79,6 +78,7 @@
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
 
             // Issue
+            services.AddTransient<IIssueCreationService, IssueCreationService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IIssueRatingService, IssueRatingService>();
             services.AddTransient<IIssueTemplateCreationService, IssueTemplateCreationService>();
