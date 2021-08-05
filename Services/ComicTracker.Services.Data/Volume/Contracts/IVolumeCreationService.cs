@@ -1,9 +1,9 @@
 ﻿namespace ComicTracker.Services.Data.Volume.Contracts
 {
-    using ComicTracker.Services.Data.Volume.Models;
+    using ComicTracker.Services.Data.Models.Entities;
 
     public interface IVolumeCreationService
     {
-        int CreateVolume(CreateVolumeServiceModel model);
+        int CreateVolume(CreateSeriesRelatedEntityServiceModel model);
     }
 }

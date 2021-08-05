@@ -3,10 +3,10 @@
     using System.Threading.Tasks;
 
     using ComicTracker.Services.Data.Genre.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
-    using ComicTracker.Services.Data.Volume.Models;
     using ComicTracker.Web.Infrastructure;
-    using ComicTracker.Web.ViewModels.Volume;
+    using ComicTracker.Web.ViewModels.Entities;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -42,7 +42,7 @@
         [Authorize]
         public IActionResult Create(int id, int number = 0)
         {
-            var viewModel = new CreateVolumeInputModel();
+            var viewModel = new CreateSeriesRelatedEntityInputModel();
             viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
             viewModel.SeriesId = id;
             viewModel.Number = number;
@@ -52,7 +52,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(CreateVolumeInputModel model)
+        public async Task<IActionResult> Create(CreateSeriesRelatedEntityInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -60,7 +60,7 @@
                 return this.View(model);
             }
 
-            var serviceModel = new CreateVolumeServiceModel
+            var serviceModel = new CreateSeriesRelatedEntityServiceModel
             {
                 Title = model.Title,
                 Number = model.Number,

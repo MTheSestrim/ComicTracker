@@ -70,6 +70,7 @@
 
             // ComicTracker.Services.Data
             // Arc
+            services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IArcRatingService, ArcRatingService>();
             services.AddTransient<IArcTemplateCreationService, ArcTemplateCreationService>();

@@ -5,6 +5,15 @@
     public static class ClaimsPrincipalExtensions
     {
         public static string GetId(this ClaimsPrincipal user)
-            => user.FindFirst(ClaimTypes.NameIdentifier).Value;
+        {
+            var currentClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (currentClaim != null)
+            {
+                return currentClaim.Value;
+            }
+
+            return null;
+        }
     }
 }

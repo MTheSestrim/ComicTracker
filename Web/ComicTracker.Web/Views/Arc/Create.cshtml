@@ -1,9 +1,5 @@
-﻿@using ComicTracker.Web.ViewModels.Entities
-
-@model CreateSeriesRelatedEntityInputModel
-
-@{
-    this.ViewData["Title"] = "Add volume";
+﻿@{
+    this.ViewData["Title"] = "Add arc";
     
 }
 
@@ -16,12 +12,7 @@
 
 <form method="post" enctype="multipart/form-data">
     <partial name="_EntityCreatePartial" model="Model" />
-    <div class="form-group">
-        <label asp-for="Number"></label>
-        <input asp-for="Number" class="form-control col-2" />
-        <span asp-validation-for="Number" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="SeriesId" />
+    <partial name="_SeriesRelatedEntityCreatePartial" model="Model" />
     <input type="submit" class="btn btn-primary" />
 </form>
 

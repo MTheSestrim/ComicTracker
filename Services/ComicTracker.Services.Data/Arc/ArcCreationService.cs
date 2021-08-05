@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Services.Data.Volume
+﻿namespace ComicTracker.Services.Data.Arc
 {
     using System;
     using System.Collections.Generic;
@@ -6,25 +6,26 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
-    using ComicTracker.Services.Data.Volume.Contracts;
+
     using Microsoft.EntityFrameworkCore;
 
     using static ComicTracker.Services.Data.FileUploadLocator;
 
-    public class VolumeCreationService : IVolumeCreationService
+    public class ArcCreationService : IArcCreationService
     {
         private readonly ComicTrackerDbContext dbContext;
 
-        public VolumeCreationService(ComicTrackerDbContext dbContext)
+        public ArcCreationService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public int CreateVolume(CreateSeriesRelatedEntityServiceModel model)
+        public int CreateArc(CreateSeriesRelatedEntityServiceModel model)
         {
             var series = this.dbContext.Series
-                .Include(s => s.Volumes)
+                .Include(s => s.Arcs)
                 .FirstOrDefault(s => s.Id == model.SeriesId);
 
             if (series == null)
@@ -32,10 +33,10 @@
                 throw new KeyNotFoundException($"Series with given id {model.SeriesId} does not exist");
             }
 
-            if (series.Volumes.Any(v => v.Number == model.Number))
+            if (series.Arcs.Any(a => a.Number == model.Number))
             {
                 throw new InvalidOperationException(
-                    $"Cannot insert another {typeof(Volume).Name} with the same number");
+                    $"Cannot insert another {typeof(Arc).Name} with the same number");
             }
 
             var selectedGenres = new List<Genre>();
@@ -48,11 +49,11 @@
                     .ToList();
             }
 
-            Volume newVolume = null;
+            Arc newArc = null;
 
             if (model.CoverImage == null)
             {
-                newVolume = new Volume
+                newArc = new Arc
                 {
                     Title = model.Title,
                     Number = model.Number,
@@ -66,7 +67,7 @@
             {
                 var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
 
-                newVolume = new Volume
+                newArc = new Arc
                 {
                     Title = model.Title,
                     Number = model.Number,
@@ -77,10 +78,10 @@
                 };
             }
 
-            this.dbContext.Volumes.Add(newVolume);
+            this.dbContext.Arcs.Add(newArc);
             this.dbContext.SaveChanges();
 
-            return newVolume.Id;
+            return newArc.Id;
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿namespace ComicTracker.Services.Data.Volume.Models
+﻿namespace ComicTracker.Services.Data.Models.Entities
 {
     using System.Collections.Generic;
 
-    public class CreateVolumeServiceModel
+    // ServiceModel for creation of Volumes/Arcs/Issues since they all contain the same data for this action
+    public class CreateSeriesRelatedEntityServiceModel
     {
         public string Title { get; init; }
 
