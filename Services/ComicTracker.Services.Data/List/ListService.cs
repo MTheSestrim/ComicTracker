@@ -4,26 +4,25 @@
     using System.Linq;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
 
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.List.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class ListService : IListService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
+        private readonly ComicTrackerDbContext dbContext;
         private readonly IMapper mapper;
 
-        public ListService(IDeletableEntityRepository<Series> seriesRepository, IMapper mapper)
+        public ListService(ComicTrackerDbContext dbContext, IMapper mapper)
         {
-            this.seriesRepository = seriesRepository;
+            this.dbContext = dbContext;
             this.mapper = mapper;
         }
 
-        public IEnumerable<ListServiceModel> GetListData(string userId) => this.seriesRepository
-               .AllAsNoTracking()
+        public IEnumerable<ListServiceModel> GetListData(string userId) => this.dbContext.Series
+               .AsNoTracking()
                .Select(s => new ListServiceModel
                {
                    Title = s.Title,

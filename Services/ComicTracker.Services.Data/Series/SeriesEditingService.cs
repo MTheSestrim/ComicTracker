@@ -4,25 +4,22 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using ComicTracker.Data.Common.Repositories;
+    using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     using static ComicTracker.Services.Data.FileUploadLocator;
 
     public class SeriesEditingService : ISeriesEditingService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
-        private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly ComicTrackerDbContext dbContext;
 
-        public SeriesEditingService(
-            IDeletableEntityRepository<Series> seriesRepository,
-            IDeletableEntityRepository<Genre> genresRepository)
+        public SeriesEditingService(ComicTrackerDbContext dbContext)
         {
-            this.seriesRepository = seriesRepository;
-            this.genresRepository = genresRepository;
+            this.dbContext = dbContext;
         }
 
         public async Task<int> EditSeriesAsync(EditSeriesServiceModel model)
@@ -31,13 +28,13 @@
 
             if (model.Genres != null)
             {
-                selectedGenres = this.genresRepository.All()
+                selectedGenres = this.dbContext.Genres
                     .ToList()
                     .Where(g => model.Genres.Any(x => x == g.Id))
                     .ToList();
             }
 
-            var currentSeries = this.seriesRepository.All().Include(s => s.Genres).FirstOrDefault(s => s.Id == model.Id);
+            var currentSeries = this.dbContext.Series.Include(s => s.Genres).FirstOrDefault(s => s.Id == model.Id);
 
             if (currentSeries == null)
             {
@@ -63,8 +60,8 @@
                 currentSeries.CoverPath = model.CoverPath;
             }
 
-            this.seriesRepository.Update(currentSeries);
-            await this.seriesRepository.SaveChangesAsync();
+            this.dbContext.Update(currentSeries);
+            await this.dbContext.SaveChangesAsync();
 
             return currentSeries.Id;
         }

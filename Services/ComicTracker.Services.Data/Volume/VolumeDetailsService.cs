@@ -5,31 +5,26 @@
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
     using ComicTracker.Services.Data.Volume.Models;
+
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class VolumeDetailsService : IVolumeDetailsService
     {
-        private readonly IDeletableEntityRepository<Volume> volumesRepository;
-        private readonly IDeletableEntityRepository<Issue> issuesRepository;
-        private readonly IDeletableEntityRepository<Arc> arcsRepository;
+        private readonly ComicTrackerDbContext dbContext;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public VolumeDetailsService(
-            IDeletableEntityRepository<Volume> volumesRepository,
-            IDeletableEntityRepository<Issue> issuesRepository,
-            IDeletableEntityRepository<Arc> arcsRepository,
+        public VolumeDetailsService(ComicTrackerDbContext dbContext,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
-            this.volumesRepository = volumesRepository;
-            this.issuesRepository = issuesRepository;
-            this.arcsRepository = arcsRepository;
+            this.dbContext = dbContext;
             this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
@@ -38,14 +33,14 @@
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            var issues = this.issuesRepository
-                .AllAsNoTracking()
+            var issues = this.dbContext.Issues
+                .AsNoTracking()
                 .Where(i => i.VolumeId == volumeId)
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(i => i.Number).ToArray();
 
-            var arcs = this.arcsRepository
-                .AllAsNoTracking()
+            var arcs = this.dbContext.Arcs
+                .AsNoTracking()
                 .Where(a => a.ArcsVolumes.Any(av => av.VolumeId == volumeId))
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
@@ -56,8 +51,8 @@
              * 1. A separate query is necessary for taking UserScore and setting it later;
              * 2. Another option is taking the user in the MappingProfile, but that creates tight coupling.
              */
-            var currentVolume = this.volumesRepository
-                .AllAsNoTracking()
+            var currentVolume = this.dbContext.Volumes
+                .AsNoTracking()
                 .Select(v => new VolumeDetailsServiceModel
                 {
                     Id = v.Id,

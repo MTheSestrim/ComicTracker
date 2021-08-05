@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using ComicTracker.Data.Common.Repositories;
+    using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
@@ -13,15 +13,11 @@
 
     public class SeriesCreationService : ISeriesCreationService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
-        private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly ComicTrackerDbContext dbContext;
 
-        public SeriesCreationService(
-            IDeletableEntityRepository<Series> seriesRepository,
-            IDeletableEntityRepository<Genre> genresRepository)
+        public SeriesCreationService(ComicTrackerDbContext dbContext)
         {
-            this.seriesRepository = seriesRepository;
-            this.genresRepository = genresRepository;
+            this.dbContext = dbContext;
         }
 
         public async Task<int> CreateSeriesAsync(CreateSeriesServiceModel model)
@@ -30,7 +26,7 @@
 
             if (model.Genres != null)
             {
-                selectedGenres = this.genresRepository.All()
+                selectedGenres = this.dbContext.Genres
                     .ToList()
                     .Where(g => model.Genres.Any(x => x == g.Id))
                     .ToList();
@@ -63,8 +59,8 @@
                 };
             }
 
-            await this.seriesRepository.AddAsync(newSeries);
-            await this.seriesRepository.SaveChangesAsync();
+            await this.dbContext.Series.AddAsync(newSeries);
+            await this.dbContext.SaveChangesAsync();
 
             return newSeries.Id;
         }

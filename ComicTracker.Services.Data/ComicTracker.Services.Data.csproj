@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\ComicTracker.Data.Common\ComicTracker.Data.Common.csproj" />
+    <ProjectReference Include="..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
+    <ProjectReference Include="..\Data\ComicTracker.Data\ComicTracker.Data.csproj" />
+  </ItemGroup>
+
+</Project>

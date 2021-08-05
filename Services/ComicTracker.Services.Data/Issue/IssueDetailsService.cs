@@ -4,27 +4,25 @@
     using System.Security.Claims;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
 
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.Issue.Contracts;
     using ComicTracker.Services.Data.Issues.Models;
 
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class IssueDetailsService : IIssueDetailsService
     {
-        private readonly IDeletableEntityRepository<Issue> issuesRepository;
+        private readonly ComicTrackerDbContext dbContext;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public IssueDetailsService(
-            IDeletableEntityRepository<Issue> issuesRepository,
+        public IssueDetailsService(ComicTrackerDbContext dbContext,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
-            this.issuesRepository = issuesRepository;
+            this.dbContext = dbContext;
             this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
@@ -33,8 +31,8 @@
         {
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var currentIssue = this.issuesRepository
-               .AllAsNoTracking()
+            var currentIssue = this.dbContext.Issues
+               .AsNoTracking()
                .Select(i => new IssueDetailsServiceModel
                {
                    Id = i.Id,

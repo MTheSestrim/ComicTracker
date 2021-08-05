@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using ComicTracker.Data.Common.Repositories;
+    using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Series.Contracts;
 
@@ -11,16 +11,16 @@
 
     public class SeriesRatingService : ISeriesRatingService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
+        private readonly ComicTrackerDbContext dbContext;
 
-        public SeriesRatingService(IDeletableEntityRepository<Series> seriesRepository)
+        public SeriesRatingService(ComicTrackerDbContext dbContext)
         {
-            this.seriesRepository = seriesRepository;
+            this.dbContext = dbContext;
         }
 
         public async Task<int> RateSeries(string userId, int seriesId, int score)
         {
-            var series = await this.seriesRepository.All()
+            var series = await this.dbContext.Series
                 .Include(s => s.UsersSeries)
                 .FirstOrDefaultAsync(s => s.Id == seriesId);
 
@@ -39,15 +39,15 @@
 
                     series.UsersSeries.Add(userSeries);
 
-                    this.seriesRepository.Update(series);
-                    await this.seriesRepository.SaveChangesAsync();
+                    this.dbContext.Update(series);
+                    await this.dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     userSeries.Score = score;
 
-                    this.seriesRepository.Update(series);
-                    await this.seriesRepository.SaveChangesAsync();
+                    this.dbContext.Update(series);
+                    await this.dbContext.SaveChangesAsync();
                 }
 
                 return score;

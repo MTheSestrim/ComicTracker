@@ -2,32 +2,31 @@
 {
     using System.Threading.Tasks;
 
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.Series.Contracts;
 
     using Microsoft.EntityFrameworkCore;
 
     public class SeriesDeletionService : ISeriesDeletionService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
+        private readonly ComicTrackerDbContext dbContext;
 
-        public SeriesDeletionService(IDeletableEntityRepository<Series> seriesRepository)
+        public SeriesDeletionService(ComicTrackerDbContext dbContext)
         {
-            this.seriesRepository = seriesRepository;
+            this.dbContext = dbContext;
         }
 
         public async Task<bool> DeleteSeries(int seriesId)
         {
-            var series = await this.seriesRepository.All().FirstOrDefaultAsync(s => s.Id == seriesId);
+            var series = await this.dbContext.Series.FirstOrDefaultAsync(s => s.Id == seriesId);
 
             if (series == null)
             {
                 return false;
             }
 
-            this.seriesRepository.Delete(series);
-            await this.seriesRepository.SaveChangesAsync();
+            this.dbContext.Delete(series);
+            await this.dbContext.SaveChangesAsync();
 
             return true;
         }

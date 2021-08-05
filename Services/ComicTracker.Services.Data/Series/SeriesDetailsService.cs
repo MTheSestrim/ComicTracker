@@ -6,35 +6,25 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
 
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
 
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class SeriesDetailsService : ISeriesDetailsService
     {
-        private readonly IDeletableEntityRepository<Series> seriesRepository;
-        private readonly IDeletableEntityRepository<Issue> issuesRepository;
-        private readonly IDeletableEntityRepository<Arc> arcsRepository;
-        private readonly IDeletableEntityRepository<Volume> volumesRepository;
+        private readonly ComicTrackerDbContext dbContext;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public SeriesDetailsService(
-            IDeletableEntityRepository<Series> seriesRepository,
-            IDeletableEntityRepository<Issue> issuesRepository,
-            IDeletableEntityRepository<Arc> arcsRepository,
-            IDeletableEntityRepository<Volume> volumesRepository,
+        public SeriesDetailsService(ComicTrackerDbContext dbContext,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
-            this.seriesRepository = seriesRepository;
-            this.issuesRepository = issuesRepository;
-            this.arcsRepository = arcsRepository;
-            this.volumesRepository = volumesRepository;
+            this.dbContext = dbContext;
             this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
@@ -44,28 +34,28 @@
         {
             // Entities are extracted in separate queries to take advantage of IQueryable.
             // Otherwise, selecting and ordering is done in-memory, returning IEnumerable and slowing down app.
-            var issues = this.issuesRepository
-                .AllAsNoTracking()
+            var issues = this.dbContext.Issues
+                .AsNoTracking()
                 .Where(i => i.SeriesId == seriesId)
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(i => i.Number).ToArray();
 
-            var volumes = this.volumesRepository
-                .AllAsNoTracking()
+            var volumes = this.dbContext.Volumes
+                .AsNoTracking()
                 .Where(v => v.SeriesId == seriesId)
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(i => i.Number).ToArray();
 
-            var arcs = this.arcsRepository
-                .AllAsNoTracking()
+            var arcs = this.dbContext.Arcs
+                .AsNoTracking()
                 .Where(a => a.SeriesId == seriesId)
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
 
             var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var currentSeries = this.seriesRepository
-               .AllAsNoTracking()
+            var currentSeries = this.dbContext.Series
+               .AsNoTracking()
                .Select(s => new SeriesDetailsServiceModel
                {
                    Id = s.Id,

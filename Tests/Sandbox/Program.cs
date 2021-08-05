@@ -7,9 +7,7 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Common;
-    using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models;
-    using ComicTracker.Data.Repositories;
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services.Messaging;
 
@@ -70,10 +68,6 @@
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ComicTrackerDbContext>();
-
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();

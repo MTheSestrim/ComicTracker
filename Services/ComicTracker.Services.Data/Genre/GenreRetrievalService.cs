@@ -3,21 +3,23 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using ComicTracker.Data.Common.Repositories;
-    using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Data;
     using ComicTracker.Services.Data.Genre.Contracts;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class GenreRetrievalService : IGenreRetrievalService
     {
-        private readonly IDeletableEntityRepository<Genre> genreRepository;
+        private readonly ComicTrackerDbContext dbContext;
 
-        public GenreRetrievalService(IDeletableEntityRepository<Genre> genresRepository)
+        public GenreRetrievalService(ComicTrackerDbContext dbContext)
         {
-            this.genreRepository = genresRepository;
+            this.dbContext = dbContext;
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs() =>
-            this.genreRepository.AllAsNoTracking()
+            this.dbContext.Genres
+            .AsNoTracking()
             .Select(i => new
                 {
                     i.Id,

@@ -1,12 +1,8 @@
 ﻿namespace ComicTracker.Web
 {
-    using System.Reflection;
-
     using ComicTracker.Data;
     using ComicTracker.Data.Common;
-    using ComicTracker.Data.Common.Repositories;
     using ComicTracker.Data.Models;
-    using ComicTracker.Data.Repositories;
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services.Data.Arc;
     using ComicTracker.Services.Data.Arc.Contracts;
@@ -22,7 +18,6 @@
     using ComicTracker.Services.Data.Volume.Contracts;
     using ComicTracker.Services.Messaging;
     using ComicTracker.Web.Infrastructure;
-    using ComicTracker.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -67,11 +62,6 @@
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(this.configuration);
-
-            // Data repositories
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // AutoMapper
             services.AddAutoMapper(typeof(WebMappingProfile), typeof(ServiceMappingProfile));
