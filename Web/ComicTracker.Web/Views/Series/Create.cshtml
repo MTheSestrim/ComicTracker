@@ -20,52 +20,7 @@
 <h1>@this.ViewData["Title"]</h1>
 
 <form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="panel panel-default">
-        <div id="dvTab">
-            <ul class="nav nav-pills  justify-content-lg-start" role="tablist">
-                <li class="nav-item">
-                    <a href="#coverPathTab" aria-controls="coverPathTab" role="tab" data-toggle="pill" class="nav-link show">
-                        Link Image
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#coverImageTab" aria-controls="coverImageTab" role="tab" data-toggle="pill" class="nav-link show">
-                        Upload Image
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane form-group" id="coverPathTab">
-                    <label asp-for="CoverPath">Cover Path</label>
-                    <input asp-for="CoverPath" class="form-control" />
-                    <span asp-validation-for="CoverPath" class="text-danger"></span>
-                </div>
-                <div role="tabpanel" class="tab-pane form-group" id="coverImageTab">
-                    <label asp-for="CoverImage" class="control-label">Cover Image</label>
-                    <div class="custom-file">
-                        <input asp-for="CoverImage" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                    <span asp-validation-for="CoverImage" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Genres"></label>
-        <select id="genreValues" asp-for="Genres" class="form-control" asp-items="genres"></select>
-        <span asp-validation-for="Genres" class="text-danger"></span>
-    </div>
+    <partial name="_EntityCreatePartial" model="Model" />
     <div class="form-group">
         <label asp-for="Ongoing"></label>
         <select asp-for="Ongoing" class="form-control" asp-items="ongoingStatuses"></select>

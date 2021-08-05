@@ -74,8 +74,8 @@
 
             var serviceModel = new CreateSeriesServiceModel
             {
-                Name = model.Title,
-                CoverImage = model.CoverImage,
+                Title = model.Title,
+                CoverImage = await model.CoverImage.GetBytes(),
                 CoverPath = model.CoverPath,
                 Description = model.Description,
                 Genres = model.Genres,
@@ -83,7 +83,7 @@
                 RetrievedGenres = model.RetrievedGenres,
             };
 
-            var id = await this.seriesCreationService.CreateSeriesAsync(serviceModel);
+            var id = this.seriesCreationService.CreateSeries(serviceModel);
 
             return this.Redirect($"/Series/{id}");
         }
@@ -120,12 +120,12 @@
                 Title = model.Title,
                 Ongoing = model.Ongoing,
                 Description = model.Description,
-                CoverImage = model.CoverImage,
+                CoverImage = await model.CoverImage.GetBytes(),
                 CoverPath = model.CoverPath,
                 Genres = model.Genres,
             };
 
-            var id = await this.seriesEditingService.EditSeriesAsync(serviceModel);
+            var id = this.seriesEditingService.EditSeries(serviceModel);
 
             return this.Redirect($"/Series/{id}");
         }

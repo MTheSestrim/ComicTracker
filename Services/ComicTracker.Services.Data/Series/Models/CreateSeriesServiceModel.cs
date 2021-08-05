@@ -6,13 +6,13 @@
 
     public class CreateSeriesServiceModel
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public string Description { get; set; }
 
         public string CoverPath { get; set; }
 
-        public IFormFile CoverImage { get; set; }
+        public byte[] CoverImage { get; set; }
 
         public bool Ongoing { get; set; }
 

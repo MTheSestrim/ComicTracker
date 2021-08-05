@@ -95,6 +95,7 @@
             services.AddTransient<ISeriesSearchQueryingService, SeriesSearchQueryingService>();
 
             // Volume
+            services.AddTransient<IVolumeCreationService, VolumeCreationService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
             services.AddTransient<IVolumeRatingService, VolumeRatingService>();
             services.AddTransient<IVolumeTemplateCreationService, VolumeTemplateCreationService>();

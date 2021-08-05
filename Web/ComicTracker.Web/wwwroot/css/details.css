@@ -125,3 +125,8 @@ li.list-inline-item button {
     text-decoration: none;
     cursor: pointer;
 }
+
+.miniThumbnail {
+    height: auto;
+    width: 50px;
+}

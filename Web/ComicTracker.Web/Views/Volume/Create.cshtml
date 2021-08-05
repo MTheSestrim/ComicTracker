@@ -1,0 +1,32 @@
+﻿@using ComicTracker.Web.ViewModels.Volume
+
+@model CreateVolumeInputModel
+
+@{
+    this.ViewData["Title"] = "Add volume";
+    
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <partial name="_EntityCreatePartial" model="Model" />
+    <div class="form-group">
+        <label asp-for="Number"></label>
+        <input asp-for="Number" class="form-control col-2" />
+        <span asp-validation-for="Number" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="SeriesId" />
+    <input type="submit" class="btn btn-primary" />
+</form>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/multi-select.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/seriesCreate.js")" type="text/javascript"></script>
+}

@@ -26,29 +26,48 @@
 
             <div class="tab-pane fade" id="pills-@elModel.Name.ToLower()" role="tabpanel" aria-labelledby="pills-@elModel.Name.ToLower()-tab">
                 <h3 class="tab-title">@elModel.Name</h3>
+
                 @if (elModel.EntityLinkings.Count > 0)
                 {
+                    <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
+                       asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
+                       asp-action="Create"
+                       asp-route-id="@Model.Id"
+                       asp-route-number="@(elModel.EntityLinkings.Count + 1)">
+                        <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
+                    </a>
                     <table class="table table-bordered">
                         <tbody>
                             @foreach (var entity in elModel.EntityLinkings)
                             {
+                                var numberColSpan = 3;
+
+                                var entityTitleExists = entity.Title != null;
+
+                                if (entityTitleExists)
+                                {
+                                    numberColSpan--;
+                                }
+
                                 <tr>
                                     @if (entity.CoverPath != null)
                                     {
-                                        <td class="col-3 text-md-left">
+                                        numberColSpan--;
+
+                                        <td colspan="1" class="col-3 text-md-center">
                                             <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                                <img src="@entity.CoverPath" alt="image description">
+                                                <img src="@entity.CoverPath" alt="image description" class="miniThumbnail">
                                             </a>
                                         </td>
                                     }
-                                    <td class="col-2 text-md-center">
+                                    <td colspan="@numberColSpan" class="col-1 text-md-center">
                                         <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
                                             @entity.Number
                                         </a>
                                     </td>
-                                    @if (entity.Title != null)
+                                    @if (entityTitleExists)
                                     {
-                                        <td class="col-7 text-md-center">
+                                        <td colspan="1" class="col-8 text-md-center">
                                             <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
                                                 @entity.Title
                                             </a>
@@ -60,7 +79,7 @@
                         </tbody>
                     </table>
                 }
-                else if(Model.EntityTypeName == "Series")
+                else if (Model.EntityTypeName == "Series")
                 {
                     <div class="container text-center col-8">
                         <h3>
@@ -76,7 +95,7 @@
                                 <span class="close text-right pr-2">&times;</span>
                                 <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
                                 <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
                                         seriesId="@Model.Id"
                                         value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">

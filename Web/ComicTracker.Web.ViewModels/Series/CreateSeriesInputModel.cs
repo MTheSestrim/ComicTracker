@@ -1,16 +1,12 @@
 ﻿namespace ComicTracker.Web.ViewModels.Series
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.ViewModels.Entities;
 
-    using Microsoft.AspNetCore.Http;
-
-    using static ComicTracker.Common.GlobalConstants;
     using static ComicTracker.Common.SeriesConstants;
 
-    public class CreateSeriesInputModel
+    public class CreateSeriesInputModel : CreateEntityInputModel
     {
         // Error must be a constant expression, therefore string interpolation cannot be used in a convenient manner.
         [Required]
@@ -18,19 +14,8 @@
             DefaultSeriesNameMaxLength,
             MinimumLength = DefaultSeriesNameMinLength,
             ErrorMessage = "Title must be between 2 and 200 characters.")]
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public string CoverPath { get; set; }
-
-        [MaxFileSize(DefaultImageSizeInKB * BytesInAKilobyte)]
-        public IFormFile CoverImage { get; set; }
+        public new string Title { get; set; }
 
         public bool Ongoing { get; set; }
-
-        public IEnumerable<int> Genres { get; set; }
-
-        public IEnumerable<KeyValuePair<string, string>> RetrievedGenres { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
@@ -22,7 +21,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> EditSeriesAsync(EditSeriesServiceModel model)
+        public int EditSeries(EditSeriesServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -49,7 +48,7 @@
             // else if -> Only updates thumbnail if data is passed.
             if (model.CoverImage != null)
             {
-                var uniqueFileName = await GetUploadedFileNameAsync(model.CoverImage);
+                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
 
                 // Delete old cover image and replace it with the new one.
                 DeleteCover(currentSeries.CoverPath);
@@ -61,7 +60,7 @@
             }
 
             this.dbContext.Update(currentSeries);
-            await this.dbContext.SaveChangesAsync();
+            this.dbContext.SaveChanges();
 
             return currentSeries.Id;
         }

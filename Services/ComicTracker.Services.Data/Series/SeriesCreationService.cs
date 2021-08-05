@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
@@ -20,7 +19,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> CreateSeriesAsync(CreateSeriesServiceModel model)
+        public int CreateSeries(CreateSeriesServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -38,7 +37,7 @@
             {
                 newSeries = new Series
                 {
-                    Title = model.Name,
+                    Title = model.Title,
                     Description = model.Description,
                     CoverPath = model.CoverPath,
                     Ongoing = model.Ongoing,
@@ -47,11 +46,11 @@
             }
             else
             {
-                var uniqueFileName = await GetUploadedFileNameAsync(model.CoverImage);
+                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
 
                 newSeries = new Series
                 {
-                    Title = model.Name,
+                    Title = model.Title,
                     Description = model.Description,
                     CoverPath = uniqueFileName,
                     Ongoing = model.Ongoing,
@@ -59,8 +58,8 @@
                 };
             }
 
-            await this.dbContext.Series.AddAsync(newSeries);
-            await this.dbContext.SaveChangesAsync();
+            this.dbContext.Series.Add(newSeries);
+            this.dbContext.SaveChanges();
 
             return newSeries.Id;
         }

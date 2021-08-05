@@ -63,6 +63,7 @@
                     type: 'GET',
                     url: `/Series/${seriesId}`,
                 }).done((res) => {
+                    // Take response from the GET request of updated page and replace the table's data
                     let data = $('<div />').append(res).find(`#pills-${entityName.toLowerCase()}s`).html();
                     $(`#pills-${entityName.toLowerCase()}s`).html(data);
                 }).fail((res) => {

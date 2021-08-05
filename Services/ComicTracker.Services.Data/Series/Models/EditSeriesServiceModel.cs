@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Microsoft.AspNetCore.Http;
-
     public class EditSeriesServiceModel
     {
         public int Id { get; set; }
@@ -16,7 +14,7 @@
 
         public string CoverPath { get; set; }
 
-        public IFormFile CoverImage { get; set; }
+        public byte[] CoverImage { get; set; }
 
         public IEnumerable<int> Genres { get; set; }
     }

@@ -23,6 +23,7 @@
 
         public IEnumerable<ListServiceModel> GetListData(string userId) => this.dbContext.Series
                .AsNoTracking()
+               .Where(s => s.UsersSeries.Any(us => us.UserId == userId))
                .Select(s => new ListServiceModel
                {
                    Title = s.Title,
