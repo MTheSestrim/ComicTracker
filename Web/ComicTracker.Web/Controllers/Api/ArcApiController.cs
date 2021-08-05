@@ -22,6 +22,6 @@
 
         [HttpPut]
         public async Task<ActionResult<int>> ScoreArc(RateApiRequestModel model)
-            => await this.arcRatingService.RateArc(this.User.GetId(), model.Id, model.Score);
+            => await this.arcRatingService.RateArc(this.User.GetId(), model);
     }
 }

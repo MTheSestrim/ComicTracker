@@ -60,7 +60,7 @@
                         </tbody>
                     </table>
                 }
-                else
+                else if(Model.EntityTypeName == "Series")
                 {
                     <div class="container text-center col-8">
                         <h3>
@@ -78,6 +78,7 @@
                                 <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
                                 <button type="submit" 
                                         class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
+                                        seriesId="@Model.Id"
                                         value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
                                     Submit
                                 </button>

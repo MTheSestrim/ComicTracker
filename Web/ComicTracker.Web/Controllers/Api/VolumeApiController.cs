@@ -23,6 +23,6 @@
 
         [HttpPut]
         public async Task<ActionResult<int>> ScoreVolume(RateApiRequestModel model)
-            => await this.volumeRatingService.RateVolume(this.User.GetId(), model.Id, model.Score);
+            => await this.volumeRatingService.RateVolume(this.User.GetId(), model);
     }
 }

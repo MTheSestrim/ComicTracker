@@ -6,6 +6,7 @@
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Services.Data.Models.Entities;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -18,11 +19,11 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateArc(string userId, int arcId, int score)
+        public async Task<int> RateArc(string userId, RateApiRequestModel model)
         {
             var arc = await this.dbContext.Arcs
                 .Include(a => a.UsersArcs)
-                .FirstOrDefaultAsync(a => a.Id == arcId);
+                .FirstOrDefaultAsync(a => a.Id == model.Id);
 
             if (arc != null)
             {
@@ -33,8 +34,8 @@
                     userArc = new UserArc
                     {
                         UserId = userId,
-                        ArcId = arcId,
-                        Score = score,
+                        ArcId = model.Id,
+                        Score = model.Score,
                     };
 
                     arc.UsersArcs.Add(userArc);
@@ -44,13 +45,13 @@
                 }
                 else
                 {
-                    userArc.Score = score;
+                    userArc.Score = model.Score;
 
                     this.dbContext.Arcs.Update(arc);
                     await this.dbContext.SaveChangesAsync();
                 }
 
-                return score;
+                return model.Score;
             }
 
             return 0;

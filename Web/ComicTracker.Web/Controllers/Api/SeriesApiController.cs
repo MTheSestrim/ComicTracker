@@ -22,6 +22,6 @@
 
         [HttpPut]
         public async Task<ActionResult<int>> ScoreSeries(RateApiRequestModel model)
-            => await this.seriesRatingService.RateSeries(this.User.GetId(), model.Id, model.Score);
+            => await this.seriesRatingService.RateSeries(this.User.GetId(), model);
     }
 }

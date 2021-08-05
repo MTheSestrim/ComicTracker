@@ -2,8 +2,10 @@
 {
     using System.Threading.Tasks;
 
+    using ComicTracker.Services.Data.Models.Entities;
+
     public interface IIssueRatingService
     {
-        Task<int> RateIssue(string userId, int issueId, int score);
+        Task<int> RateIssue(string userId, RateApiRequestModel model);
     }
 }

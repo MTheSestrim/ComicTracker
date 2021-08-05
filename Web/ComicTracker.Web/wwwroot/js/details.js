@@ -21,11 +21,11 @@
             }).done((res) => {
                 $('#userScore').text(`Your Score: ${res}`);
             })
-            .fail((res) => {
-                if (res.status == 401) {
-                    window.location.href = '/Identity/Account/Login';
-                }
-            })
+                .fail((res) => {
+                    if (res.status == 401) {
+                        window.location.href = '/Identity/Account/Login';
+                    }
+                })
         }
     })
 
@@ -43,21 +43,24 @@
     $('.templateSubmit').on('click', function () {
         let entityName = $(this).attr('value');
 
+        let seriesId = $(this).attr('seriesId');
+
         // Gets the value of the input before the submit button, which is the target of this function
         let numberOfEntities = $(this).prev().val();
 
-        if (entityName && numberOfEntities) {
+
+        if (entityName && numberOfEntities && seriesId) {
             $.ajax({
                 type: 'POST',
                 url: `/api/${entityName}`,
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
-                data: numberOfEntities,
+                data: JSON.stringify({ numberOfEntities: numberOfEntities, seriesId: seriesId }),
                 contentType: 'application/json;charset=utf-8',
             }).done((res) => {
                 console.log(res.text);
             })
             .fail((res) => {
-        
+                console.log(res.text);
             })
         }
     })

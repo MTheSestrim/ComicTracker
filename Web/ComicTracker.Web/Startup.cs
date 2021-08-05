@@ -79,6 +79,7 @@
             // Issue
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IIssueRatingService, IssueRatingService>();
+            services.AddTransient<IIssueTemplateCreationService, IssueTemplateCreationService>();
 
             // List
             services.AddTransient<IListService, ListService>();
