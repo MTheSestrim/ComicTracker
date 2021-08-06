@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Services.Data.Volume
+﻿namespace ComicTracker.Services.Data.Issue
 {
     using System;
     using System.Collections.Generic;
@@ -7,23 +7,23 @@
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Contracts;
+    using ComicTracker.Services.Data.Issue.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
-    using ComicTracker.Services.Data.Volume.Contracts;
 
     using Microsoft.EntityFrameworkCore;
 
-    public class VolumeEditingService : IVolumeEditingService
+    public class IssueEditingService : IIssueEditingService
     {
         private readonly ComicTrackerDbContext dbContext;
         private readonly IFileUploadService fileUploadService;
 
-        public VolumeEditingService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
+        public IssueEditingService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
             this.fileUploadService = fileUploadService;
         }
 
-        public int EditVolume(EditSeriesRelatedEntityServiceModel model)
+        public int EditIssue(EditSeriesRelatedEntityServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -35,23 +35,23 @@
                     .ToList();
             }
 
-            var currentVolume = this.dbContext.Volumes.Include(v => v.Genres).FirstOrDefault(v => v.Id == model.Id);
+            var currentIssue = this.dbContext.Issues.Include(i => i.Genres).FirstOrDefault(i => i.Id == model.Id);
 
-            if (currentVolume == null)
+            if (currentIssue == null)
             {
-                throw new KeyNotFoundException($"Volume with given id {model.Id} does not exist");
+                throw new KeyNotFoundException($"Issue with given id {model.Id} does not exist");
             }
 
-            if (currentVolume.Number != model.Number && this.dbContext.Volumes.Any(v => v.Number == model.Number))
+            if (currentIssue.Number != model.Number && this.dbContext.Issues.Any(i => i.Number == model.Number))
             {
                 throw new InvalidOperationException(
-                    $"Cannot insert another {typeof(Volume).Name} with the same number");
+                    $"Cannot insert another {typeof(Issue).Name} with the same number");
             }
 
-            currentVolume.Title = model.Title;
-            currentVolume.Description = model.Description;
-            currentVolume.Number = model.Number;
-            currentVolume.Genres = selectedGenres;
+            currentIssue.Title = model.Title;
+            currentIssue.Description = model.Description;
+            currentIssue.Number = model.Number;
+            currentIssue.Genres = selectedGenres;
 
             // else if -> Only updates thumbnail if data is passed.
             if (model.CoverImage != null)
@@ -59,18 +59,18 @@
                 var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 // Delete old cover image and replace it with the new one.
-                this.fileUploadService.DeleteCover(currentVolume.CoverPath);
-                currentVolume.CoverPath = uniqueFileName;
+                this.fileUploadService.DeleteCover(currentIssue.CoverPath);
+                currentIssue.CoverPath = uniqueFileName;
             }
             else if (model.CoverPath != null)
             {
-                currentVolume.CoverPath = model.CoverPath;
+                currentIssue.CoverPath = model.CoverPath;
             }
 
-            this.dbContext.Update(currentVolume);
+            this.dbContext.Update(currentIssue);
             this.dbContext.SaveChanges();
 
-            return currentVolume.Id;
+            return currentIssue.Id;
         }
     }
 }

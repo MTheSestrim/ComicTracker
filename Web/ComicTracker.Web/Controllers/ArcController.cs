@@ -1,7 +1,11 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using AutoMapper;
+
     using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
@@ -81,9 +85,20 @@
                 RetrievedGenres = model.RetrievedGenres,
             };
 
-            var id = this.arcCreationService.CreateArc(serviceModel);
+            try
+            {
+                var id = this.arcCreationService.CreateArc(serviceModel);
 
-            return this.Redirect($"/Arc/{id}");
+                return this.Redirect($"/Arc/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
@@ -123,9 +138,20 @@
                 Genres = model.Genres,
             };
 
-            var id = this.arcEditingService.EditArc(serviceModel);
+            try
+            {
+                var id = this.arcEditingService.EditArc(serviceModel);
 
-            return this.Redirect($"/Arc/{id}");
+                return this.Redirect($"/Arc/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

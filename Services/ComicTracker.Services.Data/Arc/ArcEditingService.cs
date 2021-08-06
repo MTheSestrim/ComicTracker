@@ -1,5 +1,6 @@
 ﻿namespace ComicTracker.Services.Data.Arc
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -38,7 +39,13 @@
 
             if (currentArc == null)
             {
-                return -1;
+                throw new KeyNotFoundException($"Arc with given id {model.Id} does not exist");
+            }
+
+            if (currentArc.Number != model.Number && this.dbContext.Arcs.Any(a => a.Number == model.Number))
+            {
+                throw new InvalidOperationException(
+                    $"Cannot insert another {typeof(Arc).Name} with the same number");
             }
 
             currentArc.Title = model.Title;

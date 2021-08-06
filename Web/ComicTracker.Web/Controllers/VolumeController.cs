@@ -1,5 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -83,9 +85,20 @@
                 RetrievedGenres = model.RetrievedGenres,
             };
 
-            var id = this.volumeCreationService.CreateVolume(serviceModel);
+            try
+            {
+                var id = this.volumeCreationService.CreateVolume(serviceModel);
 
-            return this.Redirect($"/Volume/{id}");
+                return this.Redirect($"/Volume/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
@@ -125,9 +138,20 @@
                 Genres = model.Genres,
             };
 
-            var id = this.volumeEditingService.EditVolume(serviceModel);
+            try
+            {
+                var id = this.volumeEditingService.EditVolume(serviceModel);
 
-            return this.Redirect($"/Volume/{id}");
+                return this.Redirect($"/Volume/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

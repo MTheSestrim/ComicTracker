@@ -1,6 +1,10 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using AutoMapper;
 
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Issue.Contracts;
@@ -16,15 +20,24 @@
         private readonly IIssueDetailsService issueDetailsService;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly IIssueCreationService issueCreationService;
+        private readonly IMapper mapper;
+        private readonly IIssueEditingInfoService issueEditingInfoService;
+        private readonly IIssueEditingService issueEditingService;
 
         public IssueController(
             IIssueDetailsService issueDetailsService,
             IGenreRetrievalService genreRetrievalService,
-            IIssueCreationService issueCreationService)
+            IIssueCreationService issueCreationService,
+            IMapper mapper,
+            IIssueEditingInfoService issueEditingInfoService,
+            IIssueEditingService issueEditingService)
         {
             this.issueDetailsService = issueDetailsService;
             this.genreRetrievalService = genreRetrievalService;
             this.issueCreationService = issueCreationService;
+            this.mapper = mapper;
+            this.issueEditingInfoService = issueEditingInfoService;
+            this.issueEditingService = issueEditingService;
         }
 
         public IActionResult Index(int id)
@@ -72,9 +85,73 @@
                 RetrievedGenres = model.RetrievedGenres,
             };
 
-            var id = this.issueCreationService.CreateIssue(serviceModel);
+            try
+            {
+                var id = this.issueCreationService.CreateIssue(serviceModel);
 
-            return this.Redirect($"/Issue/{id}");
+                return this.Redirect($"/Issue/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var currentIssue = this.issueEditingInfoService.GetIssue(id);
+
+            if (currentIssue == null)
+            {
+                return this.NotFound(currentIssue);
+            }
+
+            var viewModel = this.mapper.Map<EditSeriesRelatedEntityInputModel>(currentIssue);
+            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(EditSeriesRelatedEntityInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                model.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+                return this.View(model);
+            }
+
+            var serviceModel = new EditSeriesRelatedEntityServiceModel
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Number = model.Number,
+                Description = model.Description,
+                CoverImage = await model.CoverImage.GetBytes(),
+                CoverPath = model.CoverPath,
+                Genres = model.Genres,
+            };
+
+            try
+            {
+                var id = this.issueEditingService.EditIssue(serviceModel);
+
+                return this.Redirect($"/Issue/{id}");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return this.NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

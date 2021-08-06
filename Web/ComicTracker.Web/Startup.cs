@@ -76,6 +76,7 @@
 
             // ComicTracker.Services.Data
             services.AddTransient<IFileUploadService, FileUploadService>();
+
             // Arc
             services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
@@ -90,6 +91,8 @@
             // Issue
             services.AddTransient<IIssueCreationService, IssueCreationService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
+            services.AddTransient<IIssueEditingInfoService, IssueEditingInfoService>();
+            services.AddTransient<IIssueEditingService, IssueEditingService>();
             services.AddTransient<IIssueRatingService, IssueRatingService>();
             services.AddTransient<IIssueTemplateCreationService, IssueTemplateCreationService>();
 

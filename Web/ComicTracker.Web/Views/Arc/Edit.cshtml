@@ -4,9 +4,6 @@
 
 @{
     this.ViewData["Title"] = "Edit arc";
-    var allGenres = this.Model.RetrievedGenres.Select(x => new SelectListItem(x.Value, x.Key));
-
-    allGenres.Where(ag => Model.Genres.Any(g => g.ToString() == ag.Value)).Select(ag => ag.Selected = true);
 }
 
 @section Styles
