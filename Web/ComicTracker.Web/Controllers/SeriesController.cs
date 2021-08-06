@@ -56,8 +56,10 @@
         [Authorize]
         public IActionResult Create()
         {
-            var viewModel = new CreateSeriesInputModel();
-            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
+            var viewModel = new CreateSeriesInputModel
+            {
+                RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs(),
+            };
 
             return this.View(viewModel);
         }

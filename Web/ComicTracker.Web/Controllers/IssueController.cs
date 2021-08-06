@@ -55,10 +55,12 @@
         [Authorize]
         public IActionResult Create(int id, int number = 0)
         {
-            var viewModel = new CreateSeriesRelatedEntityInputModel();
-            viewModel.RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs();
-            viewModel.SeriesId = id;
-            viewModel.Number = number;
+            var viewModel = new CreateSeriesRelatedEntityInputModel
+            {
+                RetrievedGenres = this.genreRetrievalService.GetAllAsKeyValuePairs(),
+                SeriesId = id,
+                Number = number,
+            };
 
             return this.View(viewModel);
         }

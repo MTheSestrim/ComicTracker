@@ -11,9 +11,7 @@
     {
         public string GetUploadedFileName(byte[] coverImage, string entityName)
         {
-            string uniqueFileName = null;
-
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + entityName + ".jpg";
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + entityName + ".jpg";
             string filePath = Path.Combine($"wwwroot{SeriesImagePath}", uniqueFileName);
 
             File.WriteAllBytes(filePath, coverImage);

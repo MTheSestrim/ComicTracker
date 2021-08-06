@@ -24,7 +24,7 @@
 
         private string FormPattern()
         {
-            StringBuilder pattern = new StringBuilder();
+            var pattern = new StringBuilder();
 
             var assemblyName = "ComicTracker.Data.Models";
             var nameSpace = "ComicTracker.Data.Models.Entities";

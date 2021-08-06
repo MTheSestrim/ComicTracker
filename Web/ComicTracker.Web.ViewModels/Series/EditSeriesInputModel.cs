@@ -14,7 +14,7 @@
             DefaultSeriesNameMaxLength,
             MinimumLength = DefaultSeriesNameMinLength,
             ErrorMessage = "Title must be between 2 and 200 characters.")]
-        public new string Title { get; init; }
+        public string Title { get; init; }
 
         public bool Ongoing { get; init; }
     }
