@@ -33,6 +33,8 @@
                 .ForMember(sm => sm.Genres, x => x.MapFrom(s => s.Genres.Select(g => g.Id)));
             this.CreateMap<Volume, EditInfoSeriesRelatedEntityServiceModel>()
                 .ForMember(sm => sm.Genres, x => x.MapFrom(s => s.Genres.Select(g => g.Id)));
+            this.CreateMap<Arc, EditInfoSeriesRelatedEntityServiceModel>()
+                .ForMember(sm => sm.Genres, x => x.MapFrom(s => s.Genres.Select(g => g.Id)));
         }
     }
 }

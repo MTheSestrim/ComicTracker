@@ -79,6 +79,8 @@
             // Arc
             services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
+            services.AddTransient<IArcEditingInfoService, ArcEditingInfoService>();
+            services.AddTransient<IArcEditingService, ArcEditingService>();
             services.AddTransient<IArcRatingService, ArcRatingService>();
             services.AddTransient<IArcTemplateCreationService, ArcTemplateCreationService>();
 

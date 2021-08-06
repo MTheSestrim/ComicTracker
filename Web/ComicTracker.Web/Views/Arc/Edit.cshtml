@@ -1,0 +1,35 @@
+﻿@using ComicTracker.Web.ViewModels.Entities
+
+@model EditSeriesRelatedEntityInputModel
+
+@{
+    this.ViewData["Title"] = "Edit arc";
+    var allGenres = this.Model.RetrievedGenres.Select(x => new SelectListItem(x.Value, x.Key));
+
+    allGenres.Where(ag => Model.Genres.Any(g => g.ToString() == ag.Value)).Select(ag => ag.Selected = true);
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <partial name="_EntityEditPartial" model="Model" />
+    <partial name="_SeriesRelatedEntityFormPartial" model="Model" />
+    <input type="submit" class="btn btn-primary" />
+</form>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/multi-select.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/seriesCreate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/edit.js")" type="text/javascript"></script>
+}
