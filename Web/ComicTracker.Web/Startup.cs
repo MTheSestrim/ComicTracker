@@ -5,8 +5,10 @@
     using ComicTracker.Data.Seeding;
     using ComicTracker.Services;
     using ComicTracker.Services.Contracts;
+    using ComicTracker.Services.Data;
     using ComicTracker.Services.Data.Arc;
     using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Genre;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Issue;
@@ -73,6 +75,7 @@
             services.AddScoped<IEntityNameExtractService, EntityNameExtractService>();
 
             // ComicTracker.Services.Data
+            services.AddTransient<IFileUploadService, FileUploadService>();
             // Arc
             services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();

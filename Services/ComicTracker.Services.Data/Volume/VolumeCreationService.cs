@@ -6,19 +6,21 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
-    using Microsoft.EntityFrameworkCore;
 
-    using static ComicTracker.Services.Data.FileUploadLocator;
+    using Microsoft.EntityFrameworkCore;
 
     public class VolumeCreationService : IVolumeCreationService
     {
         private readonly ComicTrackerDbContext dbContext;
+        private readonly IFileUploadService fileUploadService;
 
-        public VolumeCreationService(ComicTrackerDbContext dbContext)
+        public VolumeCreationService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
+            this.fileUploadService = fileUploadService;
         }
 
         public int CreateVolume(CreateSeriesRelatedEntityServiceModel model)
@@ -64,7 +66,7 @@
             }
             else
             {
-                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
+                var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 newVolume = new Volume
                 {

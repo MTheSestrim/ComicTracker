@@ -7,19 +7,20 @@
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
 
     using Microsoft.EntityFrameworkCore;
 
-    using static ComicTracker.Services.Data.FileUploadLocator;
-
     public class ArcCreationService : IArcCreationService
     {
         private readonly ComicTrackerDbContext dbContext;
+        private readonly IFileUploadService fileUploadService;
 
-        public ArcCreationService(ComicTrackerDbContext dbContext)
+        public ArcCreationService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
+            this.fileUploadService = fileUploadService;
         }
 
         public int CreateArc(CreateSeriesRelatedEntityServiceModel model)
@@ -65,7 +66,7 @@
             }
             else
             {
-                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
+                var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 newArc = new Arc
                 {

@@ -2,13 +2,14 @@
 {
     using System;
     using System.IO;
-    using System.Threading.Tasks;
+
+    using ComicTracker.Services.Data.Contracts;
 
     using static ComicTracker.Common.GlobalConstants;
 
-    public static class FileUploadLocator
+    public class FileUploadService : IFileUploadService
     {
-        public static string GetUploadedFileName(byte[] coverImage, string entityName)
+        public string GetUploadedFileName(byte[] coverImage, string entityName)
         {
             string uniqueFileName = null;
 
@@ -20,7 +21,7 @@
             return SeriesImagePath + uniqueFileName;
         }
 
-        public static void DeleteCover(string coverPath)
+        public void DeleteCover(string coverPath)
         {
             var filePath = $"wwwroot{coverPath}";
 

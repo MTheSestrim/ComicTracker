@@ -5,20 +5,21 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
 
     using Microsoft.EntityFrameworkCore;
 
-    using static ComicTracker.Services.Data.FileUploadLocator;
-
     public class VolumeEditingService : IVolumeEditingService
     {
         private readonly ComicTrackerDbContext dbContext;
+        private readonly IFileUploadService fileUploadService;
 
-        public VolumeEditingService(ComicTrackerDbContext dbContext)
+        public VolumeEditingService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
+            this.fileUploadService = fileUploadService;
         }
 
         public int EditVolume(EditSeriesRelatedEntityServiceModel model)
@@ -48,10 +49,10 @@
             // else if -> Only updates thumbnail if data is passed.
             if (model.CoverImage != null)
             {
-                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
+                var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 // Delete old cover image and replace it with the new one.
-                DeleteCover(currentVolume.CoverPath);
+                this.fileUploadService.DeleteCover(currentVolume.CoverPath);
                 currentVolume.CoverPath = uniqueFileName;
             }
             else if (model.CoverPath != null)

@@ -5,18 +5,19 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
-
-    using static ComicTracker.Services.Data.FileUploadLocator;
 
     public class SeriesCreationService : ISeriesCreationService
     {
         private readonly ComicTrackerDbContext dbContext;
+        private readonly IFileUploadService fileUploadService;
 
-        public SeriesCreationService(ComicTrackerDbContext dbContext)
+        public SeriesCreationService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
+            this.fileUploadService = fileUploadService;
         }
 
         public int CreateSeries(CreateSeriesServiceModel model)
@@ -46,7 +47,7 @@
             }
             else
             {
-                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
+                var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 newSeries = new Series
                 {

@@ -5,20 +5,21 @@
 
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
+    using ComicTracker.Services.Data.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
 
     using Microsoft.EntityFrameworkCore;
 
-    using static ComicTracker.Services.Data.FileUploadLocator;
-
     public class SeriesEditingService : ISeriesEditingService
     {
         private readonly ComicTrackerDbContext dbContext;
+        private readonly IFileUploadService fileUploadService;
 
-        public SeriesEditingService(ComicTrackerDbContext dbContext)
+        public SeriesEditingService(ComicTrackerDbContext dbContext, IFileUploadService fileUploadService)
         {
             this.dbContext = dbContext;
+            this.fileUploadService = fileUploadService;
         }
 
         public int EditSeries(EditSeriesServiceModel model)
@@ -48,10 +49,10 @@
             // else if -> Only updates thumbnail if data is passed.
             if (model.CoverImage != null)
             {
-                var uniqueFileName = GetUploadedFileName(model.CoverImage, model.Title);
+                var uniqueFileName = this.fileUploadService.GetUploadedFileName(model.CoverImage, model.Title);
 
                 // Delete old cover image and replace it with the new one.
-                DeleteCover(currentSeries.CoverPath);
+                this.fileUploadService.DeleteCover(currentSeries.CoverPath);
                 currentSeries.CoverPath = uniqueFileName;
             }
             else if (model.CoverPath != null)
