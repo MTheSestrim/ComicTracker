@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
-    <ProjectReference Include="..\Web\ComicTracker.Web.Infrastructure\ComicTracker.Web.Infrastructure.csproj" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
+    <ProjectReference Include="..\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -39,13 +39,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ComicTracker.Common\ComicTracker.Common.csproj" />
-    <ProjectReference Include="..\..\ComicTracker.Services.Data.Mapping\ComicTracker.Services.Data.Mapping.csproj" />
-    <ProjectReference Include="..\..\ComicTracker.Web.Infrastructure.Mapping\ComicTracker.Web.Infrastructure.Mapping.csproj" />
     <ProjectReference Include="..\..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\ComicTracker.Data\ComicTracker.Data.csproj" />
+    <ProjectReference Include="..\..\Services\ComicTracker.Services.Data.Mapping\ComicTracker.Services.Data.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Messaging\ComicTracker.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services\ComicTracker.Services.csproj" />
+    <ProjectReference Include="..\ComicTracker.Web.Infrastructure.Mapping\ComicTracker.Web.Infrastructure.Mapping.csproj" />
     <ProjectReference Include="..\ComicTracker.Web.Infrastructure\ComicTracker.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\ComicTracker.Web.ViewModels\ComicTracker.Web.ViewModels.csproj" />
   </ItemGroup>
