@@ -26,8 +26,4 @@
     <ProjectReference Include="..\ComicTracker.Web.Infrastructure\ComicTracker.Web.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Arc\" />
-  </ItemGroup>
-
 </Project>

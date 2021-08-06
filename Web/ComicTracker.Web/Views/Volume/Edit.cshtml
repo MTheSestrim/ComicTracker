@@ -1,18 +1,12 @@
-﻿@using ComicTracker.Web.ViewModels.Series
+﻿@using ComicTracker.Web.ViewModels.Entities
 
-@model EditSeriesInputModel
+@model EditSeriesRelatedEntityInputModel
 
 @{
-    this.ViewData["Title"] = "Edit series";
+    this.ViewData["Title"] = "Edit volume";
     var allGenres = this.Model.RetrievedGenres.Select(x => new SelectListItem(x.Value, x.Key));
 
     allGenres.Where(ag => Model.Genres.Any(g => g.ToString() == ag.Value)).Select(ag => ag.Selected = true);
-
-    var ongoingStatuses = new SelectListItem[]
-    {
-        new SelectListItem("Ongoing", "true"),
-        new SelectListItem("Completed", "false"),
-                                    };
 }
 
 @section Styles
@@ -29,11 +23,7 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <partial name="_EntityEditPartial" model="Model" />
-    <div class="form-group">
-        <label asp-for="Ongoing"></label>
-        <select asp-for="Ongoing" class="form-control" asp-items="ongoingStatuses"></select>
-        <span asp-validation-for="Ongoing" class="text-danger"></span>
-    </div>
+    <partial name="_SeriesRelatedEntityFormPartial" model="Model" />
     <input type="submit" class="btn btn-primary" />
 </form>
 

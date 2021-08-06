@@ -3,6 +3,8 @@
     using ComicTracker.Data;
     using ComicTracker.Data.Models;
     using ComicTracker.Data.Seeding;
+    using ComicTracker.Services;
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Arc;
     using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Genre;
@@ -67,6 +69,9 @@
 
             // Application services
 
+            // ComicTracker.Services
+            services.AddScoped<IEntityNameExtractService, EntityNameExtractService>();
+
             // ComicTracker.Services.Data
             // Arc
             services.AddTransient<IArcCreationService, ArcCreationService>();
@@ -98,6 +103,8 @@
             // Volume
             services.AddTransient<IVolumeCreationService, VolumeCreationService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
+            services.AddTransient<IVolumeEditingInfoService, VolumeEditingInfoService>();
+            services.AddTransient<IVolumeEditingService, VolumeEditingService>();
             services.AddTransient<IVolumeRatingService, VolumeRatingService>();
             services.AddTransient<IVolumeTemplateCreationService, VolumeTemplateCreationService>();
 

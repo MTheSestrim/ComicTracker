@@ -1,20 +1,31 @@
-﻿@using ComicTracker.Services.Data.Arc.Models;
+﻿@using ComicTracker.Services.Contracts;
+@using ComicTracker.Services.Data.Arc.Models;
 
 @using static ComicTracker.Common.GlobalConstants;
+
+
+@inject IEntityNameExtractService EntityNameExtractService
 
 @addTagHelper *, ComicTracker.Web
 
 @model ArcDetailsServiceModel
 
 @{
-    // If there is no Model.Title, a default title is displayed in this format: {SeriesTitle} #{Number of Issue}
-    ViewData["Title"] = @Model.Title != null ?
-        Model.Title :
-        string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
+    var defaultTitle = string.Format(DefaultSeriesRelatedEntityTitleFormat,
+            EntityNameExtractService.ExtractEntityTypeName(Model.GetType()),
+            Model.Number);
+
+    // If there is no Model.Title, a default title is displayed in this format: {SeriesTitle} #{Number of Arc}
+    ViewData["Title"] = @Model.Title != null ? Model.Title : defaultTitle;
 
     if (Model.Title == null)
     {
-        Model.Title = "Arc";
+        Model.Title = defaultTitle;
+    }
+
+    if (Model.Description == null)
+    {
+        Model.Description = DefaultDescription;
     }
 }
 

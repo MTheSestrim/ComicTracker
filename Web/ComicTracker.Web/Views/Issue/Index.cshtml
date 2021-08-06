@@ -7,10 +7,15 @@
 @model IssueDetailsServiceModel
 
 @{
+    var defaultTitle = string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
+
     // If there is no Model.Title, a default title is displayed in this format: {SeriesTitle} #{Number of Issue}
-    ViewData["Title"] = @Model.Title != null ?
-        Model.Title :
-        string.Format(DefaultSeriesRelatedEntityTitleFormat, Model.SeriesTitle, Model.Number);
+    ViewData["Title"] = @Model.Title != null ? Model.Title : defaultTitle;
+
+    if (Model.Title == null)
+    {
+        Model.Title = defaultTitle;
+    }
 
     if (Model.Description == null)
     {
