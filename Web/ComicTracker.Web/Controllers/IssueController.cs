@@ -17,25 +17,28 @@
 
     public class IssueController : BaseController
     {
-        private readonly IIssueDetailsService issueDetailsService;
+        private readonly IMapper mapper;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly IIssueCreationService issueCreationService;
-        private readonly IMapper mapper;
+        private readonly IIssueDeletionService issueDeletionService;
+        private readonly IIssueDetailsService issueDetailsService;
         private readonly IIssueEditingInfoService issueEditingInfoService;
         private readonly IIssueEditingService issueEditingService;
 
         public IssueController(
-            IIssueDetailsService issueDetailsService,
+            IMapper mapper,
             IGenreRetrievalService genreRetrievalService,
             IIssueCreationService issueCreationService,
-            IMapper mapper,
+            IIssueDeletionService issueDeletionService,
+            IIssueDetailsService issueDetailsService,
             IIssueEditingInfoService issueEditingInfoService,
             IIssueEditingService issueEditingService)
         {
-            this.issueDetailsService = issueDetailsService;
+            this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
             this.issueCreationService = issueCreationService;
-            this.mapper = mapper;
+            this.issueDeletionService = issueDeletionService;
+            this.issueDetailsService = issueDetailsService;
             this.issueEditingInfoService = issueEditingInfoService;
             this.issueEditingService = issueEditingService;
         }
@@ -154,6 +157,20 @@
             {
                 return this.BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var result = this.issueDeletionService.DeleteIssue(id);
+
+            if (result == -1)
+            {
+                return this.RedirectToAction($"/Issue/{id}");
+            }
+
+            return this.Redirect($"/Series/{result}");
         }
     }
 }

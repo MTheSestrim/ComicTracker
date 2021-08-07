@@ -27,12 +27,12 @@ function sendScore(e, t) {
         }).done((res) => {
             $('#userScore').text(`Your Score: ${res}`);
         })
-            .fail((res) => {
-                // Redirect to Login page
-                if (res.status == 401) {
-                    window.location.href = '/Identity/Account/Login';
-                }
-            })
+        .fail((res) => {
+            // Redirect to Login page
+            if (res.status == 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
+        })
     }
 }
 

@@ -15,30 +15,30 @@
 
     public class SeriesController : BaseController
     {
-        private readonly ISeriesDetailsService seriesDetailsService;
+        private readonly IMapper mapper;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly ISeriesCreationService seriesCreationService;
+        private readonly ISeriesDeletionService seriesDeletionService;
+        private readonly ISeriesDetailsService seriesDetailsService;
         private readonly ISeriesEditingInfoService seriesEditingInfoService;
         private readonly ISeriesEditingService seriesEditingService;
-        private readonly ISeriesDeletionService seriesDeletionService;
-        private readonly IMapper mapper;
 
         public SeriesController(
-            ISeriesDetailsService seriesDetailsService,
+            IMapper mapper,
             IGenreRetrievalService genreRetrievalService,
             ISeriesCreationService seriesCreationService,
-            ISeriesEditingInfoService seriesEditingInfoService,
-            ISeriesEditingService seriesEditingService,
             ISeriesDeletionService seriesDeletionService,
-            IMapper mapper)
+            ISeriesDetailsService seriesDetailsService,
+            ISeriesEditingInfoService seriesEditingInfoService,
+            ISeriesEditingService seriesEditingService)
         {
-            this.seriesDetailsService = seriesDetailsService;
+            this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
             this.seriesCreationService = seriesCreationService;
+            this.seriesDeletionService = seriesDeletionService;
+            this.seriesDetailsService = seriesDetailsService;
             this.seriesEditingInfoService = seriesEditingInfoService;
             this.seriesEditingService = seriesEditingService;
-            this.seriesDeletionService = seriesDeletionService;
-            this.mapper = mapper;
         }
 
         public IActionResult Index(int id)
@@ -134,9 +134,9 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var result = await this.seriesDeletionService.DeleteSeries(id);
+            var result = this.seriesDeletionService.DeleteSeries(id);
 
             if (!result)
             {

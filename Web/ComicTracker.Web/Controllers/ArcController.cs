@@ -17,25 +17,28 @@
 
     public class ArcController : BaseController
     {
-        private readonly IArcDetailsService arcDetailsService;
+        private readonly IMapper mapper;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly IArcCreationService arcCreationService;
-        private readonly IMapper mapper;
+        private readonly IArcDeletionService arcDeletionService;
+        private readonly IArcDetailsService arcDetailsService;
         private readonly IArcEditingInfoService arcEditingInfoService;
         private readonly IArcEditingService arcEditingService;
 
         public ArcController(
-            IArcDetailsService arcDetailsService,
+            IMapper mapper,
             IGenreRetrievalService genreRetrievalService,
             IArcCreationService arcCreationService,
-            IMapper mapper,
+            IArcDeletionService arcDeletionService,
+            IArcDetailsService arcDetailsService,
             IArcEditingInfoService arcEditingInfoService,
             IArcEditingService arcEditingService)
         {
-            this.arcDetailsService = arcDetailsService;
+            this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
             this.arcCreationService = arcCreationService;
-            this.mapper = mapper;
+            this.arcDetailsService = arcDetailsService;
+            this.arcDeletionService = arcDeletionService;
             this.arcEditingInfoService = arcEditingInfoService;
             this.arcEditingService = arcEditingService;
         }
@@ -154,6 +157,20 @@
             {
                 return this.BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var result = this.arcDeletionService.DeleteArc(id);
+
+            if (result == -1)
+            {
+                return this.RedirectToAction($"/Arc/{id}");
+            }
+
+            return this.Redirect($"/Series/{result}");
         }
     }
 }

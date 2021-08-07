@@ -79,6 +79,7 @@
 
             // Arc
             services.AddTransient<IArcCreationService, ArcCreationService>();
+            services.AddTransient<IArcDeletionService, ArcDeletionService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IArcEditingInfoService, ArcEditingInfoService>();
             services.AddTransient<IArcEditingService, ArcEditingService>();
@@ -90,6 +91,7 @@
 
             // Issue
             services.AddTransient<IIssueCreationService, IssueCreationService>();
+            services.AddTransient<IIssueDeletionService, IssueDeletionService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
             services.AddTransient<IIssueEditingInfoService, IssueEditingInfoService>();
             services.AddTransient<IIssueEditingService, IssueEditingService>();
@@ -110,6 +112,7 @@
 
             // Volume
             services.AddTransient<IVolumeCreationService, VolumeCreationService>();
+            services.AddTransient<IVolumeDeletionService, VolumeDeletionService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
             services.AddTransient<IVolumeEditingInfoService, VolumeEditingInfoService>();
             services.AddTransient<IVolumeEditingService, VolumeEditingService>();

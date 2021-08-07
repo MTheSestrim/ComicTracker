@@ -17,25 +17,28 @@
 
     public class VolumeController : BaseController
     {
-        private readonly IVolumeDetailsService volumeDetailsService;
+        private readonly IMapper mapper;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly IVolumeCreationService volumeCreationService;
-        private readonly IMapper mapper;
+        private readonly IVolumeDeletionService volumeDeletionService;
+        private readonly IVolumeDetailsService volumeDetailsService;
         private readonly IVolumeEditingInfoService volumeEditingInfoService;
         private readonly IVolumeEditingService volumeEditingService;
 
         public VolumeController(
-            IVolumeDetailsService volumeDetailsService,
+            IMapper mapper,
             IGenreRetrievalService genreRetrievalService,
             IVolumeCreationService volumeCreationService,
-            IMapper mapper,
+            IVolumeDeletionService volumeDeletionService,
+            IVolumeDetailsService volumeDetailsService,
             IVolumeEditingInfoService volumeEditingInfoService,
             IVolumeEditingService volumeEditingService)
         {
-            this.volumeDetailsService = volumeDetailsService;
+            this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
             this.volumeCreationService = volumeCreationService;
-            this.mapper = mapper;
+            this.volumeDeletionService = volumeDeletionService;
+            this.volumeDetailsService = volumeDetailsService;
             this.volumeEditingInfoService = volumeEditingInfoService;
             this.volumeEditingService = volumeEditingService;
         }
@@ -154,6 +157,20 @@
             {
                 return this.BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var result = this.volumeDeletionService.DeleteVolume(id);
+
+            if (result == -1)
+            {
+                return this.RedirectToAction($"/Volume/{id}");
+            }
+
+            return this.Redirect($"/Series/{result}");
         }
     }
 }
