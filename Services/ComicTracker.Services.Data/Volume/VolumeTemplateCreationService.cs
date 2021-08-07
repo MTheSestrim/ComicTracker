@@ -1,9 +1,13 @@
 ﻿namespace ComicTracker.Services.Data.Volume
 {
+    using System.Linq;
+
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class VolumeTemplateCreationService : IVolumeTemplateCreationService
     {
@@ -16,7 +20,7 @@
 
         public int CreateTemplateVolumes(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Find(model.SeriesId).Volumes.Count > 0)
+            if (this.dbContext.Series.Include(s => s.Volumes).Select(s => s.Volumes).Any())
             {
                 return -1;
             }

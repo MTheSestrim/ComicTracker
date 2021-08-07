@@ -1,9 +1,13 @@
 ﻿namespace ComicTracker.Services.Data.Issue
 {
+    using System.Linq;
+
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Issue.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class IssueTemplateCreationService : IIssueTemplateCreationService
     {
@@ -16,7 +20,7 @@
 
         public int CreateTemplateIssues(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Find(model.SeriesId).Issues.Count > 0)
+            if (this.dbContext.Series.Include(s => s.Issues).Select(s => s.Issues).Any())
             {
                 return -1;
             }

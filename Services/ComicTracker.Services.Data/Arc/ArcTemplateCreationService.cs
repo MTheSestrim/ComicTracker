@@ -1,9 +1,13 @@
 ﻿namespace ComicTracker.Services.Data.Arc
 {
+    using System.Linq;
+
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
     using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class ArcTemplateCreationService : IArcTemplateCreationService
     {
@@ -16,7 +20,7 @@
 
         public int CreateTemplateArcs(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Find(model.SeriesId).Arcs.Count > 0)
+            if (this.dbContext.Series.Include(s => s.Arcs).Select(s => s.Arcs).Any())
             {
                 return -1;
             }
