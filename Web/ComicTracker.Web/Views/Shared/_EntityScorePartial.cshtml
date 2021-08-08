@@ -1,12 +1,17 @@
-﻿@using static ComicTracker.Common.GlobalConstants;
+﻿@using ComicTracker.Data.Models
+@using Microsoft.AspNetCore.Identity
 
-@{ 
-    if(Model.TotalScore == null)
+@using static ComicTracker.Common.GlobalConstants;
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    if (Model.TotalScore == null)
     {
         Model.TotalScore = DefaultScoreValue;
     }
 
-    if(Model.UserScore == null)
+    if (Model.UserScore == null)
     {
         Model.UserScore = DefaultScoreValue;
     }
@@ -16,35 +21,42 @@
     <h2 class="py-1 text-left">
         Total Score: @Model.TotalScore
     </h2>
-    <h3 id="userScore" class="py-1 text-left undertext">
-        Your Score: @Model.UserScore
-    </h3>
+    @if (this.SignInManager.IsSignedIn(this.User))
+    {
+        <h3 id="userScore" class="py-1 text-left undertext">
+            Your Score: @Model.UserScore
+        </h3>
+    }
 </div>
-<div class="pb-3 justify-content-center">
-    <ul class="list-inline justify-content-center text-center">
-        @for (int i = 0; i <= 4; i++)
-        {
+
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    <div class="pb-3 justify-content-center">
+        <ul class="list-inline justify-content-center text-center">
+            @for (int i = 0; i <= 4; i++)
+            {
+                <li class="list-inline-item">
+                    <button data-toggle="tooltip" data-placement="top" title="" class="btn-link delete score" data-original-title="Rate"
+                            href="" value="@Model.Id">
+                        @i
+                    </button>
+                </li>
+            }
             <li class="list-inline-item">
-                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link delete score" data-original-title="Rate"
+                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link mediocre score" data-original-title="Rate"
                         href="" value="@Model.Id">
-                    @i
+                    5
                 </button>
             </li>
-        }
-        <li class="list-inline-item">
-            <button data-toggle="tooltip" data-placement="top" title="" class="btn-link mediocre score" data-original-title="Rate"
-                    href="" value="@Model.Id">
-                5
-            </button>
-        </li>
-        @for (int i = 6; i <= 10; i++)
-        {
-            <li class="list-inline-item">
-                <button data-toggle="tooltip" data-placement="top" title="" class="btn-link edit score" data-original-title="Rate"
-                        href="" value="@Model.Id">
-                    @i
-                </button>
-            </li>
-        }
-    </ul>
-</div>
+            @for (int i = 6; i <= 10; i++)
+            {
+                <li class="list-inline-item">
+                    <button data-toggle="tooltip" data-placement="top" title="" class="btn-link edit score" data-original-title="Rate"
+                            href="" value="@Model.Id">
+                        @i
+                    </button>
+                </li>
+            }
+        </ul>
+    </div>
+}

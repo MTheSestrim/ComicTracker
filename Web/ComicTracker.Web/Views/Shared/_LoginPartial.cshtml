@@ -1,5 +1,4 @@
-﻿@using ComicTracker.Common
-@using ComicTracker.Data.Models
+﻿@using ComicTracker.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -10,12 +9,6 @@
         <li class="nav-item">
             <a class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
-            </li>
-        }
         <li class="nav-item">
             <a class="nav-link text-dark " asp-area="" asp-controller="List" asp-action="Index" title="List">List</a>
         </li>

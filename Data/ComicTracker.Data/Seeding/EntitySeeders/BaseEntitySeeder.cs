@@ -13,7 +13,7 @@
         {
             string seederName = this.GetType().Name;
 
-            return $"{JSONDataFolderPath}/{seederName.Substring(0, seederName.Length - 6)}.json";
+            return $"{JSONDataFolderPath}/{seederName[0..^6]}.json";
         }
 
         public abstract Task SeedAsync(ComicTrackerDbContext dbContext, IServiceProvider serviceProvider);

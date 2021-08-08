@@ -169,7 +169,11 @@
                             defaults: new { action = "Index" },
                             constraints: new { id = @"\d+" });
 
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute(
+                            name: "areaRoute",
+                            pattern: "{controller}/{action}/{id?}",
+                            defaults: new { area = "Administration" },
+                            constraints: new { id = @"\d+" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

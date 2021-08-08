@@ -5,7 +5,7 @@
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Web.ViewModels;
     using ComicTracker.Web.ViewModels.Home;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController

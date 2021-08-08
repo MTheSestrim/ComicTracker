@@ -1,4 +1,5 @@
-﻿@using ComicTracker.Web.ViewModels.ViewComponents;
+﻿@using ComicTracker.Web.Infrastructure;
+@using ComicTracker.Web.ViewModels.ViewComponents;
 
 @addTagHelper *, ComicTracker.Web
 
@@ -29,13 +30,16 @@
 
                 @if (elModel.EntityLinkings.Count > 0)
                 {
-                    <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
-                       asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
-                       asp-action="Create"
-                       asp-route-id="@Model.Id"
-                       asp-route-number="@(elModel.EntityLinkings.Count + 1)">
-                        <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
-                    </a>
+                    @if (this.User.IsAdmin())
+                    {
+                        <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
+                           asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
+                           asp-action="Create"
+                           asp-route-id="@Model.Id"
+                           asp-route-number="@(elModel.EntityLinkings.Count + 1)">
+                            <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
+                        </a>
+                    }
                     <table class="table table-bordered">
                         <tbody>
                             @foreach (var entity in elModel.EntityLinkings)
@@ -85,24 +89,28 @@
                         <h3>
                             No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
                         </h3>
-                        <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                            Create a select number of empty @elModel.Name.ToLower()?
-                        </a>
+                        @if (this.User.IsAdmin())
+                        {
+                            <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Create a select number of empty @elModel.Name.ToLower()?
+                            </a>
 
-                        <div id="@elModel.Name.ToLower()Modal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content col-xl-6 col-12">
-                                <span class="close text-right pr-2">&times;</span>
-                                <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
-                                <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
-                                <button type="submit"
-                                        class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
-                                        seriesId="@Model.Id"
-                                        value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                    Submit
-                                </button>
+                            <div id="@elModel.Name.ToLower()Modal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content col-xl-6 col-12">
+                                    <span class="close text-right pr-2">&times;</span>
+                                    <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
+                                    <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
+                                    <button type="submit"
+                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
+                                            seriesId="@Model.Id"
+                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+
+                        }
                     </div>
                 }
             </div>
