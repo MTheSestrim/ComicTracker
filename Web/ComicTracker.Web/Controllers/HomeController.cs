@@ -1,25 +1,45 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
+    using ComicTracker.Services.Data.Models.Home;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Web.ViewModels;
     using ComicTracker.Web.ViewModels.Home;
-    using Microsoft.AspNetCore.Identity;
+
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+
+    using static ComicTracker.Common.CacheConstants;
 
     public class HomeController : BaseController
     {
         private readonly ISeriesSearchQueryingService homePageService;
+        private readonly IMemoryCache cache;
 
-        public HomeController(ISeriesSearchQueryingService homePageService)
+        public HomeController(ISeriesSearchQueryingService homePageService, IMemoryCache cache)
         {
             this.homePageService = homePageService;
+            this.cache = cache;
         }
 
-        public IActionResult Index([FromQuery]HomePageViewModel model)
+        public IActionResult Index([FromQuery] HomePageViewModel model)
         {
-            model.TotalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
+            var totalSeriesCount = this.cache.Get<int>(HomeCountCacheKey);
+
+            if (totalSeriesCount == 0)
+            {
+                totalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+
+                this.cache.Set(HomeCountCacheKey, totalSeriesCount, cacheOptions);
+            }
+
+            model.TotalSeriesCount = totalSeriesCount;
 
             if (model.CurrentPage > model.MaxPageCount)
             {
@@ -27,7 +47,21 @@
                 return this.RedirectToAction("Index", new { model.Sorting, model.CurrentPage, model.SearchTerm });
             }
 
-            model.Series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
+            // Adding CurrentPage to key is necessary as otherwise it only caches one page.
+            var series = this.cache
+                .Get<IList<HomeSeriesServiceModel>>(HomeSeriesCacheKey + model.CurrentPage.ToString());
+
+            if (series == null)
+            {
+                series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+
+                this.cache.Set(HomeSeriesCacheKey, series, cacheOptions);
+            }
+
+            model.Series = series;
 
             return this.View(model);
         }

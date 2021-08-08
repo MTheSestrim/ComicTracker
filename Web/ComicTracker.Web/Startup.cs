@@ -66,6 +66,9 @@
 
             services.AddSingleton(this.configuration);
 
+            // Memory Cache
+            services.AddMemoryCache();
+
             // AutoMapper
             services.AddAutoMapper(typeof(WebMappingProfile), typeof(ServiceMappingProfile));
 
