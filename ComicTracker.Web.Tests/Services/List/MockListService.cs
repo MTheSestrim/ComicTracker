@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Services.Data.List
+﻿namespace ComicTracker.Web.Tests.Services.List
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,19 +6,17 @@
     using ComicTracker.Data;
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.List.Models;
-    using Microsoft.EntityFrameworkCore;
 
-    public class ListService : IListService
+    public class MockListService : IListService
     {
         private readonly ComicTrackerDbContext dbContext;
 
-        public ListService(ComicTrackerDbContext dbContext)
+        public MockListService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
         public IEnumerable<ListServiceModel> GetListData(string userId) => this.dbContext.Series
-               .AsNoTracking()
                .Where(s => s.UsersSeries.Any(us => us.UserId == userId))
                .Select(s => new ListServiceModel
                {

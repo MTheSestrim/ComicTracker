@@ -41,25 +41,19 @@
 
             model.TotalSeriesCount = totalSeriesCount;
 
+            if (model.CurrentPage < 1)
+            {
+                model.CurrentPage = 1;
+                return this.RedirectToAction("Index", new { model.Sorting, model.CurrentPage, model.SearchTerm });
+            }
+
             if (model.CurrentPage > model.MaxPageCount)
             {
                 model.CurrentPage = (int)model.MaxPageCount;
                 return this.RedirectToAction("Index", new { model.Sorting, model.CurrentPage, model.SearchTerm });
             }
 
-            // Adding CurrentPage to key is necessary as otherwise it only caches one page.
-            var series = this.cache
-                .Get<IList<HomeSeriesServiceModel>>(HomeSeriesCacheKey + model.CurrentPage.ToString());
-
-            if (series == null)
-            {
-                series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
-
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
-
-                this.cache.Set(HomeSeriesCacheKey, series, cacheOptions);
-            }
+            var series = this.homePageService.GetSeries(model.CurrentPage, model.SearchTerm, model.Sorting);
 
             model.Series = series;
 
