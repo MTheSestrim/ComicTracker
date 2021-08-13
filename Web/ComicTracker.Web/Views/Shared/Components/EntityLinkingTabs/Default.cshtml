@@ -101,6 +101,7 @@
                                     <span class="close text-right pr-2">&times;</span>
                                     <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
                                     <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
+                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
                                     <button type="submit"
                                             class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
                                             seriesId="@Model.Id"

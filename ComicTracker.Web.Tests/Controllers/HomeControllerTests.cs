@@ -1,17 +1,13 @@
-﻿namespace ComicTracker.Web.Tests
+﻿namespace ComicTracker.Tests.Controllers
 {
     using ComicTracker.Web.Controllers;
     using ComicTracker.Web.ViewModels.Home;
+
     using MyTested.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
     using Xunit;
 
-    using static ComicTracker.Common.CacheConstants;
-    using static ComicTracker.Web.Tests.Data.Series.SeriesSample;
+    using static ComicTracker.Tests.Data.Series.SeriesSample;
 
     public class HomeControllerTests
     {
@@ -28,13 +24,6 @@
                         CurrentPage = currentPage,
                     }))
                 // Assert
-                .ShouldHave()
-                .MemoryCache(cache => cache
-                    .ContainingEntry(entry => entry
-                        .WithKey(HomeCountCacheKey)
-                        .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(5))
-                        .WithValue(50)))
-                .AndAlso()
                 .ShouldReturn()
                 .View(view => view
                     .WithModelOfType<HomePageViewModel>()

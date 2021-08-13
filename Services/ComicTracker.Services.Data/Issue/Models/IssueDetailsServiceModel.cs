@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Services.Data.Issues.Models
+﻿namespace ComicTracker.Services.Data.Issue.Models
 {
     using System.Collections.Generic;
 

@@ -6,7 +6,7 @@
 
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Issue.Contracts;
-    using ComicTracker.Services.Data.Issues.Models;
+    using ComicTracker.Services.Data.Issue.Models;
 
     using Microsoft.EntityFrameworkCore;
 

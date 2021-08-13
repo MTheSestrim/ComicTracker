@@ -56,10 +56,9 @@ function sendTemplatesCount(e, t) {
     let seriesId = $(this).attr('seriesId');
 
     // Gets the value of the input before the submit button, which is the target of this function
-    let numberOfEntities = $(this).prev().val();
+    let numberOfEntities = $(this).prev().prev().val();
 
-
-    if (entityName && numberOfEntities && seriesId) {
+    if (entityName && numberOfEntities > 0 && seriesId) {
         $.ajax({
             type: 'POST',
             url: `/api/${entityName}`,
@@ -67,14 +66,17 @@ function sendTemplatesCount(e, t) {
             data: JSON.stringify({ numberOfEntities: numberOfEntities, seriesId: seriesId }),
             contentType: 'application/json;charset=utf-8',
         }).done(res => refreshEntities(res, seriesId, entityName))
-        .fail((res) => {
-            console.log(res.text);
-        })
+            .fail((res) => {
+                console.log(res.text);
+            })
+    }
+    else
+    {
+        $(`#${entityName.toLowerCase()}sValidation`).text('Value must be at least 1.');
     }
 }
 
 $(document).ready(function () {
-
     // Focuses on the user's score when loading page
     focusScore();
 

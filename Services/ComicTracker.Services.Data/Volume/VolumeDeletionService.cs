@@ -12,13 +12,13 @@
             this.dbContext = dbContext;
         }
 
-        public int DeleteVolume(int volumeId)
+        public int? DeleteVolume(int volumeId)
         {
             var volume = this.dbContext.Volumes.Find(volumeId);
 
             if (volume == null)
             {
-                return -1;
+                return null;
             }
 
             var seriesId = volume.SeriesId;

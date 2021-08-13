@@ -1,10 +1,7 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
 
-    using ComicTracker.Services.Data.Models.Home;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Web.ViewModels;
     using ComicTracker.Web.ViewModels.Home;
@@ -12,32 +9,18 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
-    using static ComicTracker.Common.CacheConstants;
-
     public class HomeController : BaseController
     {
         private readonly ISeriesSearchQueryingService homePageService;
-        private readonly IMemoryCache cache;
 
-        public HomeController(ISeriesSearchQueryingService homePageService, IMemoryCache cache)
+        public HomeController(ISeriesSearchQueryingService homePageService)
         {
             this.homePageService = homePageService;
-            this.cache = cache;
         }
 
         public IActionResult Index([FromQuery] HomePageViewModel model)
         {
-            var totalSeriesCount = this.cache.Get<int>(HomeCountCacheKey);
-
-            if (totalSeriesCount == 0)
-            {
-                totalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
-
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
-
-                this.cache.Set(HomeCountCacheKey, totalSeriesCount, cacheOptions);
-            }
+            var totalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
 
             model.TotalSeriesCount = totalSeriesCount;
 

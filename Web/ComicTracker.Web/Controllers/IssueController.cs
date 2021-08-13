@@ -1,32 +1,32 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System;
-
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Issue.Contracts;
-    using ComicTracker.Services.Data.Issues.Models;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
-
-    using static ComicTracker.Common.CacheConstants;
 
     public class IssueController : BaseController
     {
         private readonly IIssueDetailsService issueDetailsService;
         private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
-        public IssueController(IIssueDetailsService issueDetailsService, IMemoryCache cache)
+        public IssueController(
+            IIssueDetailsService issueDetailsService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.issueDetailsService = issueDetailsService;
             this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Index(int id)
         {
-            var cacheKey = IssueDetailsCacheKey + id.ToString();
-
-            var currentIssue = this.cache.Get<IssueDetailsServiceModel>(cacheKey);
+            var currentIssue = this.cache.GetIssueDetails(id);
 
             if (currentIssue == null)
             {
@@ -37,10 +37,7 @@
                     return this.NotFound(currentIssue);
                 }
 
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
-
-                this.cache.Set(cacheKey, currentIssue, cacheOptions);
+                this.cache.SetIssueDetails(currentIssue, this.cacheKeyHolder);
             }
 
             return this.View(currentIssue);

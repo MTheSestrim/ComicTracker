@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicTracker.Services.Data.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicTracker.Web.Infrastructure.Mapping", "Web\ComicTracker.Web.Infrastructure.Mapping\ComicTracker.Web.Infrastructure.Mapping.csproj", "{620BD88E-EC93-417D-A88C-F51A793299D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicTracker.Web.Tests", "ComicTracker.Web.Tests\ComicTracker.Web.Tests.csproj", "{2B5EA419-EEB1-4EFD-BFAF-76DC7D5E3970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicTracker.Tests", "ComicTracker.Web.Tests\ComicTracker.Tests.csproj", "{2B5EA419-EEB1-4EFD-BFAF-76DC7D5E3970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -20,7 +20,9 @@
 
         public int CreateTemplateIssues(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Include(s => s.Issues).Select(s => s.Issues).Any())
+            var issuesWithSeriesId = this.dbContext.Series.Include(s => s.Issues).Select(s => new { s.Id, s.Issues }).FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (issuesWithSeriesId.Issues.Any() || model.NumberOfEntities < 1)
             {
                 return -1;
             }

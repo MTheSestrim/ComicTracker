@@ -1,4 +1,4 @@
-namespace ComicTracker.Web.Tests
+namespace ComicTracker.Tests.Controllers
 {
     using System;
     using ComicTracker.Services.Data.Arc.Models;
@@ -8,7 +8,8 @@ namespace ComicTracker.Web.Tests
 
     using Xunit;
 
-    using static ComicTracker.Web.Tests.Data.Arc.ArcSample;
+    using static ComicTracker.Tests.Data.Arc.ArcSample;
+
     using static ComicTracker.Common.CacheConstants;
 
     public class ArcControllerTests

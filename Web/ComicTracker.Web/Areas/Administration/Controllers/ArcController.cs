@@ -6,13 +6,16 @@
 
     using AutoMapper;
 
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
     using ComicTracker.Web.ViewModels.Entities;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class ArcController : AdministrationController
     {
@@ -22,6 +25,8 @@
         private readonly IArcDeletionService arcDeletionService;
         private readonly IArcEditingInfoService arcEditingInfoService;
         private readonly IArcEditingService arcEditingService;
+        private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
         public ArcController(
             IMapper mapper,
@@ -29,7 +34,9 @@
             IArcCreationService arcCreationService,
             IArcDeletionService arcDeletionService,
             IArcEditingInfoService arcEditingInfoService,
-            IArcEditingService arcEditingService)
+            IArcEditingService arcEditingService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
@@ -37,6 +44,8 @@
             this.arcDeletionService = arcDeletionService;
             this.arcEditingInfoService = arcEditingInfoService;
             this.arcEditingService = arcEditingService;
+            this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Create(int id, int number = 0)
@@ -75,6 +84,8 @@
             try
             {
                 var id = this.arcCreationService.CreateArc(serviceModel);
+
+                this.cache.RemoveSeriesDetails(model.SeriesId);
 
                 return this.Redirect($"/Arc/{id}");
             }
@@ -127,6 +138,11 @@
             {
                 var id = this.arcEditingService.EditArc(serviceModel);
 
+                this.cache.RemoveArcDetails(id);
+                this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
+                this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+                this.cache.RemoveSeriesDetails(model.SeriesId);
+
                 return this.Redirect($"/Arc/{id}");
             }
             catch (KeyNotFoundException ex)
@@ -148,6 +164,10 @@
             {
                 return this.RedirectToAction($"/Arc/{id}");
             }
+
+            this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+            this.cache.RemoveSeriesDetails(result);
 
             return this.Redirect($"/Series/{result}");
         }

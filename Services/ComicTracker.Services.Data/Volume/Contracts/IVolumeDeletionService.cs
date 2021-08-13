@@ -2,6 +2,6 @@
 {
     public interface IVolumeDeletionService
     {
-        int DeleteVolume(int volumeId);
+        int? DeleteVolume(int volumeId);
     }
 }

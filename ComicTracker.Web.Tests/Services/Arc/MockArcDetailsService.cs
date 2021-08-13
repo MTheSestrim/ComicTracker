@@ -1,7 +1,5 @@
-﻿namespace ComicTracker.Web.Tests.Services.Arc
+﻿namespace ComicTracker.Tests.Services.Arc
 {
-    using AutoMapper;
-
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Arc.Models;

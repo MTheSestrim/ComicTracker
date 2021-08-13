@@ -75,6 +75,7 @@
             // Application services
 
             // ComicTracker.Services
+            services.AddSingleton<ICacheKeyHolderService<int>, CacheKeyHolderService>();
             services.AddScoped<IEntityNameExtractService, EntityNameExtractService>();
 
             // ComicTracker.Services.Data

@@ -1,10 +1,10 @@
-﻿namespace ComicTracker.Web.Tests.Services.Series
+﻿namespace ComicTracker.Tests.Services.Series
 {
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
 
-    class MockSeriesDetailsService : ISeriesDetailsService
+    public class MockSeriesDetailsService : ISeriesDetailsService
     {
         private readonly ComicTrackerDbContext dbContext;
 

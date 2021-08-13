@@ -1,32 +1,32 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System;
-
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Arc.Contracts;
-    using ComicTracker.Services.Data.Arc.Models;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
-
-    using static ComicTracker.Common.CacheConstants;
 
     public class ArcController : BaseController
     {
         private readonly IArcDetailsService arcDetailsService;
         private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
-        public ArcController(IArcDetailsService arcDetailsService, IMemoryCache cache)
+        public ArcController(
+            IArcDetailsService arcDetailsService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.arcDetailsService = arcDetailsService;
             this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Index(int id)
         {
-            var cacheKey = ArcDetailsCacheKey + id.ToString();
-
-            var currentArc = this.cache.Get<ArcDetailsServiceModel>(cacheKey);
+            var currentArc = this.cache.GetArcDetails(id);
 
             if (currentArc == null)
             {
@@ -37,10 +37,7 @@
                     return this.NotFound(currentArc);
                 }
 
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
-
-                this.cache.Set(cacheKey, currentArc, cacheOptions);
+                this.cache.SetArcDetails(currentArc, this.cacheKeyHolder);
             }
 
             return this.View(currentArc);

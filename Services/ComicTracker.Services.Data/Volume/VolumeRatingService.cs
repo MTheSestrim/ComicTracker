@@ -40,14 +40,14 @@
 
                     volume.UsersVolumes.Add(userVolume);
 
-                    this.dbContext.Volumes.Update(volume);
+                    this.dbContext.Update(volume);
                     await this.dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     userVolume.Score = model.Score;
 
-                    this.dbContext.Volumes.Update(volume);
+                    this.dbContext.Update(volume);
                     await this.dbContext.SaveChangesAsync();
                 }
 

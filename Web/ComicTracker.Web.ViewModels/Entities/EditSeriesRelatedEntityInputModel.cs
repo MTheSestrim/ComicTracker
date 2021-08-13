@@ -12,5 +12,7 @@
 
         [Range(0, int.MaxValue, ErrorMessage = "Number cannot be a negative value.")]
         public int Number { get; set; }
+
+        public int SeriesId { get; set; }
     }
 }

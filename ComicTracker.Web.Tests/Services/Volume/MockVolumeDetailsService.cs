@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.Tests.Services.Volume
+﻿namespace ComicTracker.Tests.Services.Volume
 {
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Volume.Contracts;

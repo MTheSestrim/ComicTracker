@@ -6,13 +6,16 @@
 
     using AutoMapper;
 
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Issue.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
     using ComicTracker.Web.ViewModels.Entities;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class IssueController : AdministrationController
     {
@@ -22,6 +25,8 @@
         private readonly IIssueDeletionService issueDeletionService;
         private readonly IIssueEditingInfoService issueEditingInfoService;
         private readonly IIssueEditingService issueEditingService;
+        private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
         public IssueController(
             IMapper mapper,
@@ -29,7 +34,9 @@
             IIssueCreationService issueCreationService,
             IIssueDeletionService issueDeletionService,
             IIssueEditingInfoService issueEditingInfoService,
-            IIssueEditingService issueEditingService)
+            IIssueEditingService issueEditingService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
@@ -37,6 +44,8 @@
             this.issueDeletionService = issueDeletionService;
             this.issueEditingInfoService = issueEditingInfoService;
             this.issueEditingService = issueEditingService;
+            this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Create(int id, int number = 0)
@@ -75,6 +84,8 @@
             try
             {
                 var id = this.issueCreationService.CreateIssue(serviceModel);
+
+                this.cache.RemoveSeriesDetails(model.SeriesId);
 
                 return this.Redirect($"/Issue/{id}");
             }
@@ -127,6 +138,11 @@
             {
                 var id = this.issueEditingService.EditIssue(serviceModel);
 
+                this.cache.RemoveIssueDetails(id);
+                this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+                this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+                this.cache.RemoveSeriesDetails(model.SeriesId);
+
                 return this.Redirect($"/Issue/{id}");
             }
             catch (KeyNotFoundException ex)
@@ -148,6 +164,10 @@
             {
                 return this.RedirectToAction($"/Issue/{id}");
             }
+
+            this.cache.RemoveSeriesDetails(result);
+            this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
 
             return this.Redirect($"/Series/{result}");
         }

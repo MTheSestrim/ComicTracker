@@ -4,13 +4,16 @@
 
     using AutoMapper;
 
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Series.Models;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
     using ComicTracker.Web.ViewModels.Series;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class SeriesController : AdministrationController
     {
@@ -20,6 +23,8 @@
         private readonly ISeriesDeletionService seriesDeletionService;
         private readonly ISeriesEditingInfoService seriesEditingInfoService;
         private readonly ISeriesEditingService seriesEditingService;
+        private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
         public SeriesController(
             IMapper mapper,
@@ -27,7 +32,9 @@
             ISeriesCreationService seriesCreationService,
             ISeriesDeletionService seriesDeletionService,
             ISeriesEditingInfoService seriesEditingInfoService,
-            ISeriesEditingService seriesEditingService)
+            ISeriesEditingService seriesEditingService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
@@ -35,6 +42,8 @@
             this.seriesDeletionService = seriesDeletionService;
             this.seriesEditingInfoService = seriesEditingInfoService;
             this.seriesEditingService = seriesEditingService;
+            this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Create()
@@ -108,6 +117,11 @@
             };
 
             var id = this.seriesEditingService.EditSeries(serviceModel);
+
+            this.cache.RemoveSeriesDetails(id);
+            this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
 
             return this.Redirect($"/Series/{id}");
         }

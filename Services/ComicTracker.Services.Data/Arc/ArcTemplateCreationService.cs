@@ -20,7 +20,9 @@
 
         public int CreateTemplateArcs(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Include(s => s.Arcs).Select(s => s.Arcs).Any())
+            var arcsWithSeriesId = this.dbContext.Series.Include(s => s.Arcs).Select(s => new { s.Id, s.Arcs }).FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (arcsWithSeriesId.Arcs.Any() || model.NumberOfEntities < 1)
             {
                 return -1;
             }

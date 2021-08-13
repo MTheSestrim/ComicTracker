@@ -20,7 +20,9 @@
 
         public int CreateTemplateVolumes(TemplateCreateApiRequestModel model)
         {
-            if (this.dbContext.Series.Include(s => s.Volumes).Select(s => s.Volumes).Any())
+            var volumesWithSeriesId = this.dbContext.Series.Include(s => s.Volumes).Select(s => new { s.Id, s.Volumes }).FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (volumesWithSeriesId.Volumes.Any() || model.NumberOfEntities < 1)
             {
                 return -1;
             }

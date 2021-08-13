@@ -1,32 +1,32 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System;
-
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
-    using ComicTracker.Services.Data.Series.Models;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
-
-    using static ComicTracker.Common.CacheConstants;
 
     public class SeriesController : BaseController
     {
         private readonly ISeriesDetailsService seriesDetailsService;
         private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
-        public SeriesController(ISeriesDetailsService seriesDetailsService, IMemoryCache cache)
+        public SeriesController(
+            ISeriesDetailsService seriesDetailsService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.seriesDetailsService = seriesDetailsService;
             this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Index(int id)
         {
-            var cacheKey = SeriesDetailsCacheKey + id.ToString();
-
-            var currentSeries = this.cache.Get<SeriesDetailsServiceModel>(cacheKey);
+            var currentSeries = this.cache.GetSeriesDetails(id);
 
             if (currentSeries == null)
             {
@@ -37,10 +37,7 @@
                     return this.NotFound(currentSeries);
                 }
 
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
-
-                this.cache.Set(cacheKey, currentSeries, cacheOptions);
+                this.cache.SetSeriesDetails(currentSeries, this.cacheKeyHolder);
             }
 
             return this.View(currentSeries);

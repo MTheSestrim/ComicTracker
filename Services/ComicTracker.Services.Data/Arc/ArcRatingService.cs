@@ -40,14 +40,14 @@
 
                     arc.UsersArcs.Add(userArc);
 
-                    this.dbContext.Arcs.Update(arc);
+                    this.dbContext.Update(arc);
                     await this.dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     userArc.Score = model.Score;
 
-                    this.dbContext.Arcs.Update(arc);
+                    this.dbContext.Update(arc);
                     await this.dbContext.SaveChangesAsync();
                 }
 

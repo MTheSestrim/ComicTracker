@@ -6,13 +6,16 @@
 
     using AutoMapper;
 
+    using ComicTracker.Services.Contracts;
     using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
     using ComicTracker.Services.Data.Volume.Contracts;
     using ComicTracker.Web.Infrastructure;
+    using ComicTracker.Web.Infrastructure.IMemoryCacheExtensions;
     using ComicTracker.Web.ViewModels.Entities;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class VolumeController : AdministrationController
     {
@@ -22,6 +25,8 @@
         private readonly IVolumeDeletionService volumeDeletionService;
         private readonly IVolumeEditingInfoService volumeEditingInfoService;
         private readonly IVolumeEditingService volumeEditingService;
+        private readonly IMemoryCache cache;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
         public VolumeController(
             IMapper mapper,
@@ -29,7 +34,9 @@
             IVolumeCreationService volumeCreationService,
             IVolumeDeletionService volumeDeletionService,
             IVolumeEditingInfoService volumeEditingInfoService,
-            IVolumeEditingService volumeEditingService)
+            IVolumeEditingService volumeEditingService,
+            IMemoryCache cache,
+            ICacheKeyHolderService<int> cacheKeyHolder)
         {
             this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
@@ -37,6 +44,8 @@
             this.volumeDeletionService = volumeDeletionService;
             this.volumeEditingInfoService = volumeEditingInfoService;
             this.volumeEditingService = volumeEditingService;
+            this.cache = cache;
+            this.cacheKeyHolder = cacheKeyHolder;
         }
 
         public IActionResult Create(int id, int number = 0)
@@ -75,6 +84,8 @@
             try
             {
                 var id = this.volumeCreationService.CreateVolume(serviceModel);
+
+                this.cache.RemoveSeriesDetails(model.SeriesId);
 
                 return this.Redirect($"/Volume/{id}");
             }
@@ -127,6 +138,11 @@
             {
                 var id = this.volumeEditingService.EditVolume(serviceModel);
 
+                this.cache.RemoveVolumeDetails(id);
+                this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
+                this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+                this.cache.RemoveSeriesDetails(model.SeriesId);
+
                 return this.Redirect($"/Volume/{id}");
             }
             catch (KeyNotFoundException ex)
@@ -144,10 +160,14 @@
         {
             var result = this.volumeDeletionService.DeleteVolume(id);
 
-            if (result == -1)
+            if (result == null)
             {
                 return this.RedirectToAction($"/Volume/{id}");
             }
+
+            this.cache.RemoveSeriesDetails(result.Value);
+            this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
 
             return this.Redirect($"/Series/{result}");
         }

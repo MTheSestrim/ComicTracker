@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Web.Tests.Data.Series
+﻿namespace ComicTracker.Tests.Data.Series
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -15,5 +15,13 @@
             });
 
         public static Series SeriesWithId(int id) => new() { Id = id };
+
+        public static Series SeriesWithIdAndScore(int id, int score, string userId)
+        {
+            var series = new Series() { Id = id };
+            series.UsersSeries.Add(new UserSeries { Score = score, UserId = userId });
+
+            return series;
+        }
     }
 }

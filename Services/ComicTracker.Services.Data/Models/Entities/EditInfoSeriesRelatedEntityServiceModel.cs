@@ -10,6 +10,8 @@
 
         public int Number { get; set; }
 
+        public int SeriesId { get; set; }
+
         public string Description { get; set; }
 
         public IEnumerable<int> Genres { get; set; }

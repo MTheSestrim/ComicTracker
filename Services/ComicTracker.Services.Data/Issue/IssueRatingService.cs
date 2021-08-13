@@ -40,14 +40,14 @@
 
                     issue.UsersIssues.Add(userIssue);
 
-                    this.dbContext.Issues.Update(issue);
+                    this.dbContext.Update(issue);
                     await this.dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     userIssue.Score = model.Score;
 
-                    this.dbContext.Issues.Update(issue);
+                    this.dbContext.Update(issue);
                     await this.dbContext.SaveChangesAsync();
                 }
 

@@ -9,9 +9,5 @@
         public const string VolumeDetailsCacheKey = nameof(VolumeDetailsCacheKey);
 
         public const string SeriesDetailsCacheKey = nameof(SeriesDetailsCacheKey);
-
-        public const string HomeCountCacheKey = nameof(HomeCountCacheKey);
-
-        public const string HomeSeriesCacheKey = nameof(HomeSeriesCacheKey);
     }
 }
