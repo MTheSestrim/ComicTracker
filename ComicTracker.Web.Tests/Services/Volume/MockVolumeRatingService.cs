@@ -17,7 +17,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateVolume(string userId, RateApiRequestModel model)
+        public async Task<int?> RateVolume(string userId, RateApiRequestModel model)
         {
             var volume = this.dbContext.Volumes.Find(model.Id);
 
@@ -50,7 +50,7 @@
                 return model.Score;
             }
 
-            return 0;
+            return null;
         }
     }
 }

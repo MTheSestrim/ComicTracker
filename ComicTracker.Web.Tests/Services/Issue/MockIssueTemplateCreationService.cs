@@ -14,11 +14,11 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateIssues(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateIssues(TemplateCreateApiRequestModel model)
         {
             if (model.NumberOfEntities < 1)
             {
-                return -1;
+                return null;
             }
 
             var templateIssues = new Issue[model.NumberOfEntities];

@@ -19,7 +19,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateIssue(string userId, RateApiRequestModel model)
+        public async Task<int?> RateIssue(string userId, RateApiRequestModel model)
         {
             var issue = await this.dbContext.Issues
                 .Include(i => i.UsersIssues)
@@ -54,7 +54,7 @@
                 return model.Score;
             }
 
-            return 0;
+            return null;
         }
     }
 }

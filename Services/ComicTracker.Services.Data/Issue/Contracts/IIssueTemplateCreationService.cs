@@ -4,6 +4,6 @@
 
     public interface IIssueTemplateCreationService
     {
-        int CreateTemplateIssues(TemplateCreateApiRequestModel model);
+        int? CreateTemplateIssues(TemplateCreateApiRequestModel model);
     }
 }

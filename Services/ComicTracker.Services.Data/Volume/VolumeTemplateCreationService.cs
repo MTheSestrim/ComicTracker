@@ -18,13 +18,13 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateVolumes(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateVolumes(TemplateCreateApiRequestModel model)
         {
             var volumesWithSeriesId = this.dbContext.Series.Include(s => s.Volumes).Select(s => new { s.Id, s.Volumes }).FirstOrDefault(s => s.Id == model.SeriesId);
 
             if (volumesWithSeriesId.Volumes.Any() || model.NumberOfEntities < 1)
             {
-                return -1;
+                return null;
             }
 
             var templateVolumes = new Volume[model.NumberOfEntities];

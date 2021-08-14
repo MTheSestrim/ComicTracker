@@ -53,7 +53,7 @@
 
             var numberOfArcsCreated = this.arcTemplateCreationService.CreateTemplateArcs(model);
 
-            if (numberOfArcsCreated == -1)
+            if (numberOfArcsCreated == null)
             {
                 return this.BadRequest();
             }

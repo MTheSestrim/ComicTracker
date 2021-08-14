@@ -14,11 +14,11 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateArcs(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateArcs(TemplateCreateApiRequestModel model)
         {
             if (model.NumberOfEntities < 1)
             {
-                return -1;
+                return null;
             }
 
             var templateArcs = new Arc[model.NumberOfEntities];

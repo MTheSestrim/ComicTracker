@@ -53,7 +53,7 @@
 
             var numberOfVolumesCreated = this.volumeTemplateCreationService.CreateTemplateVolumes(model);
 
-            if (numberOfVolumesCreated == -1)
+            if (numberOfVolumesCreated == null)
             {
                 return this.BadRequest();
             }

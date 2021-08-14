@@ -18,13 +18,13 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateIssues(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateIssues(TemplateCreateApiRequestModel model)
         {
             var issuesWithSeriesId = this.dbContext.Series.Include(s => s.Issues).Select(s => new { s.Id, s.Issues }).FirstOrDefault(s => s.Id == model.SeriesId);
 
             if (issuesWithSeriesId.Issues.Any() || model.NumberOfEntities < 1)
             {
-                return -1;
+                return null;
             }
 
             var templateIssues = new Issue[model.NumberOfEntities];

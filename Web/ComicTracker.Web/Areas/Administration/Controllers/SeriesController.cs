@@ -118,12 +118,12 @@
 
             var id = this.seriesEditingService.EditSeries(serviceModel);
 
-            this.cache.RemoveSeriesDetails(id);
+            this.cache.RemoveSeriesDetails(id.Value);
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
             this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
             this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
 
-            return this.Redirect($"/Series/{id}");
+            return this.Redirect($"/Series/{id.Value}");
         }
 
         [HttpPost]
@@ -135,6 +135,11 @@
             {
                 return this.RedirectToAction($"/Series/{id}");
             }
+
+            this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
+            this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+            this.cache.RemoveSeriesDetails(id);
 
             return this.Redirect("/");
         }

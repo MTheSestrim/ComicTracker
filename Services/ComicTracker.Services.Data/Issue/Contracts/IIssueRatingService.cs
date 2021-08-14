@@ -6,6 +6,6 @@
 
     public interface IIssueRatingService
     {
-        Task<int> RateIssue(string userId, RateApiRequestModel model);
+        Task<int?> RateIssue(string userId, RateApiRequestModel model);
     }
 }

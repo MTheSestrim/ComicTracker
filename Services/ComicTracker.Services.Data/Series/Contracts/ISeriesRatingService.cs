@@ -6,6 +6,6 @@
 
     public interface ISeriesRatingService
     {
-        Task<int> RateSeries(string userId, RateApiRequestModel model);
+        Task<int?> RateSeries(string userId, RateApiRequestModel model);
     }
 }

@@ -165,11 +165,12 @@
                 return this.RedirectToAction($"/Issue/{id}");
             }
 
-            this.cache.RemoveSeriesDetails(result);
+            this.cache.RemoveSeriesDetails(result.Value);
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
             this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+            this.cache.RemoveIssueDetails(id);
 
-            return this.Redirect($"/Series/{result}");
+            return this.Redirect($"/Series/{result.Value}");
         }
     }
 }

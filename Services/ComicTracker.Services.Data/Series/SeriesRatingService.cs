@@ -19,7 +19,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateSeries(string userId, RateApiRequestModel model)
+        public async Task<int?> RateSeries(string userId, RateApiRequestModel model)
         {
             var series = await this.dbContext.Series
                 .Include(s => s.UsersSeries)
@@ -54,7 +54,7 @@
                 return model.Score;
             }
 
-            return 0;
+            return null;
         }
     }
 }

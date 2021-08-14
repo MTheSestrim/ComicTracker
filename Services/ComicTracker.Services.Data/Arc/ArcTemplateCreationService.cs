@@ -18,13 +18,13 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateArcs(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateArcs(TemplateCreateApiRequestModel model)
         {
             var arcsWithSeriesId = this.dbContext.Series.Include(s => s.Arcs).Select(s => new { s.Id, s.Arcs }).FirstOrDefault(s => s.Id == model.SeriesId);
 
             if (arcsWithSeriesId.Arcs.Any() || model.NumberOfEntities < 1)
             {
-                return -1;
+                return null;
             }
 
             var templateArcs = new Arc[model.NumberOfEntities];

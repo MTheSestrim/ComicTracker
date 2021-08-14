@@ -22,7 +22,7 @@
             this.fileUploadService = fileUploadService;
         }
 
-        public int EditSeries(EditSeriesServiceModel model)
+        public int? EditSeries(EditSeriesServiceModel model)
         {
             var selectedGenres = new List<Genre>();
 
@@ -34,11 +34,14 @@
                     .ToList();
             }
 
-            var currentSeries = this.dbContext.Series.Include(s => s.Genres).FirstOrDefault(s => s.Id == model.Id);
+            var currentSeries = this.dbContext.Series
+                .Include(s => s.Genres)
+                .Where(s => s.Id == model.Id)
+                .FirstOrDefault();
 
             if (currentSeries == null)
             {
-                return -1;
+                return null;
             }
 
             currentSeries.Title = model.Title;

@@ -17,7 +17,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateArc(string userId, RateApiRequestModel model)
+        public async Task<int?> RateArc(string userId, RateApiRequestModel model)
         {
             var arc = this.dbContext.Arcs.Find(model.Id);
 
@@ -50,7 +50,7 @@
                 return model.Score;
             }
 
-            return 0;
+            return null;
         }
     }
 }

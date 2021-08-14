@@ -12,13 +12,13 @@
             this.dbContext = dbContext;
         }
 
-        public int DeleteArc(int arcId)
+        public int? DeleteArc(int arcId)
         {
             var arc = this.dbContext.Arcs.Find(arcId);
 
             if (arc == null)
             {
-                return -1;
+                return null;
             }
 
             var seriesId = arc.SeriesId;

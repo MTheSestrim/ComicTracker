@@ -2,6 +2,6 @@
 {
     public interface IArcDeletionService
     {
-        int DeleteArc(int arcId);
+        int? DeleteArc(int arcId);
     }
 }

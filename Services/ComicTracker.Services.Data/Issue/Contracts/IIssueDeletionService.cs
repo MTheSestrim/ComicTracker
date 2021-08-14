@@ -2,6 +2,6 @@
 {
     public interface IIssueDeletionService
     {
-        int DeleteIssue(int issueId);
+        int? DeleteIssue(int issueId);
     }
 }

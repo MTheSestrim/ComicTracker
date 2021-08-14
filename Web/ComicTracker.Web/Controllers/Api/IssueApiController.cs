@@ -52,7 +52,7 @@
 
             var numberOfIssuesCreated = this.issueTemplateCreationService.CreateTemplateIssues(model);
 
-            if (numberOfIssuesCreated == -1)
+            if (numberOfIssuesCreated == null)
             {
                 return this.BadRequest();
             }

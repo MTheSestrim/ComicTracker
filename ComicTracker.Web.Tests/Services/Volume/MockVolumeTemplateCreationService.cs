@@ -14,7 +14,7 @@
             this.dbContext = dbContext;
         }
 
-        public int CreateTemplateVolumes(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateVolumes(TemplateCreateApiRequestModel model)
         {
             if (model.NumberOfEntities < 1)
             {

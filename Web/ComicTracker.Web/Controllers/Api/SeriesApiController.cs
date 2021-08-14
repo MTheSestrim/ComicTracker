@@ -26,7 +26,7 @@
         }
 
         [HttpPut]
-        public async Task<ActionResult<int>> ScoreSeries(RateApiRequestModel model)
+        public async Task<ActionResult<int?>> ScoreSeries(RateApiRequestModel model)
         {
             if (!this.ModelState.IsValid)
             {

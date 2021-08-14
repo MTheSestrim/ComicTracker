@@ -6,6 +6,6 @@
 
     public interface IArcRatingService
     {
-        Task<int> RateArc(string userId, RateApiRequestModel model);
+        Task<int?> RateArc(string userId, RateApiRequestModel model);
     }
 }

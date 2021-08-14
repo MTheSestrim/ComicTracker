@@ -13,12 +13,10 @@
     public class IssueDetailsService : IIssueDetailsService
     {
         private readonly ComicTrackerDbContext dbContext;
-        private readonly IMapper mapper;
 
-        public IssueDetailsService(ComicTrackerDbContext dbContext, IMapper mapper)
+        public IssueDetailsService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.mapper = mapper;
         }
 
         public IssueDetailsServiceModel GetIssue(int issueId, string userId)

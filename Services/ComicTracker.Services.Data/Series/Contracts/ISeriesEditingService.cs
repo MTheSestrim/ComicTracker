@@ -4,6 +4,6 @@
 
     public interface ISeriesEditingService
     {
-        int EditSeries(EditSeriesServiceModel model);
+        int? EditSeries(EditSeriesServiceModel model);
     }
 }

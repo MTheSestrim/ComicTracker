@@ -4,6 +4,6 @@
 
     public interface IVolumeTemplateCreationService
     {
-        int CreateTemplateVolumes(TemplateCreateApiRequestModel model);
+        int? CreateTemplateVolumes(TemplateCreateApiRequestModel model);
     }
 }

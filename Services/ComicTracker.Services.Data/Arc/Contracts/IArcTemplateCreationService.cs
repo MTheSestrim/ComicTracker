@@ -4,6 +4,6 @@
 
     public interface IArcTemplateCreationService
     {
-        int CreateTemplateArcs(TemplateCreateApiRequestModel model);
+        int? CreateTemplateArcs(TemplateCreateApiRequestModel model);
     }
 }

@@ -160,16 +160,17 @@
         {
             var result = this.arcDeletionService.DeleteArc(id);
 
-            if (result == -1)
+            if (result == null)
             {
                 return this.RedirectToAction($"/Arc/{id}");
             }
 
+            this.cache.RemoveSeriesDetails(result.Value);
             this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
             this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
-            this.cache.RemoveSeriesDetails(result);
+            this.cache.RemoveArcDetails(id);
 
-            return this.Redirect($"/Series/{result}");
+            return this.Redirect($"/Series/{result.Value}");
         }
     }
 }

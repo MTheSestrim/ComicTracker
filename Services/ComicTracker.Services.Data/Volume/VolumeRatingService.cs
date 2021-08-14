@@ -19,7 +19,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<int> RateVolume(string userId, RateApiRequestModel model)
+        public async Task<int?> RateVolume(string userId, RateApiRequestModel model)
         {
             var volume = await this.dbContext.Volumes
                 .Include(v => v.UsersVolumes)
@@ -54,7 +54,7 @@
                 return model.Score;
             }
 
-            return 0;
+            return null;
         }
     }
 }

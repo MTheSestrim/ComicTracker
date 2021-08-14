@@ -12,13 +12,13 @@
             this.dbContext = dbContext;
         }
 
-        public int DeleteIssue(int issueId)
+        public int? DeleteIssue(int issueId)
         {
             var issue = this.dbContext.Issues.Find(issueId);
 
             if (issue == null)
             {
-                return -1;
+                return null;
             }
 
             var seriesId = issue.SeriesId;

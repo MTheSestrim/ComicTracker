@@ -16,7 +16,7 @@
         {
             var series = this.dbContext.Series.Find(seriesId);
 
-            if (series == null)
+            if (series == null || series.IsDeleted)
             {
                 return false;
             }

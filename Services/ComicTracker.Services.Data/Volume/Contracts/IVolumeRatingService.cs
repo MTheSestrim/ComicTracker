@@ -6,6 +6,6 @@
 
     public interface IVolumeRatingService
     {
-        Task<int> RateVolume(string userId, RateApiRequestModel model);
+        Task<int?> RateVolume(string userId, RateApiRequestModel model);
     }
 }

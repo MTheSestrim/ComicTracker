@@ -168,6 +168,7 @@
             this.cache.RemoveSeriesDetails(result.Value);
             this.cache.RemoveAllIssueDetails(this.cacheKeyHolder);
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+            this.cache.RemoveVolumeDetails(id);
 
             return this.Redirect($"/Series/{result}");
         }
