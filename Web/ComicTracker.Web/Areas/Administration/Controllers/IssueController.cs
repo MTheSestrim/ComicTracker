@@ -22,6 +22,7 @@
         private readonly IMapper mapper;
         private readonly IGenreRetrievalService genreRetrievalService;
         private readonly IIssueCreationService issueCreationService;
+        private readonly IIssueDetachmentService issueDetachmentService;
         private readonly IIssueDeletionService issueDeletionService;
         private readonly IIssueEditingInfoService issueEditingInfoService;
         private readonly IIssueEditingService issueEditingService;
@@ -32,6 +33,7 @@
             IMapper mapper,
             IGenreRetrievalService genreRetrievalService,
             IIssueCreationService issueCreationService,
+            IIssueDetachmentService issueDetachmentService,
             IIssueDeletionService issueDeletionService,
             IIssueEditingInfoService issueEditingInfoService,
             IIssueEditingService issueEditingService,
@@ -41,6 +43,7 @@
             this.mapper = mapper;
             this.genreRetrievalService = genreRetrievalService;
             this.issueCreationService = issueCreationService;
+            this.issueDetachmentService = issueDetachmentService;
             this.issueDeletionService = issueDeletionService;
             this.issueEditingInfoService = issueEditingInfoService;
             this.issueEditingService = issueEditingService;
@@ -171,6 +174,38 @@
             this.cache.RemoveIssueDetails(id);
 
             return this.Redirect($"/Series/{result.Value}");
+        }
+
+        [HttpPost]
+        public IActionResult RemoveArc(int id)
+        {
+            var result = this.issueDetachmentService.DetachArc(id);
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            this.cache.RemoveIssueDetails(result.Result.Value);
+            this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
+
+            return this.Redirect($"/Issue/{result.Result.Value}");
+        }
+
+        [HttpPost]
+        public IActionResult RemoveVolume(int id)
+        {
+            var result = this.issueDetachmentService.DetachVolume(id);
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            this.cache.RemoveIssueDetails(result.Result.Value);
+            this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
+
+            return this.Redirect($"/Issue/{result.Result.Value}");
         }
     }
 }

@@ -110,6 +110,7 @@
             // Series
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
             services.AddTransient<ISeriesDeletionService, SeriesDeletionService>();
+            services.AddTransient<IIssueDetachmentService, IssueDetachmentService>();
             services.AddTransient<ISeriesDetailsService, SeriesDetailsService>();
             services.AddTransient<ISeriesEditingInfoService, SeriesEditingInfoService>();
             services.AddTransient<ISeriesEditingService, SeriesEditingService>();

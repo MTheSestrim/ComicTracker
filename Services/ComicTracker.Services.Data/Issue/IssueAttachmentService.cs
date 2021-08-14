@@ -43,10 +43,6 @@
                 {
                     throw new ArgumentNullException($"Arc with given id {model.ParentId} does not exist.");
                 }
-                else if (arc.Issues.Any())
-                {
-                    throw new InvalidOperationException("Arc already contains issues.");
-                }
 
                 foreach (var issue in issues)
                 {
@@ -66,10 +62,6 @@
                 if (volume == null)
                 {
                     throw new ArgumentNullException($"Volume with given id {model.ParentId} does not exist.");
-                }
-                else if (volume.Issues.Any())
-                {
-                    throw new InvalidOperationException("Volume already contains issues.");
                 }
 
                 foreach (var issue in issues)

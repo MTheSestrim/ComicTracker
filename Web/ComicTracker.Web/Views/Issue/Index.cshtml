@@ -1,4 +1,5 @@
 ﻿@using ComicTracker.Services.Data.Issue.Models;
+@using ComicTracker.Web.Infrastructure;
 
 @using static ComicTracker.Common.GlobalConstants;
 
@@ -49,6 +50,15 @@
                     <h2 class="undertext">Volume: @Model.VolumeNumber</h2>
                 }
             </a>
+            @if (this.User.IsAdmin())
+            {
+                <form class="mt-3 mb-3" method="post"
+                      asp-controller="Issue"
+                      asp-action="RemoveVolume"
+                      asp-route-id="@Model.Id">
+                    <button class="form-control btn-danger col-xl-4 col-8"><b>Remove Volume Relation</b></button>
+                </form>
+            }
         }
         @if (Model.ArcId != null)
         {
@@ -62,6 +72,15 @@
                     <h3 class="undertext">Arc: @Model.ArcNumber</h3>
                 }
             </a>
+            @if (this.User.IsAdmin())
+            {
+                <form class="mt-3 mb-3" method="post"
+                      asp-controller="Issue"
+                      asp-action="RemoveArc"
+                      asp-route-id="@Model.Id">
+                    <button class="form-control btn-danger col-xl-4 col-8"><b>Remove Arc Relation</b></button>
+                </form>
+            }
         }
         <partial name="_EntityScorePartial" model="Model" />
         <partial name="_EntityDescription" model="Model" />

@@ -1,4 +1,16 @@
-﻿function focusScore() {
+﻿function attachModalButtons() {
+    // Opens modal when a .templateCreator button is pressed.
+    $('.templateCreator').on('click', function () {
+        let entityName = $(this).attr('value');
+        // Get the modal
+        $(`#${entityName.toLowerCase() + 's'}Modal`).css('display', 'block');
+    })
+
+    // Get the <span> element that closes the modal
+    $(".close").on('click', function () { $(this).parent().parent().css('display', 'none') });
+}
+
+function focusScore() {
     let currentScore = $('#userScore').text().replace('Your Score: ', '').trim();
 
     if (currentScore) {
@@ -27,16 +39,16 @@ function sendScore(e, t) {
         }).done((res) => {
             $('#userScore').text(`Your Score: ${res}`);
         })
-        .fail((res) => {
-            // Redirect to Login page
-            if (res.status == 401) {
-                window.location.href = '/Identity/Account/Login';
-            }
-        })
+            .fail((res) => {
+                // Redirect to Login page
+                if (res.status == 401) {
+                    window.location.href = '/Identity/Account/Login';
+                }
+            })
     }
 }
 
-function refreshEntities(res, controller , parentId, entityName) {
+function refreshEntities(res, controller, parentId, entityName) {
     // GET request to load new entities into table
     $.ajax({
         type: 'GET',
@@ -45,6 +57,8 @@ function refreshEntities(res, controller , parentId, entityName) {
         // Take response from the GET request of updated page and replace the table's data
         let data = $('<div />').append(res).find(`#pills-${entityName.toLowerCase()}s`).html();
         $(`#pills-${entityName.toLowerCase()}s`).html(data);
+        attachModalButtons();
+        $('.rangeSubmit').on('click', sendEntitiesRange);
     }).fail((res) => {
         window.location.href = `/Series/${parentId}`;
     })
@@ -66,12 +80,11 @@ function sendTemplatesCount(e, t) {
             data: JSON.stringify({ numberOfEntities: numberOfEntities, seriesId: seriesId }),
             contentType: 'application/json;charset=utf-8',
         }).done(res => refreshEntities(res, "Series", seriesId, entityName))
-        .fail((res) => {
-            console.log(res.text);
-        })
+            .fail((res) => {
+                console.log(res.text);
+            })
     }
-    else
-    {
+    else {
         $(`#${entityName.toLowerCase()}sValidation`).text('Value must be at least 1.');
     }
 }
@@ -85,8 +98,8 @@ function sendEntitiesRange(e, t) {
     let parentId = $(this).attr('parentId');
 
     // Gets the min and max range for given modal
-    let minRange = parseInt($(this).prev().prev().find('.minRange').val());
-    let maxRange = parseInt($(this).prev().prev().find('.maxRange').val());
+    let minRange = parseInt($(this).prev().prev().prev().find('.minRange').val());
+    let maxRange = parseInt($(this).prev().prev().prev().find('.maxRange').val());
 
     if (minRange > 0 && maxRange > 0) {
 
@@ -103,10 +116,12 @@ function sendEntitiesRange(e, t) {
                     maxRange: maxRange,
                 }),
                 contentType: 'application/json;charset=utf-8',
-            }).done(res => refreshEntities(res, parentTypeName, parentId, entityName))
-            .fail((res) => {
-                console.log(res.text);
+            }).done((res) => {
+                refreshEntities(res, parentTypeName, parentId, entityName);
             })
+                .fail((res) => {
+                    console.log(res.text);
+                })
         }
         else {
             $(`#${entityName.toLowerCase()}sValidation`)
@@ -118,6 +133,71 @@ function sendEntitiesRange(e, t) {
     }
 }
 
+class pagination {
+    constructor(table) {
+        const entriesPerPage = 10;
+
+        this._table = table;
+
+        this.numberOfRows = $(table).find('tr').length;
+
+        this._pages = Math.ceil(this.numberOfRows / entriesPerPage);
+
+        this._currentPage = 1;
+
+        $(table).find('tr').css('display', 'none');
+        $(table).find('tr').slice(0, entriesPerPage).css('display', '');
+
+        $(table).next().find('.navPrev').on('click', (e, t) => {
+            if (this.currentPage === 1) {
+                this.currentPage = 1;
+            }
+            else {
+                this.currentPage--;
+            }
+
+            this.loadPage(e, t, entriesPerPage)
+        })
+
+        $(table).next().find('.navNext').on('click', (e, t) => {
+            if (this.currentPage * entriesPerPage >= this.numberOfRows) {
+                this.currentPage = this.pages;
+            }
+            else {
+                this.currentPage++;
+            }
+
+            this.loadPage(e, t, entriesPerPage)
+        })
+    }
+
+    get table() { return this._table; }
+
+    set table(table) { this._table = table; }
+
+    get numberOfRows() { return this._numberOfRows; }
+
+    set numberOfRows(num) { this._numberOfRows = num; }
+
+    get pages() { return this._pages; }
+
+    set pages(amount) { this._pages = amount; }
+
+    get currentPage() { return this._currentPage; }
+
+    set currentPage(page) { this._currentPage = page; }
+
+    loadPage(e, t, entriesPerPage) {
+        $(this.table).find('tr').css('display', 'none');
+
+        let upperRange = (this.currentPage - 1) * entriesPerPage + entriesPerPage;
+
+        $(this.table).find('tr')
+            .slice((this.currentPage - 1) * entriesPerPage, upperRange)
+            .css('display', '');
+    }
+}
+
 $(document).ready(function () {
     // Focuses on the user's score when loading page
     focusScore();
@@ -125,18 +205,12 @@ $(document).ready(function () {
     // Sends score to API and handles response upon clicking one of the .score buttons.
     $('.score').on('click', sendScore)
 
-    // Opens modal when a .templateCreator button is pressed.
-    $('.templateCreator').on('click', function () {
-        let entityName = $(this).attr('value');
-        // Get the modal
-        $(`#${entityName.toLowerCase() + 's'}Modal`).css('display', 'block');
-    })
-
-    // Get the <span> element that closes the modal
-    $(".close").on('click', function () { $(this).parent().parent().css('display', 'none') });
+    attachModalButtons();
 
     // Function for entity creation specific to series
     $('.templateSubmit').on('click', sendTemplatesCount);
 
     $('.rangeSubmit').on('click', sendEntitiesRange);
+
+    $('table').each((i, t) => new pagination(t));
 })

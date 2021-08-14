@@ -32,13 +32,44 @@
                 {
                     @if (this.User.IsAdmin())
                     {
-                        <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
-                           asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
-                           asp-action="Create"
-                           asp-route-id="@Model.Id"
-                           asp-route-number="@(elModel.EntityLinkings.Count + 1)">
-                            <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
-                        </a>
+                        @if (Model.EntityTypeName == "Series")
+                        {
+                            <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
+                               asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
+                               asp-action="Create"
+                               asp-route-id="@Model.Id"
+                               asp-route-number="@(elModel.EntityLinkings.Count + 1)">
+                                <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                <i class="fa fa-plus"></i> <b>Add @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower()s </b>
+                            </a>
+
+                            <div id="@elModel.Name.ToLower()Modal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content col-xl-6 col-12">
+                                    <span class="close text-right pr-2">&times;</span>
+                                    <h4 class="mt-2 text-center">Please select the range of @elModel.Name you want added:</h4>
+                                    <div class="container text-center">
+                                        <input class="form-control col-xl-1 col-2 d-inline minRange" />
+                                        <div class="col-2 d-inline">To</div>
+                                        <input class="form-control col-xl-1 col-2 d-inline maxRange" />
+                                    </div>
+                                    <span class="text-success text-center"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
+                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger text-center field-validation-error"></span>
+                                    <button type="submit"
+                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
+                                            parentId="@Model.Id"
+                                            parentTypeName="@Model.EntityTypeName"
+                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        }
                     }
                     <table class="table table-bordered">
                         <tbody>
@@ -79,9 +110,24 @@
                                     }
                                 </tr>
                             }
-
                         </tbody>
                     </table>
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item mr-4">
+                                <a class="page-link navPrev" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item navNext ml-4">
+                                <a class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 }
                 else if (Model.EntityTypeName == "Series")
                 {
@@ -136,11 +182,12 @@
                                         <div class="col-2 d-inline">To</div>
                                         <input class="form-control col-xl-1 col-2 text-center d-inline maxRange" />
                                     </div>
+                                    <span class="text-success"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
                                     <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
                                     <button type="submit"
                                             class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
                                             parentId="@Model.Id"
-                                            parentTypeName ="@Model.EntityTypeName"
+                                            parentTypeName="@Model.EntityTypeName"
                                             value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
                                         Submit
                                     </button>

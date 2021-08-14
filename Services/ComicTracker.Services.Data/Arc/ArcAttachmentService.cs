@@ -43,10 +43,6 @@
                 {
                     throw new ArgumentNullException($"Volume with given id {model.ParentId} does not exist.");
                 }
-                else if (volume.Arcs.Any())
-                {
-                    throw new InvalidOperationException("Volume already contains arcs.");
-                }
 
                 foreach (var arc in arcs)
                 {
