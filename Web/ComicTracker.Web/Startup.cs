@@ -82,6 +82,7 @@
             services.AddTransient<IFileUploadService, FileUploadService>();
 
             // Arc
+            services.AddTransient<IArcAttachmentService, ArcAttachmentService>();
             services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDeletionService, ArcDeletionService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
@@ -94,6 +95,7 @@
             services.AddTransient<IGenreRetrievalService, GenreRetrievalService>();
 
             // Issue
+            services.AddTransient<IIssueAttachmentService, IssueAttachmentService>();
             services.AddTransient<IIssueCreationService, IssueCreationService>();
             services.AddTransient<IIssueDeletionService, IssueDeletionService>();
             services.AddTransient<IIssueDetailsService, IssueDetailsService>();
@@ -115,6 +117,7 @@
             services.AddTransient<ISeriesSearchQueryingService, SeriesSearchQueryingService>();
 
             // Volume
+            services.AddTransient<IVolumeAttachmentService, VolumeAttachmentService>();
             services.AddTransient<IVolumeCreationService, VolumeCreationService>();
             services.AddTransient<IVolumeDeletionService, VolumeDeletionService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();

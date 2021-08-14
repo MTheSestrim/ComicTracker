@@ -36,17 +36,17 @@ function sendScore(e, t) {
     }
 }
 
-function refreshEntities(res, seriesId, entityName) {
+function refreshEntities(res, controller , parentId, entityName) {
     // GET request to load new entities into table
     $.ajax({
         type: 'GET',
-        url: `/Series/${seriesId}`,
+        url: `/${controller}/${parentId}`,
     }).done((res) => {
         // Take response from the GET request of updated page and replace the table's data
         let data = $('<div />').append(res).find(`#pills-${entityName.toLowerCase()}s`).html();
         $(`#pills-${entityName.toLowerCase()}s`).html(data);
     }).fail((res) => {
-        window.location.href = `/Series/${seriesId}`;
+        window.location.href = `/Series/${parentId}`;
     })
 }
 
@@ -61,18 +61,60 @@ function sendTemplatesCount(e, t) {
     if (entityName && numberOfEntities > 0 && seriesId) {
         $.ajax({
             type: 'POST',
-            url: `/api/${entityName}`,
+            url: `/api/${entityName}/CreateTemplates`,
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
             data: JSON.stringify({ numberOfEntities: numberOfEntities, seriesId: seriesId }),
             contentType: 'application/json;charset=utf-8',
-        }).done(res => refreshEntities(res, seriesId, entityName))
-            .fail((res) => {
-                console.log(res.text);
-            })
+        }).done(res => refreshEntities(res, "Series", seriesId, entityName))
+        .fail((res) => {
+            console.log(res.text);
+        })
     }
     else
     {
         $(`#${entityName.toLowerCase()}sValidation`).text('Value must be at least 1.');
+    }
+}
+
+function sendEntitiesRange(e, t) {
+    let entityName = $(this).attr('value');
+
+    let seriesId = $('#seriesHref').attr('href').split('/')[2];
+
+    let parentTypeName = $(this).attr('parentTypeName');
+    let parentId = $(this).attr('parentId');
+
+    // Gets the min and max range for given modal
+    let minRange = parseInt($(this).prev().prev().find('.minRange').val());
+    let maxRange = parseInt($(this).prev().prev().find('.maxRange').val());
+
+    if (minRange > 0 && maxRange > 0) {
+
+        if (minRange <= maxRange && entityName && parentId && seriesId) {
+            $.ajax({
+                type: 'POST',
+                url: `/api/${entityName}/Attach`,
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                data: JSON.stringify({
+                    seriesId: seriesId,
+                    parentTypeName: parentTypeName,
+                    parentId: parentId,
+                    minRange: minRange,
+                    maxRange: maxRange,
+                }),
+                contentType: 'application/json;charset=utf-8',
+            }).done(res => refreshEntities(res, parentTypeName, parentId, entityName))
+            .fail((res) => {
+                console.log(res.text);
+            })
+        }
+        else {
+            $(`#${entityName.toLowerCase()}sValidation`)
+                .text('First field should be lesser than or equal the second.')
+        }
+    }
+    else {
+        $(`#${entityName.toLowerCase()}sValidation`).text('Values must be at least 1.');
     }
 }
 
@@ -95,4 +137,6 @@ $(document).ready(function () {
 
     // Function for entity creation specific to series
     $('.templateSubmit').on('click', sendTemplatesCount);
+
+    $('.rangeSubmit').on('click', sendEntitiesRange);
 })

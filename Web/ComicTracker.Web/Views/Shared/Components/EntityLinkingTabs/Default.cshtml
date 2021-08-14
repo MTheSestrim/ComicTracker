@@ -114,6 +114,42 @@
                         }
                     </div>
                 }
+                else
+                {
+                    <div class="container text-center col-8">
+                        <h3>
+                            No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
+                        </h3>
+                        @if (this.User.IsAdmin())
+                        {
+                            <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Add a select range of @elModel.Name.ToLower()?
+                            </a>
+
+                            <div id="@elModel.Name.ToLower()Modal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content col-xl-6 col-12">
+                                    <span class="close text-right pr-2">&times;</span>
+                                    <h4 class="mt-2">Please select the range of @elModel.Name you want added:</h4>
+                                    <div>
+                                        <input class="form-control col-xl-1 col-2 text-center d-inline minRange" />
+                                        <div class="col-2 d-inline">To</div>
+                                        <input class="form-control col-xl-1 col-2 text-center d-inline maxRange" />
+                                    </div>
+                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
+                                    <button type="submit"
+                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
+                                            parentId="@Model.Id"
+                                            parentTypeName ="@Model.EntityTypeName"
+                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                }
             </div>
         }
     </div>
