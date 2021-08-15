@@ -179,7 +179,7 @@
         [HttpPost]
         public IActionResult RemoveArc(int id)
         {
-            var result = this.issueDetachmentService.DetachArc(id);
+            var result = this.issueDetachmentService.DetachArcFromIssue(id);
 
             if (result == null)
             {
@@ -195,7 +195,7 @@
         [HttpPost]
         public IActionResult RemoveVolume(int id)
         {
-            var result = this.issueDetachmentService.DetachVolume(id);
+            var result = this.issueDetachmentService.DetachVolumeFromIssue(id);
 
             if (result == null)
             {

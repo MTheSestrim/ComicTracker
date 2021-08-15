@@ -6,8 +6,33 @@
         $(`#${entityName.toLowerCase() + 's'}Modal`).css('display', 'block');
     })
 
+    $('.rangeCreator').on('click', function () {
+        let entityName = $(this).attr('value');
+        // Get the modal
+        $(`#${entityName.toLowerCase() + 's'}AddModal`).css('display', 'block');
+    })
+
+    $('.rangeDeletion').on('click', function () {
+        let entityName = $(this).attr('value');
+        // Get the modal
+        $(`#${entityName.toLowerCase() + 's'}RemoveModal`).css('display', 'block');
+    })
+
     // Get the <span> element that closes the modal
     $(".close").on('click', function () { $(this).parent().parent().css('display', 'none') });
+}
+
+function attachModalRequests() {
+    // Function for entity creation specific to series
+    $('.templateSubmit').on('click', sendTemplatesCount);
+
+    $('.rangeSubmit').on('click', sendEntitiesAddRange);
+
+    $('.rangeRemove').on('click', sendEntitiesRemoveRange);
+}
+
+function attachPagination() {
+    $('table').each((i, t) => new pagination(t));
 }
 
 function focusScore() {
@@ -57,8 +82,14 @@ function refreshEntities(res, controller, parentId, entityName) {
         // Take response from the GET request of updated page and replace the table's data
         let data = $('<div />').append(res).find(`#pills-${entityName.toLowerCase()}s`).html();
         $(`#pills-${entityName.toLowerCase()}s`).html(data);
+
         attachModalButtons();
-        $('.rangeSubmit').on('click', sendEntitiesRange);
+
+        attachModalRequests();
+
+        attachPagination();
+
+        $('.rangeSubmit').on('click', sendEntitiesAddRange);
     }).fail((res) => {
         window.location.href = `/Series/${parentId}`;
     })
@@ -89,7 +120,7 @@ function sendTemplatesCount(e, t) {
     }
 }
 
-function sendEntitiesRange(e, t) {
+function sendEntitiesAddRange(e, t) {
     let entityName = $(this).attr('value');
 
     let seriesId = $('#seriesHref').attr('href').split('/')[2];
@@ -119,9 +150,53 @@ function sendEntitiesRange(e, t) {
             }).done((res) => {
                 refreshEntities(res, parentTypeName, parentId, entityName);
             })
-                .fail((res) => {
-                    console.log(res.text);
-                })
+            .fail((res) => {
+                console.log(res.text);
+            })
+        }
+        else {
+            $(`#${entityName.toLowerCase()}sValidation`)
+                .text('First field should be lesser than or equal the second.')
+        }
+    }
+    else {
+        $(`#${entityName.toLowerCase()}sValidation`).text('Values must be at least 1.');
+    }
+}
+
+function sendEntitiesRemoveRange(e, t) {
+    let entityName = $(this).attr('value');
+
+    let seriesId = $('#seriesHref').attr('href').split('/')[2];
+
+    let parentTypeName = $(this).attr('parentTypeName');
+    let parentId = $(this).attr('parentId');
+
+    // Gets the min and max range for given modal
+    let minRange = parseInt($(this).prev().prev().prev().find('.minRange').val());
+    let maxRange = parseInt($(this).prev().prev().prev().find('.maxRange').val());
+
+    if (minRange > 0 && maxRange > 0) {
+
+        if (minRange <= maxRange && entityName && parentId && seriesId) {
+            $.ajax({
+                type: 'DELETE',
+                url: `/api/${entityName}`,
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                data: JSON.stringify({
+                    seriesId: seriesId,
+                    parentTypeName: parentTypeName,
+                    parentId: parentId,
+                    minRange: minRange,
+                    maxRange: maxRange,
+                }),
+                contentType: 'application/json;charset=utf-8',
+            }).done((res) => {
+                refreshEntities(res, parentTypeName, parentId, entityName);
+            })
+            .fail((res) => {
+                console.log(res.text);
+            })
         }
         else {
             $(`#${entityName.toLowerCase()}sValidation`)
@@ -207,10 +282,7 @@ $(document).ready(function () {
 
     attachModalButtons();
 
-    // Function for entity creation specific to series
-    $('.templateSubmit').on('click', sendTemplatesCount);
+    attachModalRequests();
 
-    $('.rangeSubmit').on('click', sendEntitiesRange);
-
-    $('table').each((i, t) => new pagination(t));
+    attachPagination();
 })

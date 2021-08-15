@@ -25,179 +25,205 @@
         @foreach (var elModel in Model.EntityLinkings)
         {
 
-            <div class="tab-pane fade" id="pills-@elModel.Name.ToLower()" role="tabpanel" aria-labelledby="pills-@elModel.Name.ToLower()-tab">
-                <h3 class="tab-title">@elModel.Name</h3>
+    <div class="tab-pane fade" id="pills-@elModel.Name.ToLower()" role="tabpanel" aria-labelledby="pills-@elModel.Name.ToLower()-tab">
+        <h3 class="tab-title">@elModel.Name</h3>
 
-                @if (elModel.EntityLinkings.Count > 0)
+        @if (elModel.EntityLinkings.Count > 0)
+        {
+            @if (this.User.IsAdmin())
+            {
+                @if (Model.EntityTypeName == "Series")
                 {
-                    @if (this.User.IsAdmin())
-                    {
-                        @if (Model.EntityTypeName == "Series")
-                        {
-                            <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
-                               asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
-                               asp-action="Create"
-                               asp-route-id="@Model.Id"
-                               asp-route-number="@(elModel.EntityLinkings.Count + 1)">
-                                <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
-                            </a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                <i class="fa fa-plus"></i> <b>Add @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower()s </b>
-                            </a>
-
-                            <div id="@elModel.Name.ToLower()Modal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content col-xl-6 col-12">
-                                    <span class="close text-right pr-2">&times;</span>
-                                    <h4 class="mt-2 text-center">Please select the range of @elModel.Name you want added:</h4>
-                                    <div class="container text-center">
-                                        <input class="form-control col-xl-1 col-2 d-inline minRange" />
-                                        <div class="col-2 d-inline">To</div>
-                                        <input class="form-control col-xl-1 col-2 d-inline maxRange" />
-                                    </div>
-                                    <span class="text-success text-center"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
-                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger text-center field-validation-error"></span>
-                                    <button type="submit"
-                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
-                                            parentId="@Model.Id"
-                                            parentTypeName="@Model.EntityTypeName"
-                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                        Submit
-                                    </button>
-                                </div>
-                            </div>
-                        }
-                    }
-                    <table class="table table-bordered">
-                        <tbody>
-                            @foreach (var entity in elModel.EntityLinkings)
-                            {
-                                var numberColSpan = 3;
-
-                                var entityTitleExists = entity.Title != null;
-
-                                if (entityTitleExists)
-                                {
-                                    numberColSpan--;
-                                }
-
-                                <tr>
-                                    @if (entity.CoverPath != null)
-                                    {
-                                        numberColSpan--;
-
-                                        <td colspan="1" class="col-3 text-md-center">
-                                            <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                                <img src="@entity.CoverPath" alt="image description" class="miniThumbnail">
-                                            </a>
-                                        </td>
-                                    }
-                                    <td colspan="@numberColSpan" class="col-1 text-md-center">
-                                        <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                            @entity.Number
-                                        </a>
-                                    </td>
-                                    @if (entityTitleExists)
-                                    {
-                                        <td colspan="1" class="col-8 text-md-center">
-                                            <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
-                                                @entity.Title
-                                            </a>
-                                        </td>
-                                    }
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item mr-4">
-                                <a class="page-link navPrev" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item navNext ml-4">
-                                <a class="page-link" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                }
-                else if (Model.EntityTypeName == "Series")
-                {
-                    <div class="container text-center col-8">
-                        <h3>
-                            No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
-                        </h3>
-                        @if (this.User.IsAdmin())
-                        {
-                            <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                Create a select number of empty @elModel.Name.ToLower()?
-                            </a>
-
-                            <div id="@elModel.Name.ToLower()Modal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content col-xl-6 col-12">
-                                    <span class="close text-right pr-2">&times;</span>
-                                    <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
-                                    <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
-                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
-                                    <button type="submit"
-                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
-                                            seriesId="@Model.Id"
-                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                        Submit
-                                    </button>
-                                </div>
-                            </div>
-
-                        }
-                    </div>
+                    <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2"
+                       asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)"
+                       asp-action="Create"
+                       asp-route-id="@Model.Id"
+                       asp-route-number="@(elModel.EntityLinkings.Count + 1)">
+                        <i class="fa fa-plus"></i> <b>Create new @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower() </b>
+                    </a>
                 }
                 else
                 {
-                    <div class="container text-center col-8">
-                        <h3>
-                            No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
-                        </h3>
-                        @if (this.User.IsAdmin())
-                        {
-                            <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                Add a select range of @elModel.Name.ToLower()?
-                            </a>
+                    <a class="btn btn-primary col-xl-4 col-6 mt-2 mb-2 rangeCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                        <i class="fa fa-plus"></i> <b>Add @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower()s </b>
+                    </a>
 
-                            <div id="@elModel.Name.ToLower()Modal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content col-xl-6 col-12">
-                                    <span class="close text-right pr-2">&times;</span>
-                                    <h4 class="mt-2">Please select the range of @elModel.Name you want added:</h4>
-                                    <div>
-                                        <input class="form-control col-xl-1 col-2 text-center d-inline minRange" />
-                                        <div class="col-2 d-inline">To</div>
-                                        <input class="form-control col-xl-1 col-2 text-center d-inline maxRange" />
-                                    </div>
-                                    <span class="text-success"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
-                                    <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
-                                    <button type="submit"
-                                            class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
-                                            parentId="@Model.Id"
-                                            parentTypeName="@Model.EntityTypeName"
-                                            value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
-                                        Submit
-                                    </button>
-                                </div>
+                    <a class="btn btn-danger col-xl-4 col-6 mt-2 mb-2 rangeDeletion" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                        <i class="fa fa-minus-circle"></i> <b>Remove @elModel.Name.Substring(0, elModel.Name.Length - 1).ToLower()s </b>
+                    </a>
+
+                    <div id="@elModel.Name.ToLower()AddModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content col-xl-6 col-12">
+                            <span class="close text-right pr-2">&times;</span>
+                            <h4 class="mt-2 text-center">Please select the range of @elModel.Name you want added:</h4>
+                            <div class="container text-center">
+                                <input class="form-control col-xl-1 col-2 d-inline minRange" />
+                                <div class="col-2 d-inline">To</div>
+                                <input class="form-control col-xl-1 col-2 d-inline maxRange" />
                             </div>
+                            <span class="text-success text-center"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
+                            <span id="@(elModel.Name.ToLower())Validation" class="text-danger text-center field-validation-error"></span>
+                            <button type="submit"
+                                    class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
+                                    parentId="@Model.Id"
+                                    parentTypeName="@Model.EntityTypeName"
+                                    value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
 
-                        }
+                    <div id="@elModel.Name.ToLower()RemoveModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content col-xl-6 col-12">
+                            <span class="close text-right pr-2">&times;</span>
+                            <h4 class="mt-2 text-center">Please select the range of @elModel.Name you want removed:</h4>
+                            <div class="container text-center">
+                                <input class="form-control col-xl-1 col-2 d-inline minRange" />
+                                <div class="col-2 d-inline">To</div>
+                                <input class="form-control col-xl-1 col-2 d-inline maxRange" />
+                            </div>
+                            <span class="text-success text-center"><i>If you wish to remove just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
+                            <span id="@(elModel.Name.ToLower())Validation" class="text-danger text-center field-validation-error"></span>
+                            <button type="submit"
+                                    class="btn btn-danger col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeRemove"
+                                    parentId="@Model.Id"
+                                    parentTypeName="@Model.EntityTypeName"
+                                    value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Remove
+                            </button>
+                        </div>
                     </div>
                 }
+            }
+            <table class="table table-bordered">
+                <tbody>
+                    @foreach (var entity in elModel.EntityLinkings)
+                    {
+                        var numberColSpan = 3;
+
+                        var entityTitleExists = entity.Title != null;
+
+                        if (entityTitleExists)
+                        {
+                            numberColSpan--;
+                        }
+
+                        <tr>
+                            @if (entity.CoverPath != null)
+                            {
+                                numberColSpan--;
+
+                                <td colspan="1" class="col-3 align-middle text-md-center">
+                                    <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                        <img src="@entity.CoverPath" alt="image description" class="miniThumbnail">
+                                    </a>
+                                </td>
+                            }
+                            <td colspan="@numberColSpan" class="col-1 align-middle text-center">
+                                <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                    @entity.Number
+                                </a>
+                            </td>
+                            @if (entityTitleExists)
+                            {
+                                <td colspan="1" class="col-8 align-middle text-md-center">
+                                    <a asp-controller="@elModel.Name.Substring(0, elModel.Name.Length - 1)" asp-route-id="@entity.Id">
+                                        @entity.Title
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item mr-4">
+                        <a class="page-link navPrev" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item navNext ml-4">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else if (Model.EntityTypeName == "Series")
+        {
+            <div class="container text-center col-8">
+                <h3>
+                    No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
+                </h3>
+                @if (this.User.IsAdmin())
+                {
+                    <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                        Create a select number of empty @elModel.Name.ToLower()?
+                    </a>
+
+                    <div id="@elModel.Name.ToLower()Modal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content col-xl-6 col-12">
+                            <span class="close text-right pr-2">&times;</span>
+                            <h4 class="mt-2">Please input the number of @elModel.Name you want added:</h4>
+                            <input class="form-control col-xl-2 col-4 offset-xl-5 offset-4 text-center" />
+                            <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
+                            <button type="submit"
+                                    class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 templateSubmit"
+                                    seriesId="@Model.Id"
+                                    value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+
+                }
             </div>
+        }
+        else
+        {
+            <div class="container text-center col-8">
+                <h3>
+                    No @elModel.Name.ToLower() for this @Model.EntityTypeName.ToLower().
+                </h3>
+                @if (this.User.IsAdmin())
+                {
+                    <a class="btn btn-primary text-center col-12 templateCreator" value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                        Add a select range of @elModel.Name.ToLower()?
+                    </a>
+
+                    <div id="@elModel.Name.ToLower()Modal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content col-xl-6 col-12">
+                            <span class="close text-right pr-2">&times;</span>
+                            <h4 class="mt-2">Please select the range of @elModel.Name you want added:</h4>
+                            <div>
+                                <input class="form-control col-xl-1 col-2 text-center d-inline minRange" />
+                                <div class="col-2 d-inline">To</div>
+                                <input class="form-control col-xl-1 col-2 text-center d-inline maxRange" />
+                            </div>
+                            <span class="text-success"><i>If you wish to add just one @elModel.Name.Substring(0, elModel.Name.Length - 1), write the same number in both fields.</i></span>
+                            <span id="@(elModel.Name.ToLower())Validation" class="text-danger field-validation-error"></span>
+                            <button type="submit"
+                                    class="btn btn-primary col-xl-2 col-6 offset-xl-5 offset-3 mt-3 rangeSubmit"
+                                    parentId="@Model.Id"
+                                    parentTypeName="@Model.EntityTypeName"
+                                    value="@elModel.Name.Substring(0, elModel.Name.Length - 1)">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        }
+    </div>
         }
     </div>
 </div>

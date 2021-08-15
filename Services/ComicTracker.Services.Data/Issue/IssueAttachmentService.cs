@@ -13,16 +13,16 @@
 
     public class IssueAttachmentService : IIssueAttachmentService
     {
-        private readonly ComicTrackerDbContext context;
+        private readonly ComicTrackerDbContext dbContext;
 
         public IssueAttachmentService(ComicTrackerDbContext context)
         {
-            this.context = context;
+            this.dbContext = context;
         }
 
         public async Task<int?> AttachIssues(AttachSRERequestModel model)
         {
-            var issues = this.context.Issues
+            var issues = this.dbContext.Issues
                 .Where(i => i.Number >= model.MinRange
                     && i.Number <= model.MaxRange
                     && i.SeriesId == model.SeriesId)
@@ -35,7 +35,7 @@
 
             if (model.ParentTypeName == nameof(Arc))
             {
-                var arc = this.context.Arcs
+                var arc = this.dbContext.Arcs
                     .Include(a => a.Issues)
                     .FirstOrDefault(a => a.Id == model.ParentId);
 
@@ -49,13 +49,13 @@
                     arc.Issues.Add(issue);
                 }
 
-                await this.context.SaveChangesAsync();
+                await this.dbContext.SaveChangesAsync();
 
                 return issues.Count;
             }
             else if (model.ParentTypeName == nameof(Volume))
             {
-                var volume = this.context.Volumes
+                var volume = this.dbContext.Volumes
                     .Include(v => v.Issues)
                     .FirstOrDefault(v => v.Id == model.ParentId);
 
@@ -69,7 +69,7 @@
                     volume.Issues.Add(issue);
                 }
 
-                await this.context.SaveChangesAsync();
+                await this.dbContext.SaveChangesAsync();
 
                 return issues.Count;
             }

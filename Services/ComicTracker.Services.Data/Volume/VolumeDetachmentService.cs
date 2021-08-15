@@ -11,24 +11,25 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public class VolumeAttachmentService : IVolumeAttachmentService
+    public class VolumeDetachmentService : IVolumeDetachmentService
     {
         private readonly ComicTrackerDbContext context;
 
-        public VolumeAttachmentService(ComicTrackerDbContext context)
+        public VolumeDetachmentService(ComicTrackerDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<int?> AttachVolumes(AttachSRERequestModel model)
+        public async Task<int?> DetachVolumes(AttachSRERequestModel model)
         {
-            var volumes = this.context.Volumes
-                .Where(i => i.Number >= model.MinRange
-                    && i.Number <= model.MaxRange
-                    && i.SeriesId == model.SeriesId)
+            var arcsVolumes = this.context.ArcVolumes
+                .Where(i => i.Volume.Number >= model.MinRange
+                    && i.Volume.Number <= model.MaxRange
+                    && i.Volume.SeriesId == model.SeriesId
+                    && i.ArcId == model.ParentId)
                 .ToList();
 
-            if (volumes == null)
+            if (arcsVolumes == null)
             {
                 throw new ArgumentOutOfRangeException("Incorrect volume range given.");
             }
@@ -36,24 +37,22 @@
             if (model.ParentTypeName == nameof(Arc))
             {
                 var arc = this.context.Arcs
-                    .Include(a => a.ArcsVolumes)
-                    .FirstOrDefault(a => a.Id == model.ParentId);
+                                .Include(a => a.ArcsVolumes)
+                                .FirstOrDefault(a => a.Id == model.ParentId);
 
                 if (arc == null)
                 {
                     throw new ArgumentNullException($"Arc with given id {model.ParentId} does not exist.");
                 }
 
-                foreach (var volume in volumes)
+                foreach (var av in arcsVolumes)
                 {
-                    var av = new ArcVolume { Arc = arc, Volume = volume };
-
-                    arc.ArcsVolumes.Add(av);
+                    arc.ArcsVolumes.Remove(av);
                 }
 
                 await this.context.SaveChangesAsync();
 
-                return volumes.Count;
+                return arcsVolumes.Count;
             }
 
             return null;

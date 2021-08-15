@@ -7,23 +7,23 @@
     using ComicTracker.Web.Controllers.Api;
 
     using MyTested.AspNetCore.Mvc;
-    
+
     using Xunit;
 
     using static ComicTracker.Common.GlobalConstants;
-    using static ComicTracker.Tests.Data.Issue.IssueSample;
     using static ComicTracker.Tests.Data.Series.SeriesSample;
+    using static ComicTracker.Tests.Data.Volume.VolumeSample;
 
-    public class IssueApiControllerTests
+    public class VolumeApiControllerTests
     {
         [Fact]
-        public void ScoreIssueShouldBeRestrictedToHttpPutRequests()
-            => MyController<IssueApiController>
+        public void ScoreVolumeShouldBeRestrictedToHttpPutRequests()
+            => MyController<VolumeApiController>
                 // Random data is given so that the action can be instantiated
                 .Instance(controller => controller
-                    .WithData(IssueWithId(2))
+                    .WithData(VolumeWithId(2))
                     .WithUser(u => u.WithIdentifier($"User{2}")))
-                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = 2, Score = 2 }))
+                .Calling(c => c.ScoreVolume(new RateApiRequestModel { Id = 2, Score = 2 }))
                 .ShouldHave()
                 .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Put));
 
@@ -33,20 +33,20 @@
         [InlineData(8, 5)]
         [InlineData(10, 2)]
         [InlineData(12, 0)]
-        public void ScoreIssueShouldAddTheScoreOfTheIssueForGivenUser(int id, int score)
+        public void ScoreVolumeShouldAddTheScoreOfTheVolumeForGivenUser(int id, int score)
             // Arrange
-            => MyController<IssueApiController>
+            => MyController<VolumeApiController>
                 .Instance(controller => controller
-                    .WithData(IssueWithId(id))
+                    .WithData(VolumeWithId(id))
                     .WithUser(u => u.WithIdentifier($"User{id}")))
                 // Act
-                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = id, Score = score }))
+                .Calling(c => c.ScoreVolume(new RateApiRequestModel { Id = id, Score = score }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Issue>(x => x.ToList()
-                    .Any(i => i.UsersIssues.Any(ui => ui.Score == score
-                        && ui.UserId == $"User{id}"
-                        && ui.IssueId == id))))
+                .Data(d => d.WithSet<Volume>(x => x.ToList()
+                    .Any(v => v.UsersVolumes.Any(uv => uv.Score == score
+                        && uv.UserId == $"User{id}"
+                        && uv.VolumeId == id))))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == score));
@@ -56,42 +56,42 @@
         [InlineData(4, 0, 10)]
         [InlineData(8, 10, 0)]
         [InlineData(10, 5, 5)]
-        public void ScoreIssueShouldUpdateTheScoreOfTheIssueForGivenUserIfOneIsAlreadyPresent(
-            int id,
-            int oldScore,
+        public void ScoreVolumeShouldUpdateTheScoreOfTheVolumeForGivenUserIfOneIsAlreadyPresent(
+            int id, 
+            int oldScore, 
             int newScore)
             // Arrange
-            => MyController<IssueApiController>
+            => MyController<VolumeApiController>
                 .Instance(controller => controller
-                    .WithData(IssueWithIdAndScore(id, oldScore, $"User{id}"))
+                    .WithData(VolumeWithIdAndScore(id, oldScore, $"User{id}"))
                     .WithUser(u => u.WithIdentifier($"User{id}")))
                 // Act
-                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = id, Score = newScore }))
+                .Calling(c => c.ScoreVolume(new RateApiRequestModel { Id = id, Score = newScore }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Issue>(x => x.ToList()
-                    .Any(i => i.UsersIssues.Any(ui => ui.Score == newScore
-                        && ui.UserId == $"User{id}"
-                        && ui.IssueId == id))))
+                .Data(d => d.WithSet<Volume>(x => x.ToList()
+                    .Any(v => v.UsersVolumes.Any(uv => uv.Score == newScore
+                        && uv.UserId == $"User{id}"
+                        && uv.VolumeId == id))))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == newScore));
 
-        [Theory]
+        /*[Theory]
         [InlineData(1)]
         [InlineData(5)]
         [InlineData(100)]
-        public void CreateIssuesShouldCreateTemplateIssuesForGivenSeries(int numberOfEntities)
+        public void CreateVolumesShouldCreateTemplateVolumesForGivenSeries(int numberOfEntities)
             // Arrange
-            => MyController<IssueApiController>
+            => MyController<VolumeApiController>
                 .Instance(controller => controller
                     .WithData(SeriesWithId(4))
                     .WithUser(AdministratorRoleName))
                 // Act
-                .Calling(c => c.CreateIssues(
+                .Calling(c => c.CreateVolumes(
                     new TemplateCreateApiRequestModel { SeriesId = 4, NumberOfEntities = numberOfEntities }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Issue>(x => x.ToList().Count == numberOfEntities));
+                .Data(d => d.WithSet<Volume>(x => x.ToList().Count == numberOfEntities));*/
     }
 }

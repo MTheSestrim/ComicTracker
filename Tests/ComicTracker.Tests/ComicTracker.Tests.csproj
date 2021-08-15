@@ -27,9 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
-    <ProjectReference Include="..\Services\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
-    <ProjectReference Include="..\Web\ComicTracker.Web\ComicTracker.Web.csproj" />
+    <ProjectReference Include="..\..\Data\ComicTracker.Data.Models\ComicTracker.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\ComicTracker.Web\ComicTracker.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

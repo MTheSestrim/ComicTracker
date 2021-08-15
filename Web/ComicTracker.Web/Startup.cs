@@ -85,6 +85,7 @@
             services.AddTransient<IArcAttachmentService, ArcAttachmentService>();
             services.AddTransient<IArcCreationService, ArcCreationService>();
             services.AddTransient<IArcDeletionService, ArcDeletionService>();
+            services.AddTransient<IArcDetachmentService, ArcDetachmentService>();
             services.AddTransient<IArcDetailsService, ArcDetailsService>();
             services.AddTransient<IArcEditingInfoService, ArcEditingInfoService>();
             services.AddTransient<IArcEditingService, ArcEditingService>();
@@ -121,6 +122,7 @@
             services.AddTransient<IVolumeAttachmentService, VolumeAttachmentService>();
             services.AddTransient<IVolumeCreationService, VolumeCreationService>();
             services.AddTransient<IVolumeDeletionService, VolumeDeletionService>();
+            services.AddTransient<IVolumeDetachmentService, VolumeDetachmentService>();
             services.AddTransient<IVolumeDetailsService, VolumeDetailsService>();
             services.AddTransient<IVolumeEditingInfoService, VolumeEditingInfoService>();
             services.AddTransient<IVolumeEditingService, VolumeEditingService>();

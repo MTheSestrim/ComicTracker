@@ -7,23 +7,23 @@
     using ComicTracker.Web.Controllers.Api;
 
     using MyTested.AspNetCore.Mvc;
-
+    
     using Xunit;
 
     using static ComicTracker.Common.GlobalConstants;
-    using static ComicTracker.Tests.Data.Arc.ArcSample;
+    using static ComicTracker.Tests.Data.Issue.IssueSample;
     using static ComicTracker.Tests.Data.Series.SeriesSample;
 
-    public class ArcApiControllerTests
+    public class IssueApiControllerTests
     {
         [Fact]
-        public void ScoreArcShouldBeRestrictedToHttpPutRequests()
-            => MyController<ArcApiController>
+        public void ScoreIssueShouldBeRestrictedToHttpPutRequests()
+            => MyController<IssueApiController>
                 // Random data is given so that the action can be instantiated
                 .Instance(controller => controller
-                    .WithData(ArcWithId(2))
+                    .WithData(IssueWithId(2))
                     .WithUser(u => u.WithIdentifier($"User{2}")))
-                .Calling(c => c.ScoreArc(new RateApiRequestModel { Id = 2, Score = 2 }))
+                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = 2, Score = 2 }))
                 .ShouldHave()
                 .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Put));
 
@@ -33,20 +33,20 @@
         [InlineData(8, 5)]
         [InlineData(10, 2)]
         [InlineData(12, 0)]
-        public void ScoreArcShouldAddTheScoreOfTheArcForGivenUser(int id, int score)
+        public void ScoreIssueShouldAddTheScoreOfTheIssueForGivenUser(int id, int score)
             // Arrange
-            => MyController<ArcApiController>
+            => MyController<IssueApiController>
                 .Instance(controller => controller
-                    .WithData(ArcWithId(id))
+                    .WithData(IssueWithId(id))
                     .WithUser(u => u.WithIdentifier($"User{id}")))
                 // Act
-                .Calling(c => c.ScoreArc(new RateApiRequestModel { Id = id, Score = score }))
+                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = id, Score = score }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList()
-                    .Any(a => a.UsersArcs.Any(ua => ua.Score == score
-                        && ua.UserId == $"User{id}"
-                        && ua.ArcId == id))))
+                .Data(d => d.WithSet<Issue>(x => x.ToList()
+                    .Any(i => i.UsersIssues.Any(ui => ui.Score == score
+                        && ui.UserId == $"User{id}"
+                        && ui.IssueId == id))))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == score));
@@ -56,42 +56,42 @@
         [InlineData(4, 0, 10)]
         [InlineData(8, 10, 0)]
         [InlineData(10, 5, 5)]
-        public void ScoreArcShouldUpdateTheScoreOfTheArcForGivenUserIfOneIsAlreadyPresent(
+        public void ScoreIssueShouldUpdateTheScoreOfTheIssueForGivenUserIfOneIsAlreadyPresent(
             int id,
             int oldScore,
             int newScore)
             // Arrange
-            => MyController<ArcApiController>
+            => MyController<IssueApiController>
                 .Instance(controller => controller
-                    .WithData(ArcWithIdAndScore(id, oldScore, $"User{id}"))
+                    .WithData(IssueWithIdAndScore(id, oldScore, $"User{id}"))
                     .WithUser(u => u.WithIdentifier($"User{id}")))
                 // Act
-                .Calling(c => c.ScoreArc(new RateApiRequestModel { Id = id, Score = newScore }))
+                .Calling(c => c.ScoreIssue(new RateApiRequestModel { Id = id, Score = newScore }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList()
-                    .Any(a => a.UsersArcs.Any(ua => ua.Score == newScore
-                        && ua.UserId == $"User{id}"
-                        && ua.ArcId == id))))
+                .Data(d => d.WithSet<Issue>(x => x.ToList()
+                    .Any(i => i.UsersIssues.Any(ui => ui.Score == newScore
+                        && ui.UserId == $"User{id}"
+                        && ui.IssueId == id))))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == newScore));
 
-        [Theory]
+        /*[Theory]
         [InlineData(1)]
         [InlineData(5)]
         [InlineData(100)]
-        public void CreateArcsShouldCreateTemplateArcsForGivenSeries(int numberOfEntities)
+        public void CreateIssuesShouldCreateTemplateIssuesForGivenSeries(int numberOfEntities)
             // Arrange
-            => MyController<ArcApiController>
+            => MyController<IssueApiController>
                 .Instance(controller => controller
                     .WithData(SeriesWithId(4))
                     .WithUser(AdministratorRoleName))
                 // Act
-                .Calling(c => c.CreateArcs(
+                .Calling(c => c.CreateIssues(
                     new TemplateCreateApiRequestModel { SeriesId = 4, NumberOfEntities = numberOfEntities }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList().Count == numberOfEntities));
+                .Data(d => d.WithSet<Issue>(x => x.ToList().Count == numberOfEntities));*/
     }
 }

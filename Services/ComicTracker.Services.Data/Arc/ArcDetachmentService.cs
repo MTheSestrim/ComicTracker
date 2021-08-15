@@ -11,24 +11,25 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public class ArcAttachmentService : IArcAttachmentService
+    public class ArcDetachmentService : IArcDetachmentService
     {
         private readonly ComicTrackerDbContext context;
 
-        public ArcAttachmentService(ComicTrackerDbContext context)
+        public ArcDetachmentService(ComicTrackerDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<int?> AttachArcs(AttachSRERequestModel model)
+        public async Task<int?> DetachArcs(AttachSRERequestModel model)
         {
-            var arcs = this.context.Arcs
-                .Where(i => i.Number >= model.MinRange
-                    && i.Number <= model.MaxRange
-                    && i.SeriesId == model.SeriesId)
+            var arcsVolumes = this.context.ArcVolumes
+                .Where(i => i.Arc.Number >= model.MinRange
+                    && i.Arc.Number <= model.MaxRange
+                    && i.Arc.SeriesId == model.SeriesId
+                    && i.VolumeId == model.ParentId)
                 .ToList();
 
-            if (arcs == null)
+            if (arcsVolumes == null)
             {
                 throw new ArgumentOutOfRangeException("Incorrect arc range given.");
             }
@@ -44,16 +45,14 @@
                     throw new ArgumentNullException($"Volume with given id {model.ParentId} does not exist.");
                 }
 
-                foreach (var arc in arcs)
+                foreach (var av in arcsVolumes)
                 {
-                    var av = new ArcVolume { Arc = arc, Volume = volume };
-
-                    volume.ArcsVolumes.Add(av);
+                    volume.ArcsVolumes.Remove(av);
                 }
 
                 await this.context.SaveChangesAsync();
 
-                return arcs.Count;
+                return arcsVolumes.Count;
             }
 
             return null;
