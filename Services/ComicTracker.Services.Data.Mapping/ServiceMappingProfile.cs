@@ -18,15 +18,6 @@
             this.CreateMap<Volume, EntityLinkingModel>();
             this.CreateMap<Arc, EntityLinkingModel>();
 
-            // PublisherLinkingModel mappings
-            this.CreateMap<Publisher, PublisherLinkingModel>();
-
-            // NameOnlyLinkingModel mappings
-            this.CreateMap<Writer, NameOnlyLinkingModel>();
-            this.CreateMap<Artist, NameOnlyLinkingModel>();
-            this.CreateMap<Character, NameOnlyLinkingModel>();
-            this.CreateMap<Genre, NameOnlyLinkingModel>();
-
             this.CreateMap<Series, HomeSeriesServiceModel>();
 
             this.CreateMap<Series, EditInfoSeriesServiceModel>()

@@ -14,7 +14,7 @@
     [Authorize]
     [ApiController]
     [Route("api/Arc")]
-    public class ArcApiController : ControllerBase
+    public class ArcApiController : BaseController
     {
         private readonly IArcRatingService arcRatingService;
         private readonly IMemoryCache cache;

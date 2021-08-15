@@ -1,0 +1,6 @@
+﻿@if (Model.Genres.Count > 0)
+{
+    ViewData["ModelName"] = "Genres";
+
+    <partial name="_NameOnlyLinkingPartial" model="Model.Genres" view-data="ViewData" />
+}

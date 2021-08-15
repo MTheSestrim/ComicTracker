@@ -14,7 +14,7 @@
     [Authorize]
     [ApiController]
     [Route("api/Volume")]
-    public class VolumeApiController : ControllerBase
+    public class VolumeApiController : BaseController
     {
         private readonly IVolumeRatingService volumeRatingService;
         private readonly IMemoryCache cache;

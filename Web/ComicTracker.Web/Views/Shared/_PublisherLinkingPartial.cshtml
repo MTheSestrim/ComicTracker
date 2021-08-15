@@ -1,0 +1,7 @@
+﻿@using ComicTracker.Services.Data.Models.Entities;
+
+@model ICollection<PublisherLinkingModel>
+
+<div class="container mt-3">
+    <p>Publishers: @string.Join(", ", Model.Select(p => $"{p.Name} ({p.Nationality})"))</p>
+</div>

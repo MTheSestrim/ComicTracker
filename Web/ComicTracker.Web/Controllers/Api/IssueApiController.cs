@@ -14,7 +14,7 @@
     [Authorize]
     [ApiController]
     [Route("api/Issue")]
-    public class IssueApiController : ControllerBase
+    public class IssueApiController : BaseController
     {
         private readonly IIssueRatingService issueRatingService;
         private readonly IMemoryCache cache;

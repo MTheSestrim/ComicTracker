@@ -34,7 +34,10 @@
 }
 
 <div class="row">
-    <partial name="_EntityThumbnail" model="Model" />
+    <div class="col-xl-4">
+        <partial name="_EntityThumbnail" model="Model" />
+        <partial name="_EntityAdditionalInfo" model="Model" />
+    </div>
     <div class="container-fluid col-xl-8">
         <partial name="_EntityTitle" model="Model" />
         <partial name="_EntityEditDelete" model="Model" />

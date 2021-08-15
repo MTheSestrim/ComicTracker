@@ -58,6 +58,22 @@
                     SeriesTitle = a.Series.Title,
                     Issues = issues,
                     Volumes = volumes,
+                    Genres = a.Genres.Select(g => new NameOnlyLinkingModel { Id = g.Id, Name = g.Name }).ToList(),
+                    Artists = a.Artists.Select(a => new NameOnlyLinkingModel { Id = a.Id, Name = a.Name }).ToList(),
+                    Writers = a.Writers.Select(w => new NameOnlyLinkingModel { Id = w.Id, Name = w.Name }).ToList(),
+                    Characters = a.CharactersArcs
+                    .Select(ca => new NameOnlyLinkingModel
+                    {
+                        Id = ca.Character.Id,
+                        Name = ca.Character.Name,
+                    }).ToList(),
+                    Publishers = a.Publishers
+                    .Select(p => new PublisherLinkingModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Nationality = p.Nationality.Name,
+                    }).ToList(),
                 })
                 .FirstOrDefault(a => a.Id == arcId);
 

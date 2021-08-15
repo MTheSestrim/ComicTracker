@@ -20,6 +20,7 @@
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs() =>
             this.dbContext.Genres
             .AsNoTracking()
+            .OrderBy(g => g.Name)
             .Select(i => new
                 {
                     i.Id,

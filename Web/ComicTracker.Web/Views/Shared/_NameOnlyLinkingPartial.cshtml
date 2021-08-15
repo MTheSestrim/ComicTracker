@@ -1,0 +1,7 @@
+﻿@using ComicTracker.Services.Data.Models.Entities;
+
+@model ICollection<NameOnlyLinkingModel>
+
+<div class="container mt-3">
+    <p>@ViewData["ModelName"]: @string.Join(", ", Model.Select(m => m.Name))</p>
+</div>

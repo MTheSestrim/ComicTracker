@@ -14,7 +14,7 @@
     [Authorize]
     [ApiController]
     [Route("api/Series")]
-    public class SeriesApiController : ControllerBase
+    public class SeriesApiController : BaseController
     {
         private readonly ISeriesRatingService seriesRatingService;
         private readonly IMemoryCache cache;

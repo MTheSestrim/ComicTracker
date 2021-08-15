@@ -1,0 +1,24 @@
+﻿@using ComicTracker.Services.Data.Genre.Models
+
+@model CreateGenreServiceModel
+
+@{
+    this.ViewData["Title"] = "Add genre";
+
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <input type="submit" class="btn btn-primary" />
+</form>
