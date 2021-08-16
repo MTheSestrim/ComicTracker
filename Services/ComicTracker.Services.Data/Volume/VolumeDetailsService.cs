@@ -40,10 +40,6 @@
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
 
-            /* Mapper is not used;
-             * 1. A separate query is necessary for taking UserScore and setting it later;
-             * 2. Another option is taking the user in the MappingProfile, but that creates tight coupling.
-             */
             var currentVolume = this.dbContext.Volumes
                 .AsNoTracking()
                 .Select(v => new VolumeDetailsServiceModel
@@ -53,6 +49,7 @@
                     CoverPath = v.CoverPath,
                     Description = v.Description,
                     Number = v.Number,
+                    IsInList = v.UsersVolumes.Any(uv => uv.UserId == userId),
                     TotalScore = v.UsersVolumes.Average(uv => uv.Score).ToString(),
                     UserScore = v.UsersVolumes.FirstOrDefault(uv => uv.UserId == userId).Score.ToString(),
                     SeriesId = v.SeriesId,

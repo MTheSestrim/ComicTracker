@@ -52,6 +52,7 @@
                     CoverPath = a.CoverPath,
                     Description = a.Description,
                     Number = a.Number,
+                    IsInList = a.UsersArcs.Any(ua => ua.UserId == userId),
                     TotalScore = a.UsersArcs.Average(ua => ua.Score).ToString(),
                     UserScore = a.UsersArcs.FirstOrDefault(ua => ua.UserId == userId).Score.ToString(),
                     SeriesId = a.SeriesId,

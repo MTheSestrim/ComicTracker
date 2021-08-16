@@ -8,10 +8,16 @@
 
         public int? Score { get; set; }
 
-        public int IssuesCount { get; set; }
+        public int UserIssuesCount { get; set; }
 
-        public int VolumesCount { get; set; }
+        public int UserVolumesCount { get; set; }
 
-        public int ArcsCount { get; set; }
+        public int UserArcsCount { get; set; }
+
+        public int TotalIssuesCount { get; set; }
+
+        public int TotalVolumesCount { get; set; }
+
+        public int TotalArcsCount { get; set; }
     }
 }

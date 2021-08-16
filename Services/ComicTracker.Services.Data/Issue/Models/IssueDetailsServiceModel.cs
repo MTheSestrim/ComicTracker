@@ -17,6 +17,8 @@
 
         public string Description { get; set; }
 
+        public bool IsInList { get; set; }
+
         public string TotalScore { get; set; }
 
         public string UserScore { get; set; }

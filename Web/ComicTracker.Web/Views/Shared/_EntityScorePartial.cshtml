@@ -1,9 +1,4 @@
-﻿@using ComicTracker.Data.Models
-@using Microsoft.AspNetCore.Identity
-
-@using static ComicTracker.Common.GlobalConstants;
-
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@using static ComicTracker.Common.GlobalConstants;
 
 @{
     if (Model.TotalScore == null)
@@ -21,7 +16,7 @@
     <h2 class="py-1 text-left">
         Total Score: @Model.TotalScore
     </h2>
-    @if (this.SignInManager.IsSignedIn(this.User))
+    @if (this.User.Identity.IsAuthenticated)
     {
         <h3 id="userScore" class="py-1 text-left undertext">
             Your Score: @Model.UserScore
@@ -29,7 +24,7 @@
     }
 </div>
 
-@if (this.SignInManager.IsSignedIn(this.User))
+@if (this.User.Identity.IsAuthenticated)
 {
     <div class="pb-3 justify-content-center">
         <ul class="list-inline justify-content-center text-center">

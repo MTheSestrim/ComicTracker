@@ -8,9 +8,9 @@
 
     public class ListController : BaseController
     {
-        private readonly IListService listService;
+        private readonly IListDataService listService;
 
-        public ListController(IListService listService)
+        public ListController(IListDataService listService)
         {
             this.listService = listService;
         }

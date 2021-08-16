@@ -43,7 +43,7 @@
                 MockIssueTemplateCreationService>(ServiceLifetime.Transient);
 
             // List
-            services.Replace<IListService, MockListService>(ServiceLifetime.Transient);
+            services.Replace<IListDataService, MockListService>(ServiceLifetime.Transient);
 
             // Series
             services.Replace<ISeriesDetailsService, MockSeriesDetailsService>(ServiceLifetime.Transient);

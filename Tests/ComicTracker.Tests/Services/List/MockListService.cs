@@ -7,7 +7,7 @@
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.List.Models;
 
-    public class MockListService : IListService
+    public class MockListService : IListDataService
     {
         private readonly ComicTrackerDbContext dbContext;
 
@@ -23,9 +23,9 @@
                    Title = s.Title,
                    CoverPath = s.CoverPath,
                    Score = s.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score,
-                   IssuesCount = s.Issues.Count,
-                   VolumesCount = s.Volumes.Count,
-                   ArcsCount = s.Arcs.Count,
+                   TotalIssuesCount = s.Issues.Count,
+                   TotalVolumesCount = s.Volumes.Count,
+                   TotalArcsCount = s.Arcs.Count,
                })
                .ToList();
     }

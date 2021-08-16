@@ -1,0 +1,37 @@
+﻿@if (this.User.Identity.IsAuthenticated)
+{
+    if (!Model.IsInList)
+    {
+        <div>
+            ADD TO LIST
+            <button id="listAdd" data-toggle="tooltip" data-placement="top" title=""
+                    class="btn-link edit" data-original-title="Add" value="@Model.Id">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div style="display:none;">
+            REMOVE FROM LIST
+            <button id="listRemove" data-toggle="tooltip" data-placement="top" title=""
+                    class="btn-link delete" data-original-title="Add" value="@Model.Id">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    }
+    else
+    {
+        <div style="display:none;">
+            ADD TO LIST
+            <button id="listAdd" data-toggle="tooltip" data-placement="top" title=""
+                    class="btn-link edit" data-original-title="Add" value="@Model.Id">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div>
+            REMOVE FROM LIST
+            <button id="listRemove" data-toggle="tooltip" data-placement="top" title=""
+                    class="btn-link delete" data-original-title="Add" value="@Model.Id">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    }
+}

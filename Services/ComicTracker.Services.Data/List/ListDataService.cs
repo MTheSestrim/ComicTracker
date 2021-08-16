@@ -6,13 +6,14 @@
     using ComicTracker.Data;
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.List.Models;
+
     using Microsoft.EntityFrameworkCore;
 
-    public class ListService : IListService
+    public class ListDataService : IListDataService
     {
         private readonly ComicTrackerDbContext dbContext;
 
-        public ListService(ComicTrackerDbContext dbContext)
+        public ListDataService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -25,9 +26,12 @@
                    Title = s.Title,
                    CoverPath = s.CoverPath,
                    Score = s.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score,
-                   IssuesCount = s.Issues.Count,
-                   VolumesCount = s.Volumes.Count,
-                   ArcsCount = s.Arcs.Count,
+                   UserIssuesCount = s.Issues.Where(i => i.UsersIssues.Any(ui => ui.UserId == userId)).Count(),
+                   UserVolumesCount = s.Volumes.Where(v => v.UsersVolumes.Any(uv => uv.UserId == userId)).Count(),
+                   UserArcsCount = s.Arcs.Where(a => a.UsersArcs.Any(ua => ua.UserId == userId)).Count(),
+                   TotalIssuesCount = s.Issues.Count,
+                   TotalVolumesCount = s.Volumes.Count,
+                   TotalArcsCount = s.Arcs.Count,
                })
                .ToList();
     }

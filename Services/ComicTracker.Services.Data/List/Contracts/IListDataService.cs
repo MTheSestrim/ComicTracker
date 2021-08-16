@@ -4,7 +4,7 @@
 
     using ComicTracker.Services.Data.List.Models;
 
-    public interface IListService
+    public interface IListDataService
     {
         IEnumerable<ListServiceModel> GetListData(string userId);
     }

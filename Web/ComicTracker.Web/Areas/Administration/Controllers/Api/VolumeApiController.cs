@@ -21,7 +21,7 @@
         private readonly IVolumeAttachmentService volumeAttachmentService;
         private readonly IVolumeDetachmentService volumeDetachmentService;
         private readonly IMemoryCache cache;
-        private readonly Services.Contracts.ICacheKeyHolderService<int> cacheKeyHolder;
+        private readonly ICacheKeyHolderService<int> cacheKeyHolder;
 
         public VolumeApiController(
             IVolumeTemplateCreationService volumeTemplateCreationService,
@@ -91,6 +91,7 @@
         }
 
         [HttpDelete]
+        [Route("Detach")]
         public async Task<ActionResult<int>> DetachVolumesFromArc(AttachSRERequestModel model)
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)

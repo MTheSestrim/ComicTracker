@@ -18,6 +18,8 @@
             this.CreateMap<Volume, EntityLinkingModel>();
             this.CreateMap<Arc, EntityLinkingModel>();
 
+            this.CreateMap<Genre, NameOnlyLinkingModel>();
+
             this.CreateMap<Series, HomeSeriesServiceModel>();
 
             this.CreateMap<Series, EditInfoSeriesServiceModel>()

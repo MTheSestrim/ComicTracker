@@ -45,6 +45,13 @@
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
 
+            var isInList = this.dbContext.Users
+                .Include(u => u.UsersSeries)
+                .Select(u => new { u.Id, u.UsersSeries })
+                .FirstOrDefault(u => u.Id == userId)
+                .UsersSeries
+                .Any(us => us.SeriesId == seriesId);
+
             var currentSeries = this.dbContext.Series
                .AsNoTracking()
                .Select(s => new SeriesDetailsServiceModel
@@ -54,27 +61,13 @@
                    CoverPath = s.CoverPath,
                    Ongoing = s.Ongoing,
                    Description = s.Description,
+                   IsInList = s.UsersSeries.Any(us => us.UserId == userId),
                    TotalScore = s.UsersSeries.Average(us => us.Score).ToString(),
                    UserScore = s.UsersSeries.FirstOrDefault(us => us.UserId == userId).Score.ToString(),
                    Issues = issues,
                    Volumes = volumes,
                    Arcs = arcs,
                    Genres = s.Genres.Select(g => new NameOnlyLinkingModel { Id = g.Id, Name = g.Name }).ToList(),
-                   Artists = s.Artists.Select(a => new NameOnlyLinkingModel { Id = a.Id, Name = a.Name }).ToList(),
-                   Writers = s.Writers.Select(w => new NameOnlyLinkingModel { Id = w.Id, Name = w.Name }).ToList(),
-                   Characters = s.CharactersSeries
-                    .Select(cs => new NameOnlyLinkingModel
-                    {
-                        Id = cs.Character.Id,
-                        Name = cs.Character.Name,
-                    }).ToList(),
-                   Publishers = s.Publishers
-                    .Select(p => new PublisherLinkingModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Nationality = p.Nationality.Name,
-                    }).ToList(),
                })
                .FirstOrDefault(s => s.Id == seriesId);
 

@@ -1,4 +1,8 @@
-﻿function attachModalButtons() {
+﻿function getController() {
+    return window.location.pathname.split('/')[1];
+}
+
+function attachModalButtons() {
     // Opens modal when a .templateCreator button is pressed.
     $('.templateCreator').on('click', function () {
         let entityName = $(this).attr('value');
@@ -54,22 +58,75 @@ function sendScore(e, t) {
 
     let value = parseInt($(this).text());
 
-    if (value >= 0 && value <= 10) {
+    if (value >= 0 && value <= 10 && controller && id) {
         $.ajax({
             type: 'PUT',
-            url: `/api/${controller}`,
+            url: `/api/${controller}/Score`,
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
             data: JSON.stringify({ id: id, score: value }),
             contentType: 'application/json;charset=utf-8',
-        }).done((res) => {
+        }).done((res) => {  
             $('#userScore').text(`Your Score: ${res}`);
+        }).fail((res) => {
+            // Redirect to Login page
+            if (res.status == 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
         })
-            .fail((res) => {
-                // Redirect to Login page
-                if (res.status == 401) {
-                    window.location.href = '/Identity/Account/Login';
-                }
-            })
+    }
+}
+
+function addToList(e, t) {
+    /* 
+         * window.location.pathname = /{Entity}/{id}
+         * .split('/')[1] -> {Entity}
+         */
+    let controller = getController();
+
+    let id = parseInt($(this).val());
+
+    if (controller && id) {
+        $.ajax({
+            type: 'PUT',
+            url: `/api/${controller}/AddToList/${id}`,
+            headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+            contentType: 'application/json;charset=utf-8',
+        }).done((res) => {
+            $('#listAdd').parent().css('display', 'none');
+            $('#listRemove').parent().css('display', '');
+        }).fail((res) => {
+            // Redirect to Login page
+            if (res.status == 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
+        })
+    }
+}
+
+function removeFromList(e, t) {
+    /* 
+         * window.location.pathname = /{Entity}/{id}
+         * .split('/')[1] -> {Entity}
+         */
+    let controller = getController();
+
+    let id = parseInt($(this).val());
+
+    if (controller && id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/${controller}/RemoveFromList/${id}`,
+            headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+            contentType: 'application/json;charset=utf-8',
+        }).done((res) => {
+            $('#listRemove').parent().css('display', 'none');
+            $('#listAdd').parent().css('display', '');
+        }).fail((res) => {
+            // Redirect to Login page
+            if (res.status == 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
+        })
     }
 }
 
@@ -181,7 +238,7 @@ function sendEntitiesRemoveRange(e, t) {
         if (minRange <= maxRange && entityName && parentId && seriesId) {
             $.ajax({
                 type: 'DELETE',
-                url: `/api/${entityName}`,
+                url: `/api/${entityName}/Detach`,
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
                 data: JSON.stringify({
                     seriesId: seriesId,
@@ -278,7 +335,12 @@ $(document).ready(function () {
     focusScore();
 
     // Sends score to API and handles response upon clicking one of the .score buttons.
-    $('.score').on('click', sendScore)
+    $('.score').on('click', sendScore);
+
+    // Adds entity to user's list without scoring.
+    $('#listAdd').on('click', addToList);
+
+    $('#listRemove').on('click', removeFromList);
 
     attachModalButtons();
 

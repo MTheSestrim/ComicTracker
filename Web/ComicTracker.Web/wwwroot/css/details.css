@@ -23,11 +23,14 @@
     font-size: inherit;
 }
 
-li.list-inline-item button {
-    background: #f7f7f7;
+button {
     width: 40px;
     height: 40px;
     border-radius: 40px;
+}
+
+li.list-inline-item button {
+    background: #f7f7f7;
     font-size: 14px;
     color: #363b4d;
     text-align: center;

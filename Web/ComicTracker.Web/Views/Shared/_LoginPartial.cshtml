@@ -1,10 +1,5 @@
-﻿@using ComicTracker.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-
-<ul class="navbar-nav align-items-center">
-    @if (this.SignInManager.IsSignedIn(this.User))
+﻿<ul class="navbar-nav align-items-center">
+    @if (this.User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
             <a class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>

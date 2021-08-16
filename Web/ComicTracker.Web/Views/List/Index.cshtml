@@ -32,9 +32,9 @@
                 </td>
                 <td class="col-2 text-md-center">@Model[i].Title</td>
                 <td class="col-2 text-md-center">@(Model[i].Score == null ? DefaultScoreValue : Model[i].Score)</td>
-                <td class="col-2 text-md-center">@Model[i].IssuesCount</td>
-                <td class="col-2 text-md-center">@Model[i].VolumesCount</td>
-                <td class="col-1 text-md-center">@Model[i].ArcsCount</td>
+                <td class="col-2 text-md-center">@Model[i].UserIssuesCount / @Model[i].TotalIssuesCount</td>
+                <td class="col-2 text-md-center">@Model[i].UserVolumesCount / @Model[i].TotalVolumesCount</td>
+                <td class="col-1 text-md-center">@Model[i].UserArcsCount / @Model[i].TotalArcsCount</td>
             </tr>
         }
     </tbody>

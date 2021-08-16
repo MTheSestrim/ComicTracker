@@ -108,7 +108,11 @@
             services.AddTransient<IIssueTemplateCreationService, IssueTemplateCreationService>();
 
             // List
-            services.AddTransient<IListService, ListService>();
+            services.AddTransient<IListArcService, ListArcService>();
+            services.AddTransient<IListDataService, ListDataService>();
+            services.AddTransient<IListIssueService, ListIssueService>();
+            services.AddTransient<IListSeriesService, ListSeriesService>();
+            services.AddTransient<IListVolumeService, ListVolumeService>();
 
             // Series
             services.AddTransient<ISeriesCreationService, SeriesCreationService>();
