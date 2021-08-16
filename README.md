@@ -14,8 +14,7 @@ Information on the app's different aspects can be found in the [ComicTracker wik
 
 ## Credits
 
-1. [NikolayIT](https://github.com/NikolayIT) for his [ASP.NET Core Template](https://github.com/NikolayIT/ASP.NET-Core-Template). 
+1. [Ivaylo Kenov](https://github.com/ivaylokenov) for his [MyTested.AspNetCore.Mvc library](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc) and for teaching my ASP.NET course!
+2. [NikolayIT](https://github.com/NikolayIT) for his [ASP.NET Core Template](https://github.com/NikolayIT/ASP.NET-Core-Template). 
 Also, for teaching my C# DB course.
-2. [Sidney Wimart](https://github.com/sidneywm) for [Iconic Multiselect](https://github.com/sidneywm/iconic-multiselect).
-
-I would also like to give special thanks to [Ivaylo Kenov](https://github.com/ivaylokenov) for teaching my ASP.NET Core course!
+3. [Sidney Wimart](https://github.com/sidneywm) for [Iconic Multiselect](https://github.com/sidneywm/iconic-multiselect).
