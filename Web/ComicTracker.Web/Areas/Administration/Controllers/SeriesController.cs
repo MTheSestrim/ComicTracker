@@ -118,6 +118,11 @@
 
             var id = this.seriesEditingService.EditSeries(serviceModel);
 
+            if (id == null)
+            {
+                return this.NotFound(id);
+            }
+
             this.cache.RemoveSeriesDetails(id.Value);
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
             this.cache.RemoveAllVolumeDetails(this.cacheKeyHolder);
@@ -133,7 +138,7 @@
 
             if (!result)
             {
-                return this.RedirectToAction($"/Series/{id}");
+                return this.NotFound();
             }
 
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);

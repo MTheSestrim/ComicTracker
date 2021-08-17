@@ -129,6 +129,7 @@
                 Title = model.Title,
                 Number = model.Number,
                 Description = model.Description,
+                SeriesId = model.SeriesId,
                 CoverImage = await model.CoverImage.GetBytes(),
                 CoverPath = model.CoverPath,
                 Genres = model.Genres,
@@ -162,7 +163,7 @@
 
             if (result == null)
             {
-                return this.RedirectToAction($"/Arc/{id}");
+                return this.NotFound(result);
             }
 
             this.cache.RemoveSeriesDetails(result.Value);

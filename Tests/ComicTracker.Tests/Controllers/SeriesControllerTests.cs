@@ -35,5 +35,17 @@
                 .View(view => view
                     .WithModelOfType<SeriesDetailsServiceModel>()
                     .Passing(m => m.Id == id));
+
+        [Fact]
+        public void IndexShouldReturnNotFoundWithNullIfSeriesDoesNotExist()
+
+            // Arrange
+            => MyController<SeriesController>
+                .Instance(controller => controller.WithData(SeriesWithId(2)))
+                // Act
+                .Calling(c => c.Index(3))
+                // Assert
+                .ShouldReturn()
+                .NotFound(null);
     }
 }

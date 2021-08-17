@@ -42,7 +42,16 @@
                 throw new KeyNotFoundException($"Arc with given id {model.Id} does not exist");
             }
 
-            if (currentArc.Number != model.Number && this.dbContext.Arcs.Any(a => a.Number == model.Number))
+            var series = this.dbContext.Series
+                .Select(s => new { s.Id, s.Arcs, })
+                .FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (series == null || currentArc.SeriesId != series.Id)
+            {
+                throw new KeyNotFoundException("Wrong series id given for arc.");
+            }
+
+            if (currentArc.Number != model.Number && series.Arcs.Any(a => a.Number == model.Number))
             {
                 throw new InvalidOperationException(
                     $"Cannot insert another {typeof(Arc).Name} with the same number");

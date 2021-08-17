@@ -26,9 +26,8 @@
         {
             var currentSeries = this.dbContext.Series
                .AsNoTracking()
-               .Where(s => s.Id == seriesId)
                .ProjectTo<EditInfoSeriesServiceModel>(this.mapper.ConfigurationProvider)
-               .FirstOrDefault();
+               .FirstOrDefault(s => s.Id == seriesId);
 
             if (currentSeries == null)
             {

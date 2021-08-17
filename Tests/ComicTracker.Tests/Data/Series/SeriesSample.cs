@@ -14,7 +14,7 @@
                 UsersSeries = new List<UserSeries>() { new UserSeries { UserId = (i % 5).ToString() } },
             });
 
-        public static Series SeriesWithId(int id) => new() { Id = id };
+        public static Series SeriesWithId(int id) => new () { Id = id };
 
         public static Series SeriesWithIdAndScore(int id, int? score, string userId)
         {
@@ -23,5 +23,7 @@
 
             return series;
         }
+
+        public static Series SeriesWithIdAndTitle(int id, string title) => new () { Id = id, Title = title };
     }
 }

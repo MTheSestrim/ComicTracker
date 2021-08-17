@@ -42,7 +42,16 @@
                 throw new KeyNotFoundException($"Issue with given id {model.Id} does not exist");
             }
 
-            if (currentIssue.Number != model.Number && this.dbContext.Issues.Any(i => i.Number == model.Number))
+            var series = this.dbContext.Series
+                .Select(s => new { s.Id, s.Issues, })
+                .FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (series == null || currentIssue.SeriesId != series.Id)
+            {
+                throw new KeyNotFoundException("Wrong series id given for issue.");
+            }
+
+            if (currentIssue.Number != model.Number && series.Issues.Any(i => i.Number == model.Number))
             {
                 throw new InvalidOperationException(
                     $"Cannot insert another {typeof(Issue).Name} with the same number");

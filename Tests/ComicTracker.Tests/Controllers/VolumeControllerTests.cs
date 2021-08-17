@@ -35,5 +35,17 @@
                 .View(view => view
                     .WithModelOfType<VolumeDetailsServiceModel>()
                     .Passing(m => m.Id == id));
+
+        [Fact]
+        public void IndexShouldReturnNotFoundWithNullIfVolumeDoesNotExist()
+
+            // Arrange
+            => MyController<VolumeController>
+                .Instance(controller => controller.WithData(VolumeWithId(2)))
+                // Act
+                .Calling(c => c.Index(3))
+                // Assert
+                .ShouldReturn()
+                .NotFound(null);
     }
 }

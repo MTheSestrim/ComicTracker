@@ -36,5 +36,17 @@ namespace ComicTracker.Tests.Controllers
                 .View(view => view
                     .WithModelOfType<ArcDetailsServiceModel>()
                     .Passing(m => m.Id == id));
+
+        [Fact]
+        public void IndexShouldReturnNotFoundWithNullIfArcDoesNotExist()
+
+            // Arrange
+            => MyController<ArcController>
+                .Instance(controller => controller.WithData(ArcWithId(2)))
+                // Act
+                .Calling(c => c.Index(3))
+                // Assert
+                .ShouldReturn()
+                .NotFound(null);
     }
 }

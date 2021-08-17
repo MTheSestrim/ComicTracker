@@ -4,7 +4,14 @@
 
     public class VolumeSample
     {
-        public static Volume VolumeWithId(int id) => new() { Id = id };
+        public static Volume VolumeWithId(int id) => new () { Id = id };
+
+        public static Volume SREVolumeWithIdAndNumber(int id, int number, int seriesId) => new ()
+        {
+            Id = id,
+            Number = number,
+            SeriesId = seriesId,
+        };
 
         public static Volume VolumeWithIdAndScore(int id, int? score, string userId)
         {

@@ -132,6 +132,7 @@
                 Title = model.Title,
                 Number = model.Number,
                 Description = model.Description,
+                SeriesId = model.SeriesId,
                 CoverImage = await model.CoverImage.GetBytes(),
                 CoverPath = model.CoverPath,
                 Genres = model.Genres,
@@ -163,9 +164,9 @@
         {
             var result = this.issueDeletionService.DeleteIssue(id);
 
-            if (result == -1)
+            if (result == null)
             {
-                return this.RedirectToAction($"/Issue/{id}");
+                return this.NotFound(result);
             }
 
             this.cache.RemoveSeriesDetails(result.Value);
@@ -181,7 +182,7 @@
         {
             var result = this.issueDetachmentService.DetachArcFromIssue(id);
 
-            if (result == null)
+            if (result.Result == null)
             {
                 return this.NotFound();
             }
@@ -197,7 +198,7 @@
         {
             var result = this.issueDetachmentService.DetachVolumeFromIssue(id);
 
-            if (result == null)
+            if (result.Result == null)
             {
                 return this.NotFound();
             }

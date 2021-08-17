@@ -35,5 +35,17 @@
                 .View(view => view
                     .WithModelOfType<IssueDetailsServiceModel>()
                     .Passing(m => m.Id == id));
+
+        [Fact]
+        public void IndexShouldReturnNotFoundWithNullIfIssueDoesNotExist()
+
+            // Arrange
+            => MyController<IssueController>
+                .Instance(controller => controller.WithData(IssueWithId(2)))
+                // Act
+                .Calling(c => c.Index(3))
+                // Assert
+                .ShouldReturn()
+                .NotFound(null);
     }
 }

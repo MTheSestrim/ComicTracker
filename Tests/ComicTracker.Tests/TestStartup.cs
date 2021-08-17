@@ -1,6 +1,8 @@
 ﻿namespace ComicTracker.Tests
 {
     using ComicTracker.Services.Data.Arc.Contracts;
+    using ComicTracker.Services.Data.Genre;
+    using ComicTracker.Services.Data.Genre.Contracts;
     using ComicTracker.Services.Data.Issue.Contracts;
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.Series.Contracts;
@@ -33,10 +35,14 @@
             /* Mocking services is necessary as the real ones make queries to the SQL server, returning null results. This happens due to heavy usage of IQueryable. */
 
             // Arc
+            services.Replace<IArcCreationService, MockArcCreationService>(ServiceLifetime.Transient);
             services.Replace<IArcDetailsService, MockArcDetailsService>(ServiceLifetime.Transient);
             services.Replace<IArcRatingService, MockArcRatingService>(ServiceLifetime.Transient);
-            services.Replace<IArcTemplateCreationService, 
+            services.Replace<IArcTemplateCreationService,
                 MockArcTemplateCreationService>(ServiceLifetime.Transient);
+
+            // Genre
+            services.Replace<IGenreRetrievalService, GenreRetrievalService>(ServiceLifetime.Transient);
 
             // Issue
             services.Replace<IIssueDetailsService, MockIssueDetailsService>(ServiceLifetime.Transient);
@@ -52,6 +58,7 @@
             services.Replace<IListVolumeService, MockListVolumeService>(ServiceLifetime.Transient);
 
             // Series
+            services.Replace<ISeriesCreationService, MockSeriesCreationService>(ServiceLifetime.Transient);
             services.Replace<ISeriesDetailsService, MockSeriesDetailsService>(ServiceLifetime.Transient);
             services.Replace<ISeriesSearchQueryingService, 
                 MockSeriesSearchQueryingService>(ServiceLifetime.Transient);

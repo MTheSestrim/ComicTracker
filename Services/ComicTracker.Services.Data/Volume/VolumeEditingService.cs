@@ -42,7 +42,16 @@
                 throw new KeyNotFoundException($"Volume with given id {model.Id} does not exist");
             }
 
-            if (currentVolume.Number != model.Number && this.dbContext.Volumes.Any(v => v.Number == model.Number))
+            var series = this.dbContext.Series
+                .Select(s => new { s.Id, s.Volumes, })
+                .FirstOrDefault(s => s.Id == model.SeriesId);
+
+            if (series == null || currentVolume.SeriesId != series.Id)
+            {
+                throw new KeyNotFoundException("Wrong series id given for volume.");
+            }
+
+            if (currentVolume.Number != model.Number && series.Volumes.Any(v => v.Number == model.Number))
             {
                 throw new InvalidOperationException(
                     $"Cannot insert another {typeof(Volume).Name} with the same number");

@@ -20,6 +20,11 @@
 
         public IActionResult Index([FromQuery] HomePageViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var totalSeriesCount = this.homePageService.GetTotalSeriesCount(model.SearchTerm, model.Sorting);
 
             model.TotalSeriesCount = totalSeriesCount;

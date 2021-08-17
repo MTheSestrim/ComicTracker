@@ -129,6 +129,7 @@
                 Title = model.Title,
                 Number = model.Number,
                 Description = model.Description,
+                SeriesId = model.SeriesId,
                 CoverImage = await model.CoverImage.GetBytes(),
                 CoverPath = model.CoverPath,
                 Genres = model.Genres,
@@ -162,7 +163,7 @@
 
             if (result == null)
             {
-                return this.RedirectToAction($"/Volume/{id}");
+                return this.NotFound(result);
             }
 
             this.cache.RemoveSeriesDetails(result.Value);
@@ -170,7 +171,7 @@
             this.cache.RemoveAllArcDetails(this.cacheKeyHolder);
             this.cache.RemoveVolumeDetails(id);
 
-            return this.Redirect($"/Series/{result}");
+            return this.Redirect($"/Series/{result.Value}");
         }
     }
 }
