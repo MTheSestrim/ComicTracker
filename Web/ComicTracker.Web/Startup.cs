@@ -19,7 +19,6 @@
     using ComicTracker.Services.Data.Series.Contracts;
     using ComicTracker.Services.Data.Volume;
     using ComicTracker.Services.Data.Volume.Contracts;
-    using ComicTracker.Services.Messaging;
     using ComicTracker.Web.Infrastructure;
 
     using Microsoft.AspNetCore.Builder;
@@ -134,9 +133,6 @@
             services.AddTransient<IVolumeEditingService, VolumeEditingService>();
             services.AddTransient<IVolumeRatingService, VolumeRatingService>();
             services.AddTransient<IVolumeTemplateCreationService, VolumeTemplateCreationService>();
-
-            // ComicTracker.Services.Messaging
-            services.AddTransient<IEmailSender, NullMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

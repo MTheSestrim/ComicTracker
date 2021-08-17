@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.Volume
+﻿namespace ComicTracker.Tests.Mocks.Services.Volume
 {
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;

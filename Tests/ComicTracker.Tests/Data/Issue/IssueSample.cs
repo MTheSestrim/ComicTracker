@@ -6,7 +6,7 @@
     {
         public static Issue IssueWithId(int id) => new() { Id = id };
 
-        public static Issue IssueWithIdAndScore(int id, int score, string userId)
+        public static Issue IssueWithIdAndScore(int id, int? score, string userId)
         {
             var issue = new Issue() { Id = id };
             issue.UsersIssues.Add(new UserIssue { Score = score, UserId = userId });

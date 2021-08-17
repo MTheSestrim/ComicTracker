@@ -7,12 +7,10 @@
     using ComicTracker.Web.Controllers.Api;
 
     using MyTested.AspNetCore.Mvc;
-    
+
     using Xunit;
 
-    using static ComicTracker.Common.GlobalConstants;
     using static ComicTracker.Tests.Data.Issue.IssueSample;
-    using static ComicTracker.Tests.Data.Series.SeriesSample;
 
     public class IssueApiControllerTests
     {
@@ -76,6 +74,112 @@
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == newScore));
+
+        [Fact]
+        public void AddIssueToListShouldBeRestrictedToHttpPutRequests()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddIssueToList(2))
+                .ShouldHave()
+                .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Put));
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(4)]
+        [InlineData(8)]
+        [InlineData(10)]
+        [InlineData(12)]
+        public void AddIssueToListShouldAddIssueToUserList(int id)
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(id))
+                    .WithUser(u => u.WithIdentifier($"User{id}")))
+                .Calling(c => c.AddIssueToList(id))
+                .ShouldHave()
+                .Data(d => d.WithSet<Issue>(x => x.ToList()
+                    .Any(a => a.UsersIssues.Any(ua => ua.UserId == $"User{id}" && ua.IssueId == id))))
+                .AndAlso()
+                .ShouldReturn()
+                .NoContent();
+
+        [Fact]
+        public void AddIssueToListShouldReturnNotFoundIfGivenWrongIssueId()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddIssueToList(3))
+                .ShouldReturn()
+                .NotFound("Issue with given id does not exist.");
+
+        [Fact]
+        public void AddIssueToListShouldReturnBadRequestIfUserAlreadyHasIssueInList()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithIdAndScore(2, null, $"User{2}"))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddIssueToList(2))
+                .ShouldReturn()
+                .BadRequest("User has already added given issue to their list.");
+
+        [Fact]
+        public void RemoveIssueFromListShouldBeRestrictedToHttpDeleteRequests()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveIssueFromList(2))
+                .ShouldHave()
+                .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Delete));
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(4)]
+        [InlineData(8)]
+        [InlineData(10)]
+        [InlineData(12)]
+        public void RemoveIssueFromListShouldRemoveIssueFromUserList(int id)
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithIdAndScore(id, null, $"User{id}"))
+                    .WithUser(u => u.WithIdentifier($"User{id}")))
+                .Calling(c => c.RemoveIssueFromList(id))
+                .ShouldHave()
+                .Data(d => d.WithSet<Issue>(x => x.ToList()
+                    .All(a => a.UsersIssues.All(ua => ua.UserId != $"User{id}" && ua.IssueId != id))))
+                .AndAlso()
+                .ShouldReturn()
+                .NoContent();
+
+        [Fact]
+        public void RemoveIssueFromListShouldReturnNotFoundIfGivenWrongIssueId()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveIssueFromList(3))
+                .ShouldReturn()
+                .NotFound("Issue with given id does not exist.");
+
+        [Fact]
+        public void RemoveIssueFromListShouldReturnBadRequestIfUserDoesNotHaveIssueInList()
+            => MyController<IssueApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(IssueWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveIssueFromList(2))
+                .ShouldReturn()
+                .BadRequest("User does not have given issue in their list.");
 
         /*[Theory]
         [InlineData(1)]

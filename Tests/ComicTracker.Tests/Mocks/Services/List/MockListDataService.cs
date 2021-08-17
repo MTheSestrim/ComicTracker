@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.List
+﻿namespace ComicTracker.Tests.Mocks.Services.List
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,11 +7,11 @@
     using ComicTracker.Services.Data.List.Contracts;
     using ComicTracker.Services.Data.List.Models;
 
-    public class MockListService : IListDataService
+    public class MockListDataService : IListDataService
     {
         private readonly ComicTrackerDbContext dbContext;
 
-        public MockListService(ComicTrackerDbContext dbContext)
+        public MockListDataService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

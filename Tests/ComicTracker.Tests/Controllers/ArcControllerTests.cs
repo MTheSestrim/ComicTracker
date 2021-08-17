@@ -1,6 +1,7 @@
 namespace ComicTracker.Tests.Controllers
 {
     using System;
+
     using ComicTracker.Services.Data.Arc.Models;
     using ComicTracker.Web.Controllers;
 
@@ -8,9 +9,8 @@ namespace ComicTracker.Tests.Controllers
 
     using Xunit;
 
-    using static ComicTracker.Tests.Data.Arc.ArcSample;
-
     using static ComicTracker.Common.CacheConstants;
+    using static ComicTracker.Tests.Data.Arc.ArcSample;
 
     public class ArcControllerTests
     {
@@ -18,6 +18,7 @@ namespace ComicTracker.Tests.Controllers
         [InlineData(4)]
         [InlineData(2)]
         public void IndexShouldReturnViewWithCorrectModelAndData(int id)
+
             // Arrange
             => MyController<ArcController>
                 .Instance(controller => controller.WithData(ArcWithId(id)))

@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.Series
+﻿namespace ComicTracker.Tests.Mocks.Services.Series
 {
     using System.Collections.Generic;
     using System.Linq;

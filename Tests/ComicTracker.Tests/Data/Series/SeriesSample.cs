@@ -9,14 +9,14 @@
     {
         public static IEnumerable<Series> FiftySeries => Enumerable
             .Range(1, 50)
-            .Select(i => new Series() 
+            .Select(i => new Series()
             {
-                UsersSeries = new List<UserSeries>() { new UserSeries { UserId = (i % 5).ToString() } }
+                UsersSeries = new List<UserSeries>() { new UserSeries { UserId = (i % 5).ToString() } },
             });
 
         public static Series SeriesWithId(int id) => new() { Id = id };
 
-        public static Series SeriesWithIdAndScore(int id, int score, string userId)
+        public static Series SeriesWithIdAndScore(int id, int? score, string userId)
         {
             var series = new Series() { Id = id };
             series.UsersSeries.Add(new UserSeries { Score = score, UserId = userId });

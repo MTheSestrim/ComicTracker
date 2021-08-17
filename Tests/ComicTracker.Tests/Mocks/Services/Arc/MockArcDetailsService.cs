@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.Arc
+﻿namespace ComicTracker.Tests.Mocks.Services.Arc
 {
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Arc.Contracts;

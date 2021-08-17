@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.Volume
+﻿namespace ComicTracker.Tests.Mocks.Services.Volume
 {
     using System.Linq;
     using System.Threading.Tasks;

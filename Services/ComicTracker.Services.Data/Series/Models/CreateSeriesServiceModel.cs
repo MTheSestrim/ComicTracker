@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Microsoft.AspNetCore.Http;
-
     public class CreateSeriesServiceModel
     {
         public string Title { get; set; }

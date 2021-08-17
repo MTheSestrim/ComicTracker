@@ -1,4 +1,4 @@
-﻿namespace ComicTracker.Tests.Services.Issue
+﻿namespace ComicTracker.Tests.Mocks.Services.Issue
 {
     using ComicTracker.Data;
     using ComicTracker.Services.Data.Issue.Contracts;

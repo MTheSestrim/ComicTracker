@@ -45,13 +45,6 @@
                 .ProjectTo<EntityLinkingModel>(this.mapper.ConfigurationProvider)
                 .OrderByDescending(a => a.Number).ToArray();
 
-            var isInList = this.dbContext.Users
-                .Include(u => u.UsersSeries)
-                .Select(u => new { u.Id, u.UsersSeries })
-                .FirstOrDefault(u => u.Id == userId)
-                .UsersSeries
-                .Any(us => us.SeriesId == seriesId);
-
             var currentSeries = this.dbContext.Series
                .AsNoTracking()
                .Select(s => new SeriesDetailsServiceModel

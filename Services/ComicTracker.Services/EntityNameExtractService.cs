@@ -41,7 +41,7 @@
 
                 if (i != classes.Length - 1)
                 {
-                    pattern.Append("|");
+                    pattern.Append('|');
                 }
             }
 

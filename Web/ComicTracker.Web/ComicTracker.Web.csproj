@@ -45,7 +45,6 @@
     <ProjectReference Include="..\..\Data\ComicTracker.Data\ComicTracker.Data.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Data.Mapping\ComicTracker.Services.Data.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services.Data\ComicTracker.Services.Data.csproj" />
-    <ProjectReference Include="..\..\Services\ComicTracker.Services.Messaging\ComicTracker.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\ComicTracker.Services\ComicTracker.Services.csproj" />
     <ProjectReference Include="..\ComicTracker.Web.Infrastructure.Mapping\ComicTracker.Web.Infrastructure.Mapping.csproj" />
     <ProjectReference Include="..\ComicTracker.Web.Infrastructure\ComicTracker.Web.Infrastructure.csproj" />

@@ -74,5 +74,111 @@
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == newScore));
+
+        [Fact]
+        public void AddSeriesToListShouldBeRestrictedToHttpPutRequests()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddSeriesToList(2))
+                .ShouldHave()
+                .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Put));
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(4)]
+        [InlineData(8)]
+        [InlineData(10)]
+        [InlineData(12)]
+        public void AddSeriesToListShouldAddSeriesToUserList(int id)
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(id))
+                    .WithUser(u => u.WithIdentifier($"User{id}")))
+                .Calling(c => c.AddSeriesToList(id))
+                .ShouldHave()
+                .Data(d => d.WithSet<Series>(x => x.ToList()
+                    .Any(a => a.UsersSeries.Any(ua => ua.UserId == $"User{id}" && ua.SeriesId == id))))
+                .AndAlso()
+                .ShouldReturn()
+                .NoContent();
+
+        [Fact]
+        public void AddSeriesToListShouldReturnNotFoundIfGivenWrongSeriesId()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddSeriesToList(3))
+                .ShouldReturn()
+                .NotFound("Series with given id does not exist.");
+
+        [Fact]
+        public void AddSeriesToListShouldReturnBadRequestIfUserAlreadyHasSeriesInList()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithIdAndScore(2, null, $"User{2}"))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.AddSeriesToList(2))
+                .ShouldReturn()
+                .BadRequest("User has already added given series to their list.");
+
+        [Fact]
+        public void RemoveSeriesFromListShouldBeRestrictedToHttpDeleteRequests()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveSeriesFromList(2))
+                .ShouldHave()
+                .ActionAttributes(attr => attr.RestrictingForHttpMethod(HttpMethod.Delete));
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(4)]
+        [InlineData(8)]
+        [InlineData(10)]
+        [InlineData(12)]
+        public void RemoveSeriesFromListShouldRemoveSeriesFromUserList(int id)
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithIdAndScore(id, null, $"User{id}"))
+                    .WithUser(u => u.WithIdentifier($"User{id}")))
+                .Calling(c => c.RemoveSeriesFromList(id))
+                .ShouldHave()
+                .Data(d => d.WithSet<Series>(x => x.ToList()
+                    .All(a => a.UsersSeries.All(ua => ua.UserId != $"User{id}" && ua.SeriesId != id))))
+                .AndAlso()
+                .ShouldReturn()
+                .NoContent();
+
+        [Fact]
+        public void RemoveSeriesFromListShouldReturnNotFoundIfGivenWrongSeriesId()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveSeriesFromList(3))
+                .ShouldReturn()
+                .NotFound("Series with given id does not exist.");
+
+        [Fact]
+        public void RemoveSeriesFromListShouldReturnBadRequestIfUserDoesNotHaveSeriesInList()
+            => MyController<SeriesApiController>
+                // Random data is given so that the action can be instantiated
+                .Instance(controller => controller
+                    .WithData(SeriesWithId(2))
+                    .WithUser(u => u.WithIdentifier($"User{2}")))
+                .Calling(c => c.RemoveSeriesFromList(2))
+                .ShouldReturn()
+                .BadRequest("User does not have given series in their list.");
     }
 }

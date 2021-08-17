@@ -22,7 +22,7 @@
 
             if (!developmentConditional)
             {
-                return $"../../{JSONDataFolderPath}/{seederName[0..^6]}.json";
+                return $"../../../{JSONDataFolderPath}/{seederName[0..^6]}.json";
             }
 
             return developmentPath;

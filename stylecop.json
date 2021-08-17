@@ -4,15 +4,15 @@
     "layoutRules": {
       "newlineAtEndOfFile": "require"
     },
-    "namingRules": {
-      "allowCommonHungarianPrefixes": true,
-      "allowedHungarianPrefixes": [ "db", "at", "or", "up", "it", "un", "x", "y", "id", "ip", "bg" ]
-    },
     "documentationRules": {
       "companyName": "ComicTracker",
       "copyrightText": "Copyright (c) {companyName}. All Rights Reserved.",
       "documentInterfaces": false,
       "documentInternalElements": false
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": true,
+      "allowedHungarianPrefixes": [ "db", "at", "or", "up", "it", "un", "x", "y", "id", "ip", "bg" ]
     },
     "orderingRules": {
       "usingDirectivesPlacement": "insideNamespace",

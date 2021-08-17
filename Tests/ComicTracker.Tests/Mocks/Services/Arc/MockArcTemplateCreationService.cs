@@ -1,40 +1,40 @@
-﻿namespace ComicTracker.Tests.Services.Issue
+﻿namespace ComicTracker.Tests.Mocks.Services.Arc
 {
     using ComicTracker.Data;
     using ComicTracker.Data.Models.Entities;
-    using ComicTracker.Services.Data.Issue.Contracts;
+    using ComicTracker.Services.Data.Arc.Contracts;
     using ComicTracker.Services.Data.Models.Entities;
 
-    public class MockIssueTemplateCreationService : IIssueTemplateCreationService
+    public class MockArcTemplateCreationService : IArcTemplateCreationService
     {
         private readonly ComicTrackerDbContext dbContext;
 
-        public MockIssueTemplateCreationService(ComicTrackerDbContext dbContext)
+        public MockArcTemplateCreationService(ComicTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public int? CreateTemplateIssues(TemplateCreateApiRequestModel model)
+        public int? CreateTemplateArcs(TemplateCreateApiRequestModel model)
         {
             if (model.NumberOfEntities < 1)
             {
                 return null;
             }
 
-            var templateIssues = new Issue[model.NumberOfEntities];
+            var templateArcs = new Arc[model.NumberOfEntities];
 
             for (int i = 0; i < model.NumberOfEntities; i++)
             {
-                var templateIssue = new Issue
+                var templateArc = new Arc
                 {
                     Number = i + 1,
                     SeriesId = model.SeriesId,
                 };
 
-                templateIssues[i] = templateIssue;
+                templateArcs[i] = templateArc;
             }
 
-            this.dbContext.Issues.AddRange(templateIssues);
+            this.dbContext.Arcs.AddRange(templateArcs);
             this.dbContext.SaveChanges();
 
             return model.NumberOfEntities;

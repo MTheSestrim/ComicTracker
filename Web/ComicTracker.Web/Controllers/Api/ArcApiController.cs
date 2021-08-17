@@ -34,6 +34,7 @@
         }
 
         [HttpPut]
+        [Route("Score")]
         public async Task<ActionResult<int>> ScoreArc(RateApiRequestModel model)
         {
             if (!this.ModelState.IsValid)
