@@ -29,9 +29,9 @@
                     && i.ArcId == model.ParentId)
                 .ToList();
 
-            if (arcsVolumes == null)
+            if (arcsVolumes.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Incorrect volume range given.");
+                throw new ArgumentOutOfRangeException();
             }
 
             if (model.ParentTypeName == nameof(Arc))
@@ -39,11 +39,6 @@
                 var arc = this.context.Arcs
                                 .Include(a => a.ArcsVolumes)
                                 .FirstOrDefault(a => a.Id == model.ParentId);
-
-                if (arc == null)
-                {
-                    throw new ArgumentNullException($"Arc with given id {model.ParentId} does not exist.");
-                }
 
                 foreach (var av in arcsVolumes)
                 {

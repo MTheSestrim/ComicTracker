@@ -28,9 +28,9 @@
                     && i.SeriesId == model.SeriesId)
                 .ToList();
 
-            if (issues == null)
+            if (issues.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Incorrect issue range given.");
+                throw new ArgumentOutOfRangeException();
             }
 
             if (model.ParentTypeName == nameof(Arc))
@@ -41,7 +41,7 @@
 
                 if (arc == null)
                 {
-                    throw new ArgumentNullException($"Arc with given id {model.ParentId} does not exist.");
+                    throw new ArgumentNullException();
                 }
 
                 foreach (var issue in issues)
@@ -61,7 +61,7 @@
 
                 if (volume == null)
                 {
-                    throw new ArgumentNullException($"Volume with given id {model.ParentId} does not exist.");
+                    throw new ArgumentNullException();
                 }
 
                 foreach (var issue in issues)

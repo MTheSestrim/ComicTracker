@@ -1,5 +1,8 @@
 ﻿namespace ComicTracker.Tests.Data.Issue
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using ComicTracker.Data.Models.Entities;
 
     public class IssueSample
@@ -24,6 +27,14 @@
             Id = id,
             VolumeId = volumeId,
         };
+
+        public static IEnumerable<Issue> TenSREIssuesWithIdsAndNumbers(int seriesId) => Enumerable.Range(1, 10)
+            .Select(i => new Issue
+            {
+                Id = i,
+                SeriesId = seriesId,
+                Number = i,
+            });
 
         public static Issue IssueWithIdAndScore(int id, int? score, string userId)
         {

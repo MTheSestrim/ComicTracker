@@ -46,7 +46,7 @@
 
             if (!result)
             {
-                return this.BadRequest();
+                return this.BadRequest(name);
             }
 
             return this.Redirect("/Genre");
@@ -65,7 +65,7 @@
 
             if (!result)
             {
-                return this.NotFound();
+                return this.NotFound(result);
             }
 
             return this.Redirect("/Genre");

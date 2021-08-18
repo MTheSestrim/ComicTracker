@@ -64,7 +64,7 @@
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)
             {
-                return this.BadRequest();
+                return this.BadRequest("Invalid model.");
             }
 
             try
@@ -76,17 +76,13 @@
 
                 return result;
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest("Incorrect arc range or series given.");
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                return this.NotFound(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return this.BadRequest(ex.Message);
+                return this.NotFound($"Volume with given id {model.ParentId} does not exist.");
             }
         }
 
@@ -95,7 +91,7 @@
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)
             {
-                return this.BadRequest();
+                return this.BadRequest("Invalid model.");
             }
 
             try
@@ -107,17 +103,9 @@
 
                 return result;
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
-                return this.BadRequest(ex.Message);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return this.NotFound(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return this.BadRequest(ex.Message);
+                return this.NotFound("Incorrect arc range, series or volume given.");
             }
         }
     }

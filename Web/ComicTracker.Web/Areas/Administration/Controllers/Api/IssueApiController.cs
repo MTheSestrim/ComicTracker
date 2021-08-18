@@ -64,7 +64,7 @@
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)
             {
-                return this.BadRequest();
+                return this.BadRequest("Invalid model.");
             }
 
             try
@@ -84,17 +84,13 @@
 
                 return result;
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest("Incorrect issue range given or series given.");
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                return this.NotFound(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return this.BadRequest(ex.Message);
+                return this.NotFound($"{model.ParentTypeName} with given id {model.ParentId} does not exist.");
             }
         }
 
@@ -103,7 +99,7 @@
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)
             {
-                return this.BadRequest();
+                return this.BadRequest("Invalid model.");
             }
 
             try
@@ -123,17 +119,13 @@
 
                 return result;
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest("Incorrect issue range or series given.");
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                return this.NotFound(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return this.BadRequest(ex.Message);
+                return this.NotFound($"{model.ParentTypeName} with given id {model.ParentId} does not exist.");
             }
         }
     }

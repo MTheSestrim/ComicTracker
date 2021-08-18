@@ -223,9 +223,9 @@
                 .Data(d =>
                 d.WithSet<Arc>(
                     x => !x.Any(
-                        x => x.SeriesId == seriesId
-                        && x.Number == 1
-                        && x.Id == id)))
+                        a => a.SeriesId == seriesId
+                        && a.Number == 1
+                        && a.Id == id)))
                 .AndAlso()
                 .ShouldReturn()
                 .Redirect($"/Series/{seriesId}");

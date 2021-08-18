@@ -28,9 +28,9 @@
                     && i.SeriesId == model.SeriesId)
                 .ToList();
 
-            if (issues == null)
+            if (issues.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Incorrect issue range given.");
+                throw new ArgumentOutOfRangeException();
             }
 
             if (model.ParentTypeName == nameof(Arc))

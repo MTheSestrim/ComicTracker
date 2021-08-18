@@ -28,9 +28,9 @@
                     && i.SeriesId == model.SeriesId)
                 .ToList();
 
-            if (volumes == null)
+            if (volumes.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Incorrect volume range given.");
+                throw new ArgumentOutOfRangeException();
             }
 
             if (model.ParentTypeName == nameof(Arc))
@@ -41,7 +41,7 @@
 
                 if (arc == null)
                 {
-                    throw new ArgumentNullException($"Arc with given id {model.ParentId} does not exist.");
+                    throw new ArgumentNullException();
                 }
 
                 foreach (var volume in volumes)

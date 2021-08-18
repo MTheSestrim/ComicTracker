@@ -14,27 +14,29 @@
     using static ComicTracker.Tests.Data.Series.SeriesSample;
     using static ComicTracker.Tests.Data.Volume.VolumeSample;
 
-    public class ArcApiControllerTests
+    public class VolumeApiControllerTests
     {
         [Theory]
         [InlineData(1, 1)]
         [InlineData(4, 5)]
         [InlineData(3, 1500)]
-        public void CreateArcsShouldCreateGivenNumberOfArcsAndAttachThemToSeries(int seriesId, int numberOfEntities)
-            => MyController<ArcApiController>
+        public void CreateVolumesShouldCreateGivenNumberOfVolumesAndAttachThemToSeries(
+            int seriesId, 
+            int numberOfEntities)
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(SeriesWithId(seriesId)))
                 // Act
-                .Calling(c => c.CreateArcs(
+                .Calling(c => c.CreateVolumes(
                     new TemplateCreateApiRequestModel { SeriesId = seriesId, NumberOfEntities = numberOfEntities }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList().Count == numberOfEntities))
+                .Data(d => d.WithSet<Volume>(x => x.ToList().Count == numberOfEntities))
                 .AndAlso()
                 .ShouldReturn()
                 .Result(numberOfEntities);
 
         [Fact]
-        public void CreateArcsShouldReturnBadRequestIfNumberOfEntitiesIsNegative()
+        public void CreateVolumesShouldReturnBadRequestIfNumberOfEntitiesIsNegative()
             => MyController<ArcApiController>
                 .Instance(controller => controller.WithData(SeriesWithId(2)))
                 // Act
@@ -42,7 +44,7 @@
                     new TemplateCreateApiRequestModel { SeriesId = 2, NumberOfEntities = -2 }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList().Count == 0))
+                .Data(d => d.WithSet<Volume>(x => x.ToList().Count == 0))
                 .AndAlso()
                 .ShouldReturn()
                 .BadRequest();
@@ -51,80 +53,80 @@
         [InlineData(1, 1, 5, 1)]
         [InlineData(4, 5, 10, 3)]
         [InlineData(3, 1, 10, 13)]
-        public void AttachArcsToVolumeShouldAttachRangeOfArcsToGivenVolume(
+        public void AttachVolumesToArcShouldAttachRangeOfVolumesToGivenArc(
             int seriesId,
             int minRange,
             int maxRange,
-            int volumeId)
-            => MyController<ArcApiController>
+            int arcId)
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(
                         SeriesWithId(seriesId),
-                        SREVolumeWithIdAndNumber(volumeId, 1, seriesId))
-                .WithData(TenSREArcsWithIdsAndNumbers(seriesId)))
+                        SREArcWithIdAndNumber(arcId, 1, seriesId))
+                .WithData(TenSREVolumesWithIdsAndNumbers(seriesId)))
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = minRange,
                         MaxRange = maxRange,
                         SeriesId = seriesId,
-                        ParentId = volumeId,
-                        ParentTypeName = nameof(Volume),
+                        ParentId = arcId,
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Volume>(x =>
-                    x.Any(v =>
-                        v.Id == volumeId
-                        && v.ArcsVolumes.Count == maxRange - minRange + 1
-                        && v.SeriesId == seriesId)))
+                .Data(d => d.WithSet<Arc>(x =>
+                    x.Any(a =>
+                        a.Id == arcId
+                        && a.ArcsVolumes.Count == maxRange - minRange + 1
+                        && a.SeriesId == seriesId)))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == maxRange - minRange + 1));
 
         [Fact]
-        public void AttachArcsToVolumeShouldReturnBadRequestIfMinRangeIsLargerThanMaxRange()
-            => MyController<ArcApiController>
+        public void AttachVolumesToArcShouldReturnBadRequestIfMinRangeIsLargerThanMaxRange()
+            => MyController<VolumeApiController>
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 5,
                         MaxRange = 4,
                         SeriesId = 3,
                         ParentId = 2,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldReturn()
                 .BadRequest();
 
         [Fact]
-        public void AttachArcsToVolumeShouldReturnBadRequestIfGivenIncorrectRange()
-            => MyController<ArcApiController>
+        public void AttachVolumesToArcShouldReturnBadRequestIfGivenIncorrectRange()
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(SeriesWithId(1))
-                    .WithData(TenSREArcsWithIdsAndNumbers(1)))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(1)))
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 11,
                         MaxRange = 55,
                         ParentId = 1,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                         SeriesId = 1,
                     }))
                 // Assert
                 .ShouldReturn()
-                .BadRequest("Incorrect arc range or series given.");
+                .BadRequest("Incorrect volume range or series given.");
 
         [Fact]
-        public void AttachArcsToVolumeShouldReturnNullIfGivenParentTypeNameOtherThanVolume()
-            => MyController<ArcApiController>
+        public void AttachVolumesToArcShouldReturnNullIfGivenParentTypeNameOtherThanVolume()
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(SeriesWithId(2))
-                    .WithData(TenSREArcsWithIdsAndNumbers(2)))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(2)))
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 3,
@@ -138,31 +140,31 @@
                 .Null();
 
         [Fact]
-        public void AttachArcsToVolumeShouldReturnNotFoundIfVolumeDoesNotExist()
-            => MyController<ArcApiController>
-                .Instance(controller => controller.WithData(SeriesWithId(3), SREVolumeWithIdAndNumber(2, 1, 3))
-                    .WithData(TenSREArcsWithIdsAndNumbers(3)))
+        public void AttachVolumesToArcShouldReturnNotFoundIfArcDoesNotExist()
+            => MyController<VolumeApiController>
+                .Instance(controller => controller.WithData(SeriesWithId(3), SREArcWithIdAndNumber(2, 1, 3))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(3)))
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 3,
                         MaxRange = 5,
                         SeriesId = 3,
                         ParentId = 4,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldReturn()
-                .NotFound($"Volume with given id 4 does not exist.");
+                .NotFound($"Arc with given id 4 does not exist.");
 
         [Theory]
         [InlineData(0, 1)]
         [InlineData(1, 0)]
-        public void AttachArcsToVolumeShouldReturnBadRequestIfModelStateIsInvalid(int minRange, int maxRange)
-            => MyController<ArcApiController>
+        public void AttachVolumesToArcShouldReturnBadRequestIfModelStateIsInvalid(int minRange, int maxRange)
+            => MyController<VolumeApiController>
                 // Act
-                .Calling(c => c.AttachArcsToVolume(
+                .Calling(c => c.AttachVolumesToArc(
                     new AttachSRERequestModel
                     {
                         MinRange = minRange,
@@ -179,126 +181,125 @@
         [InlineData(1, 1, 5, 1)]
         [InlineData(4, 5, 10, 3)]
         [InlineData(3, 1, 10, 13)]
-        public void DetachArcsFromVolumeShouldDetachRangeOfArcsFromGivenVolume(
+        public void DetachVolumesFromArcShouldDetachRangeOfVolumesFromGivenArc(
             int seriesId,
             int minRange,
             int maxRange,
-            int volumeId)
-            => MyController<ArcApiController>
+            int arcId)
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(
                         SeriesWithId(seriesId),
-                        SREVolumeWithIdAndNumberAndArcs(volumeId, 1, seriesId, minRange, maxRange))
-                .WithData(TenSREArcsWithIdsAndNumbers(seriesId)))
+                        SREArcWithIdAndNumberAndVolumes(arcId, 1, seriesId, minRange, maxRange))
+                .WithData(TenSREVolumesWithIdsAndNumbers(seriesId)))
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = minRange,
                         MaxRange = maxRange,
                         SeriesId = seriesId,
-                        ParentId = volumeId,
-                        ParentTypeName = nameof(Volume),
+                        ParentId = arcId,
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldHave()
-                .Data(d => d.WithSet<Volume>(x =>
-                    x.Any(v =>
-                        v.Id == volumeId
-                        && v.ArcsVolumes.Count == 0
-                        && v.SeriesId == seriesId)))
+                .Data(d => d.WithSet<Arc>(x =>
+                    x.Any(a =>
+                        a.Id == arcId
+                        && a.ArcsVolumes.Count == 0
+                        && a.SeriesId == seriesId)))
                 .AndAlso()
                 .ShouldReturn()
                 .Object(otb => otb.Passing(a => (int)a.Value == maxRange - minRange + 1));
 
         [Fact]
-        public void DetachArcsFromVolumeShouldReturnBadRequestIfMinRangeIsLargerThanMaxRange()
-            => MyController<ArcApiController>
+        public void DetachVolumesFromArcShouldReturnBadRequestIfMinRangeIsLargerThanMaxRange()
+            => MyController<VolumeApiController>
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 5,
                         MaxRange = 4,
                         SeriesId = 3,
                         ParentId = 2,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldReturn()
                 .BadRequest();
 
         [Fact]
-        public void DetachArcsFromVolumeShouldReturnBadRequestIfGivenIncorrectRange()
-            => MyController<ArcApiController>
-                .Instance(controller => controller.WithData(
-                        SeriesWithId(1),
-                        SREVolumeWithIdAndNumberAndArcs(1, 1, 1, 1, 10))
-                    .WithData(TenSREArcsWithIdsAndNumbers(1)))
+        public void DetachVolumesFromArcShouldReturnBadRequestIfGivenIncorrectRange()
+            => MyController<VolumeApiController>
+                .Instance(controller => controller.WithData(SeriesWithId(1))
+                    .WithData(SREArcWithIdAndNumberAndVolumes(1, 1, 1, 1, 10))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(1)))
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 11,
                         MaxRange = 55,
                         ParentId = 1,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                         SeriesId = 1,
                     }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Incorrect arc range, series or volume given.");
+                .NotFound("Incorrect volume range, series or arc given.");
 
         [Fact]
-        public void DetachArcsFromVolumeShouldReturnBadRequestIfGivenIncorrectSeriesId()
-            => MyController<ArcApiController>
+        public void DetachVolumesFromArcShouldReturnBadRequestIfGivenIncorrectSeriesId()
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(
                         SeriesWithId(1),
-                        SREVolumeWithIdAndNumberAndArcs(1, 1, 1, 1, 10))
-                    .WithData(TenSREArcsWithIdsAndNumbers(1)))
+                        SREArcWithIdAndNumberAndVolumes(1, 1, 1, 1, 10))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(1)))
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 2,
                         MaxRange = 5,
                         ParentId = 1,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                         SeriesId = 2,
                     }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Incorrect arc range, series or volume given.");
+                .NotFound("Incorrect volume range, series or arc given.");
 
         [Fact]
-        public void DetachArcsFromVolumeShouldReturnBadRequestIfGivenIncorrectVolumeId()
-            => MyController<ArcApiController>
+        public void DetachVolumesFromArcShouldReturnNotFoundIfGivenIncorrectArcId()
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(
                         SeriesWithId(1),
-                        SREVolumeWithIdAndNumberAndArcs(1, 1, 1, 1, 10))
-                    .WithData(TenSREArcsWithIdsAndNumbers(1)))
+                        SREArcWithIdAndNumberAndVolumes(1, 1, 1, 1, 10))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(1)))
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 2,
                         MaxRange = 5,
                         ParentId = 2,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                         SeriesId = 1,
                     }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Incorrect arc range, series or volume given.");
+                .NotFound("Incorrect volume range, series or arc given.");
 
         [Fact]
-        public void DetachArcsFromVolumeShouldReturnNullIfGivenParentTypeNameOtherThanVolume()
-            => MyController<ArcApiController>
+        public void DetachVolumesFromArcShouldReturnNullIfGivenParentTypeNameOtherThanVolume()
+            => MyController<VolumeApiController>
                 .Instance(controller => controller.WithData(
                         SeriesWithId(1),
-                        SREVolumeWithIdAndNumberAndArcs(1, 1, 1, 2, 5))
-                    .WithData(TenSREArcsWithIdsAndNumbers(2)))
+                        SREArcWithIdAndNumberAndVolumes(1, 1, 1, 2, 5))
+                    .WithData(TenSREVolumesWithIdsAndNumbers(2)))
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = 3,
@@ -314,20 +315,21 @@
         [Theory]
         [InlineData(0, 1)]
         [InlineData(1, 0)]
-        public void DetachArcsFromVolumeShouldReturnBadRequestIfModelStateIsInvalid(int minRange, int maxRange)
-            => MyController<ArcApiController>
+        public void DetachVolumesFromArcShouldReturnBadRequestIfModelStateIsInvalid(int minRange, int maxRange)
+            => MyController<VolumeApiController>
                 // Act
-                .Calling(c => c.DetachArcsFromVolume(
+                .Calling(c => c.DetachVolumesFromArc(
                     new AttachSRERequestModel
                     {
                         MinRange = minRange,
                         MaxRange = maxRange,
                         SeriesId = 3,
                         ParentId = 4,
-                        ParentTypeName = nameof(Volume),
+                        ParentTypeName = nameof(Arc),
                     }))
                 // Assert
                 .ShouldReturn()
                 .BadRequest("Invalid model.");
     }
 }
+

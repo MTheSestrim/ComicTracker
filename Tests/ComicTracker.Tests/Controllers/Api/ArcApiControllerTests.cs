@@ -180,22 +180,5 @@
                 .Calling(c => c.RemoveArcFromList(2))
                 .ShouldReturn()
                 .BadRequest("User does not have given arc in their list.");
-
-        /*[Theory]
-        [InlineData(1)]
-        [InlineData(5)]
-        [InlineData(100)]
-        public void CreateArcsShouldCreateTemplateArcsForGivenSeries(int numberOfEntities)
-            // Arrange
-            => MyController<ArcApiController>
-                .Instance(controller => controller
-                    .WithData(SeriesWithId(4))
-                    .WithUser(AdministratorRoleName))
-                // Act
-                .Calling(c => c.CreateArcs(
-                    new TemplateCreateApiRequestModel { SeriesId = 4, NumberOfEntities = numberOfEntities }))
-                // Assert
-                .ShouldHave()
-                .Data(d => d.WithSet<Arc>(x => x.ToList().Count == numberOfEntities));*/
     }
 }

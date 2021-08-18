@@ -143,9 +143,7 @@
                 .Calling(c => c.Delete(id))
                 // Assert
                 .ShouldHave()
-                .Data(d =>
-                    d.WithSet<Series>(
-                        x => !x.Any(s => s.Id == id)))
+                .Data(d => d.WithSet<Series>(s => !s.Any(s => s.Id == id)))
                 .AndAlso()
                 .ShouldReturn()
                 .Redirect("/");

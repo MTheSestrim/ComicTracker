@@ -226,9 +226,9 @@
                 .Data(d =>
                 d.WithSet<Volume>(
                     x => !x.Any(
-                        x => x.SeriesId == seriesId
-                        && x.Number == 1
-                        && x.Id == id)))
+                        v => v.SeriesId == seriesId
+                        && v.Number == 1
+                        && v.Id == id)))
                 .AndAlso()
                 .ShouldReturn()
                 .Redirect($"/Series/{seriesId}");
