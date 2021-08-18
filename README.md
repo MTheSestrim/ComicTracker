@@ -10,6 +10,10 @@ Information on the app's different aspects can be found in the [ComicTracker wik
 ### Full Diagram
 ![Full Diagram](DiagramImages/FullDiagram.png)
 
+## Data backup
+
+https://drive.google.com/drive/folders/144IBCy9AR4-SuZry0lXlyU9OKjNCLAe8?usp=sharing
+
 ###### Additional Diagrams can be found in the [DiagramImages](DiagramImages) folder.
 
 ## Credits
