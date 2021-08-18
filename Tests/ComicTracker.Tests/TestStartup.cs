@@ -34,41 +34,23 @@
 
             /* Mocking services is necessary as the real ones make queries to the SQL server, returning null results. This happens due to heavy usage of IQueryable. */
 
-            // Arc
-            services.Replace<IArcCreationService, MockArcCreationService>(ServiceLifetime.Transient);
             services.Replace<IArcDetailsService, MockArcDetailsService>(ServiceLifetime.Transient);
-            services.Replace<IArcRatingService, MockArcRatingService>(ServiceLifetime.Transient);
-            services.Replace<IArcTemplateCreationService,
-                MockArcTemplateCreationService>(ServiceLifetime.Transient);
-
-            // Genre
-            services.Replace<IGenreRetrievalService, GenreRetrievalService>(ServiceLifetime.Transient);
-
             // Issue
             services.Replace<IIssueDetailsService, MockIssueDetailsService>(ServiceLifetime.Transient);
-            services.Replace<IIssueRatingService, MockIssueRatingService>(ServiceLifetime.Transient);
-            services.Replace<IIssueTemplateCreationService, 
-                MockIssueTemplateCreationService>(ServiceLifetime.Transient);
 
             // List
             services.Replace<IListArcService, MockListArcService>(ServiceLifetime.Transient);
-            services.Replace<IListDataService, MockListDataService>(ServiceLifetime.Transient);
             services.Replace<IListIssueService, MockListIssueService>(ServiceLifetime.Transient);
             services.Replace<IListSeriesService, MockListSeriesService>(ServiceLifetime.Transient);
             services.Replace<IListVolumeService, MockListVolumeService>(ServiceLifetime.Transient);
 
             // Series
-            services.Replace<ISeriesCreationService, MockSeriesCreationService>(ServiceLifetime.Transient);
             services.Replace<ISeriesDetailsService, MockSeriesDetailsService>(ServiceLifetime.Transient);
             services.Replace<ISeriesSearchQueryingService, 
                 MockSeriesSearchQueryingService>(ServiceLifetime.Transient);
-            services.Replace<ISeriesRatingService, MockSeriesRatingService>(ServiceLifetime.Transient);
 
             // Volume
             services.Replace<IVolumeDetailsService, MockVolumeDetailsService>(ServiceLifetime.Transient);
-            services.Replace<IVolumeRatingService, MockVolumeRatingService>(ServiceLifetime.Transient);
-            services.Replace<IVolumeTemplateCreationService, 
-                MockVolumeTemplateCreationService>(ServiceLifetime.Transient);
         }
     }
 }
