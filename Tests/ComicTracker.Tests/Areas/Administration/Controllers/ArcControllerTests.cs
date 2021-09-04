@@ -68,7 +68,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Series with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void CreatePOSTShouldReturnBadRequestIfArcWithGivenNumberExists()
@@ -83,7 +83,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .BadRequest($"Cannot insert another {typeof(Arc).Name} with the same number");
+                .BadRequest();
 
         [Theory]
         [InlineData(2, 4, 5)]
@@ -160,7 +160,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound($"Arc with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnNotFoundIfSeriesDoesNotExist()
@@ -176,7 +176,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Wrong series id given for arc.");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnBadRequestIfArcWithGivenNumberExistsForGivenSeries()
@@ -195,7 +195,7 @@
                }))
                // Assert
                .ShouldReturn()
-               .BadRequest($"Cannot insert another {typeof(Arc).Name} with the same number");
+               .BadRequest();
 
         [Fact]
         public void DeleteShouldBeRestrictedForPOSTRequest()
@@ -238,6 +238,6 @@
                 .Calling(c => c.Delete(2))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
     }
 }

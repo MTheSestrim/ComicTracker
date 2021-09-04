@@ -34,7 +34,7 @@
 
                 if (currentArc == null)
                 {
-                    return this.NotFound(currentArc);
+                    return this.NotFound();
                 }
 
                 this.cache.SetArcDetails(currentArc, this.cacheKeyHolder);

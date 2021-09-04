@@ -60,7 +60,7 @@
             .Calling(c => c.Create("Genre1"))
             //Assert
             .ShouldReturn()
-            .BadRequest("Genre1");
+            .BadRequest();
 
         [Fact]
         public void DeleteShouldBeRestrictedForPOSTRequest()

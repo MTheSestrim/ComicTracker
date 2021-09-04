@@ -73,7 +73,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Series with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void CreatePOSTShouldReturnBadRequestIfIssueWithGivenNumberExists()
@@ -88,7 +88,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .BadRequest($"Cannot insert another {typeof(Issue).Name} with the same number");
+                .BadRequest();
 
         [Theory]
         [InlineData(2, 4, 5)]
@@ -119,7 +119,7 @@
                 .Calling(c => c.Edit(3))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
 
         // MockIssueEditingService is not needed
         [Theory]
@@ -167,7 +167,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound($"Issue with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnNotFoundIfSeriesDoesNotExist()
@@ -183,7 +183,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Wrong series id given for issue.");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnBadRequestIfIssueWithGivenNumberExistsForGivenSeries()
@@ -202,7 +202,7 @@
                }))
                // Assert
                .ShouldReturn()
-               .BadRequest($"Cannot insert another {typeof(Issue).Name} with the same number");
+               .BadRequest();
 
         [Fact]
         public void DeleteShouldBeRestrictedForPOSTRequest()
@@ -245,7 +245,7 @@
                 .Calling(c => c.Delete(2))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
 
         [Theory]
         [InlineData(2, 5)]

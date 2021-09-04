@@ -87,7 +87,7 @@
 
             if (currentSeries == null)
             {
-                return this.NotFound(currentSeries);
+                return this.NotFound();
             }
 
             var viewModel = this.mapper.Map<EditSeriesInputModel>(currentSeries);
@@ -120,7 +120,7 @@
 
             if (id == null)
             {
-                return this.NotFound(id);
+                return this.NotFound();
             }
 
             this.cache.RemoveSeriesDetails(id.Value);

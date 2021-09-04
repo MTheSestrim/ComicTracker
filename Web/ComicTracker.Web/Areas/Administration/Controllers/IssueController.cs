@@ -92,13 +92,13 @@
 
                 return this.Redirect($"/Issue/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 
@@ -108,7 +108,7 @@
 
             if (currentIssue == null)
             {
-                return this.NotFound(currentIssue);
+                return this.NotFound();
             }
 
             var viewModel = this.mapper.Map<EditSeriesRelatedEntityInputModel>(currentIssue);
@@ -149,13 +149,13 @@
 
                 return this.Redirect($"/Issue/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 

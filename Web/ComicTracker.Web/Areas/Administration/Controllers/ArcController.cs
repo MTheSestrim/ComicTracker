@@ -89,13 +89,13 @@
 
                 return this.Redirect($"/Arc/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 
@@ -105,7 +105,7 @@
 
             if (currentArc == null)
             {
-                return this.NotFound(currentArc);
+                return this.NotFound();
             }
 
             var viewModel = this.mapper.Map<EditSeriesRelatedEntityInputModel>(currentArc);
@@ -146,13 +146,13 @@
 
                 return this.Redirect($"/Arc/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 
@@ -163,7 +163,7 @@
 
             if (result == null)
             {
-                return this.NotFound(result);
+                return this.NotFound();
             }
 
             this.cache.RemoveSeriesDetails(result.Value);

@@ -71,7 +71,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Series with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void CreatePOSTShouldReturnBadRequestIfVolumeWithGivenNumberExists()
@@ -86,7 +86,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .BadRequest($"Cannot insert another {typeof(Volume).Name} with the same number");
+                .BadRequest();
 
         [Theory]
         [InlineData(2, 4, 5)]
@@ -115,7 +115,7 @@
                 .Calling(c => c.Edit(3))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
 
         // MockVolumeEditingService is not needed
         [Theory]
@@ -163,7 +163,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound($"Volume with given id 3 does not exist");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnNotFoundIfSeriesDoesNotExist()
@@ -179,7 +179,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound("Wrong series id given for volume.");
+                .NotFound();
 
         [Fact]
         public void EditPOSTShouldReturnBadRequestIfVolumeWithGivenNumberExistsForGivenSeries()
@@ -198,7 +198,7 @@
                }))
                // Assert
                .ShouldReturn()
-               .BadRequest($"Cannot insert another {typeof(Volume).Name} with the same number");
+               .BadRequest();
 
         [Fact]
         public void DeleteShouldBeRestrictedForPOSTRequest()
@@ -241,6 +241,6 @@
                 .Calling(c => c.Delete(2))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
     }
 }

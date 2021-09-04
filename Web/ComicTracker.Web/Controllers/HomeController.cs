@@ -1,13 +1,10 @@
 ﻿namespace ComicTracker.Web.Controllers
 {
-    using System.Diagnostics;
-
     using ComicTracker.Services.Data.Series.Contracts;
-    using ComicTracker.Web.ViewModels;
+    using ComicTracker.Web.ViewModels.Error;
     using ComicTracker.Web.ViewModels.Home;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
 
     public class HomeController : BaseController
     {
@@ -54,10 +51,10 @@
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
             return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+                new StatusCodeErrorViewModel { StatusCode = statusCode.Value });
         }
     }
 }

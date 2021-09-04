@@ -34,7 +34,7 @@
 
                 if (currentSeries == null)
                 {
-                    return this.NotFound(currentSeries);
+                    return this.NotFound();
                 }
 
                 this.cache.SetSeriesDetails(currentSeries, this.cacheKeyHolder);

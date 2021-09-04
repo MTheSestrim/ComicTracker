@@ -34,7 +34,7 @@
 
                 if (currentVolume == null)
                 {
-                    return this.NotFound(currentVolume);
+                    return this.NotFound();
                 }
 
                 this.cache.SetVolumeDetails(currentVolume, this.cacheKeyHolder);

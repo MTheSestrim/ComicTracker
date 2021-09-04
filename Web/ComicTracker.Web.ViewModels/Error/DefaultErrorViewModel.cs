@@ -1,6 +1,6 @@
-﻿namespace ComicTracker.Web.ViewModels
+﻿namespace ComicTracker.Web.ViewModels.Error
 {
-    public class ErrorViewModel
+    public class DefaultErrorViewModel
     {
         public string RequestId { get; set; }
 

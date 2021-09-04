@@ -75,7 +75,7 @@
                 .Calling(c => c.Edit(3))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
 
         // MockSeriesEditingService is not needed
         [Theory]
@@ -120,7 +120,7 @@
                 }))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
 
         [Fact]
         public void DeleteShouldBeRestrictedForPOSTRequest()

@@ -87,6 +87,7 @@
         }
 
         [HttpDelete]
+        [Route("Detach")]
         public async Task<ActionResult<int>> DetachArcsFromVolume(AttachSRERequestModel model)
         {
             if (!this.ModelState.IsValid || model.MinRange > model.MaxRange)

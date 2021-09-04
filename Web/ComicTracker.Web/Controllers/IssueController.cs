@@ -34,7 +34,7 @@
 
                 if (currentIssue == null)
                 {
-                    return this.NotFound(currentIssue);
+                    return this.NotFound();
                 }
 
                 this.cache.SetIssueDetails(currentIssue, this.cacheKeyHolder);

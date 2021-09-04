@@ -89,13 +89,13 @@
 
                 return this.Redirect($"/Volume/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 
@@ -146,13 +146,13 @@
 
                 return this.Redirect($"/Volume/{id}");
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return this.NotFound(ex.Message);
+                return this.NotFound();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest();
             }
         }
 

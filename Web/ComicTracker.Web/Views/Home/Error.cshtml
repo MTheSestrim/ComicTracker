@@ -1,7 +1,17 @@
-﻿@model ErrorViewModel 
+﻿@using ComicTracker.Web.ViewModels.Error;
 
-<h1>Unexpected error:</h1>
+@model StatusCodeErrorViewModel
 
-<div class="container">
-    <p class="text-danger">Request id: @Model.RequestId</p>
+<div class="col-md-6 text-center mx-auto">
+
+    <div class="container">
+        <h1 class="text-danger">Status Code: @Model.StatusCode</h1>
+    </div>
+
+    <div>
+        <h1 class="display-1 pt-1 pb-2">Oops</h1>
+
+        <a asp-controller="Home" asp-action="Index" class="btn btn-info">GO HOME</a>
+    </div>
+
 </div>

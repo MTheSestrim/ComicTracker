@@ -46,6 +46,6 @@
                 .Calling(c => c.Index(3))
                 // Assert
                 .ShouldReturn()
-                .NotFound(null);
+                .NotFound();
     }
 }
